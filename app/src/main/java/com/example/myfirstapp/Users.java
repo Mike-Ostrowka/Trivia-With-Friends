@@ -56,7 +56,7 @@ public class Users {
     }
   }
 
-  //TODO: check for appropriate name
+  //TODO: check for appropriate name (no vulgar language)
   boolean checkName(String name) {
     return true;
   }
@@ -65,7 +65,7 @@ public class Users {
   //and a capital letter, and be at least 7 characters
   boolean updatePassword(String newPassword) {
     if (resetPassword(newPassword)) {
-      if(accountActive) {
+      if (accountActive) {
         password = newPassword;
       }
       return true;
