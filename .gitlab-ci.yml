@@ -10,7 +10,6 @@ stages:
 
 .updateContainerJob:
   image: docker:stable
-  privileged = true
   stage: environment
   services:
     - docker:dind
