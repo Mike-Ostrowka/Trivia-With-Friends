@@ -1,4 +1,7 @@
 <resources>
   <string name="app_name">Trivia With Friends</string>
   <string name="Hello_world">Test Hello World With strings.xml</string>
+  <string name="login">LOGIN</string>
+  <string name="register">register</string>
+  <string name="app_title">“Happier, Smarter, Faster”</string>
 </resources>
