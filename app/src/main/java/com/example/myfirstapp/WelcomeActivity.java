@@ -46,8 +46,6 @@ public class WelcomeActivity extends AppCompatActivity {
       }
     }
 
-    Intent myIntent = new Intent(this, NewAccountActivity.class);
-    startActivity(myIntent);
   }
 
   @Override
