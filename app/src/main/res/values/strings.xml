@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">My First App</string>
+  <string name="app_name">Trivia With Friends</string>
+  <string name="Hello_world">Test Hello World With strings.xml</string>
 </resources>
