@@ -1,10 +1,11 @@
 package com.example.myfirstapp;
 
-public class Users {
+import io.realm.RealmObject;
+
+public class Users extends RealmObject {
 
   private String userName;
   private int elo = 1000; //default value is 1000
-  private final int ELO_K_FACTOR = 32; //factor for calculating elo
   private String password;
   private boolean accountActive; //if false, user must give new password
   private String bio;
@@ -43,6 +44,8 @@ public class Users {
 
   //parameter is a positive or negative change in elo
   void updateElo(int eloChange) {
+    //factor for calculating elo
+    int ELO_K_FACTOR = 32;
     elo += ELO_K_FACTOR * eloChange;
   }
 
@@ -108,6 +111,8 @@ public class Users {
     }
     return false;
   }
+
+
 
   boolean checkLength(String newPassword) {
     return newPassword.length() > 6;
