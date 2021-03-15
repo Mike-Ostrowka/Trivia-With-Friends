@@ -1,24 +1,24 @@
 package com.example.myfirstapp;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
 public class Users extends RealmObject {
 
+  @PrimaryKey
   private String userName;
   private int elo = 1000; //default value is 1000
+  @Required
   private String password;
-  private boolean accountActive; //if false, user must give new password
   private String bio;
 
-  Users(String name, String pswrd) {
+  public Users(String name, String pswrd) {
     userName = name;
-    if (updatePassword(pswrd)) {
-      password = pswrd;
-      accountActive = true;
-    } else {
-      password = "";
-      accountActive = false;
-    }
+    password = pswrd;
+  }
+
+  public Users() {
   }
 
   String getUserName() {
@@ -27,10 +27,6 @@ public class Users extends RealmObject {
 
   int getElo() {
     return elo;
-  }
-
-  boolean getStatus() {
-    return accountActive;
   }
 
   String getBio() {
@@ -68,9 +64,7 @@ public class Users extends RealmObject {
   //and a capital letter, and be at least 7 characters
   boolean updatePassword(String newPassword) {
     if (resetPassword(newPassword)) {
-      if (accountActive) {
-        password = newPassword;
-      }
+      password = newPassword;
       return true;
     } else {
       return false;
@@ -111,7 +105,6 @@ public class Users extends RealmObject {
     }
     return false;
   }
-
 
 
   boolean checkLength(String newPassword) {
