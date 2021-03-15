@@ -1,6 +1,9 @@
 <resources>
   <string name="app_name">Trivia With Friends</string>
   <string name="Hello_world">Test Hello World With strings.xml</string>
+  <string name="login">LOGIN</string>
+  <string name="register">register</string>
+  <string name="app_title">“Happier, Smarter, Faster”</string>
   <string name = "new_account_title">Please enter a new username and password</string>
   <string name = "new_account_name">Name</string>
   <string name="new_account_password">Password</string>
