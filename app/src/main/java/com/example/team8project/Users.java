@@ -83,7 +83,7 @@ public class Users extends RealmObject {
   }
 
   boolean checkPassword(String newPassword) {
-    return newPassword.equals(password);
+    return (!newPassword.equals(password));
   }
 
   boolean checkCapital(String newPassword) {
