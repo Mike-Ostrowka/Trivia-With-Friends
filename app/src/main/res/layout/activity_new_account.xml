@@ -52,6 +52,28 @@
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
       android:text="@string/new_account_register" />
+    <TextView
+      android:id="@+id/registerSuccessOne"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="30dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:layout_gravity="center"
+      android:visibility="gone"
+      android:textColor="#ff0000"
+      android:text="@string/new_account_fail1" />
+    <TextView
+      android:id="@+id/registerSuccessTwo"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="0dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:layout_gravity="center"
+      android:visibility="gone"
+      android:textColor="#ff0000"
+      android:text="@string/new_account_fail2"  />
 
 
   </LinearLayout>
