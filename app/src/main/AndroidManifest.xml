@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.example.myfirstapp">
+  package="com.example.team8project">
 
     <application
       android:fullBackupContent="true"
@@ -10,10 +10,10 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:supportsRtl="true"
       android:theme="@style/AppTheme">
-        <activity android:name=".WelcomeActivity" />
-        <activity android:name=".NewAccountActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainMenuActivity">
+        <activity android:name="com.example.team8project.WelcomeActivity" />
+        <activity android:name="com.example.team8project.NewAccountActivity" />
+        <activity android:name="com.example.team8project.LoginActivity" />
+        <activity android:name="com.example.team8project.MainMenuActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

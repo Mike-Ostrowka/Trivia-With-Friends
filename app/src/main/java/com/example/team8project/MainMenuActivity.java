@@ -1,10 +1,9 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 public class MainMenuActivity extends AppCompatActivity {

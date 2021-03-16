@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

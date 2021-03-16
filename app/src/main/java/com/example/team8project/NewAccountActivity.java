@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
