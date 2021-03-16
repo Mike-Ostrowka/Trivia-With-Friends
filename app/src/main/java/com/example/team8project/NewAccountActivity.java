@@ -1,10 +1,13 @@
 package com.example.team8project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 import io.realm.Realm;
 
 public class NewAccountActivity extends AppCompatActivity {
@@ -23,8 +26,11 @@ public class NewAccountActivity extends AppCompatActivity {
         EditText passwordEdit = findViewById(R.id.registerPassword);
         String name = nameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
-        temp = new Users(name, password);
-
+        temp = new Users(name, "");
+        if(!temp.updatePassword(password)) {
+          Toast.makeText(getApplicationContext(), getString(R.string.account_fail), Toast.LENGTH_SHORT).show();
+          return;
+        }
         //open a realm and save temp to it
         try {
           realm = Realm.getDefaultInstance();
@@ -41,7 +47,10 @@ public class NewAccountActivity extends AppCompatActivity {
             realm.close();
           }
         }
-
+        Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name, Toast.LENGTH_LONG).show();
+        Intent intent = new Intent();
+        intent.setClass(NewAccountActivity.this,LoginActivity.class);
+        startActivity(intent);
       }
     });
 
