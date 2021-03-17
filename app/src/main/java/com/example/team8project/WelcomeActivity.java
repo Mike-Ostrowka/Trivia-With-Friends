@@ -15,8 +15,10 @@ import io.realm.RealmConfiguration;
 
 
 public class WelcomeActivity extends AppCompatActivity {
+
   private Realm realm;
   private Users current;
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -25,7 +27,7 @@ public class WelcomeActivity extends AppCompatActivity {
     //open a realm and find logged in user
     try {
       realm = Realm.getDefaultInstance();
-      current = realm.where(Users.class).equalTo("userName", "admin").findFirst();
+      current = realm.where(Users.class).equalTo("loginStatus", true).findFirst();
 
 
     } finally {
@@ -35,14 +37,29 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     TextView greeting = findViewById(R.id.textViewGreeting);
-    String greetingText = getString(R.string.greeting) + current.getUserName();
+    String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
     greeting.setText(greetingText);
 
-    Button mButton = findViewById(R.id.login_button);
+    Button mButton = findViewById(R.id.logout_button);
     mButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
-        current.setLogin();
-        Toast.makeText(getApplicationContext(), R.string.logout_message + current.getUserName(), Toast.LENGTH_SHORT).show();
+
+        try {
+          realm = Realm.getDefaultInstance();
+          realm.executeTransaction( transactionRealm -> {
+            Users temp = transactionRealm.where(Users.class).equalTo("userName", current.getUserName()).findFirst();
+            temp.setLogin();
+          });
+
+
+        } finally {
+          if (realm != null) {
+            realm.close();
+          }
+        }
+
+        Toast.makeText(getApplicationContext(), R.string.logout_message + current.getUserName(),
+            Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
         startActivity(intent);

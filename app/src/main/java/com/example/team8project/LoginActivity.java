@@ -28,34 +28,30 @@ public class LoginActivity extends AppCompatActivity {
         final String name = nameEdit.getText().toString();
         final String password = passwordEdit.getText().toString();
 
-
         //open a realm and check if user name exists in database
         try {
           realm = Realm.getDefaultInstance();
 
-          realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
+          if (realm.where(Users.class).equalTo("userName", name).findFirst() != null) {
+            //create temp for user to check password
+            final Users currentUser = realm.where(Users.class).equalTo("userName", name)
+                .findFirst();
+            if (!currentUser.checkPassword(password)) {
+              realm.executeTransaction(transactionRealm -> {
+                Users temp = transactionRealm.where(Users.class).equalTo("userName", currentUser.getUserName()).findFirst();
+                temp.setLogin();
+              });
 
-              if(realm.where(Users.class).equalTo("userName", name).findFirst() != null){
-                //create temp for user to check password
-                final Users currentUser = realm.where(Users.class).equalTo("userName", name).findFirst();
-                if (!currentUser.checkPassword(password)){
-                  currentUser.setLogin();
-                  realm.copyToRealmOrUpdate(currentUser);
-
-                          Intent intent = new Intent();
-                          intent.setClass(LoginActivity.this,WelcomeActivity.class);
-                          startActivity(intent);
-                }
-              }
-              else{
-                Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again", Toast.LENGTH_LONG).show();
-
-              }
-
+              Intent intent = new Intent();
+              intent.setClass(LoginActivity.this, WelcomeActivity.class);
+              startActivity(intent);
             }
-          });
+          } else {
+            Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
+                Toast.LENGTH_LONG).show();
+
+          }
+
 
         } finally {
           if (realm != null) {
@@ -66,7 +62,7 @@ public class LoginActivity extends AppCompatActivity {
 //        Intent intent = new Intent();
 //        intent.setClass(NewAccountActivity.this,LoginActivity.class);
 //        startActivity(intent);
-  }
-});
+      }
+    });
   }
 }
