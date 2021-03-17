@@ -12,4 +12,5 @@
   <string name="account_success">Account created successfully, username:\t</string>
   <string name="account_fail">Make sure your password has at least 7 characters, and at least one
   capital letter and number</string>
+  <string name="account_exists">Account with this username already exists </string>
 </resources>

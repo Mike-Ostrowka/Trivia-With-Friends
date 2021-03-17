@@ -26,15 +26,22 @@ public class NewAccountActivity extends AppCompatActivity {
         EditText passwordEdit = findViewById(R.id.registerPassword);
         String name = nameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
-        temp = new Users(name, "");
-        if(!temp.updatePassword(password)) {
-          Toast.makeText(getApplicationContext(), getString(R.string.account_fail), Toast.LENGTH_SHORT).show();
+        //open a realm
+        realm = Realm.getDefaultInstance();
+        Users nameExists = realm.where(Users.class).equalTo("userName", name).findFirst();
+        if (nameExists != null) {
+          Toast.makeText(getApplicationContext(), getString(R.string.account_exists),
+              Toast.LENGTH_SHORT).show();
           return;
         }
-        //open a realm and save temp to it
+        temp = new Users(name, "");
+        if (!temp.updatePassword(password)) {
+          Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
+              Toast.LENGTH_SHORT).show();
+          return;
+        }
+        //save temp to realm
         try {
-          realm = Realm.getDefaultInstance();
-
           realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -47,9 +54,10 @@ public class NewAccountActivity extends AppCompatActivity {
             realm.close();
           }
         }
-        Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name, Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name,
+            Toast.LENGTH_LONG).show();
         Intent intent = new Intent();
-        intent.setClass(NewAccountActivity.this,LoginActivity.class);
+        intent.setClass(NewAccountActivity.this, LoginActivity.class);
         startActivity(intent);
       }
     });
