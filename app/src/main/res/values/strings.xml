@@ -13,4 +13,6 @@
   <string name="account_fail">Make sure your password has at least 7 characters, and at least one
   capital letter and number</string>
   <string name="account_exists">Account with this username already exists </string>
+  <string name="logout">Log me out</string>
+  <string name="logout_message">Successfully logged out user\t</string>
 </resources>

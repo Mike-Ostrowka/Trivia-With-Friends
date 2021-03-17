@@ -26,9 +26,11 @@ public class NewAccountActivity extends AppCompatActivity {
         EditText passwordEdit = findViewById(R.id.registerPassword);
         String name = nameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
+
         //open a realm
         realm = Realm.getDefaultInstance();
         Users nameExists = realm.where(Users.class).equalTo("userName", name).findFirst();
+
         if (nameExists != null) {
           Toast.makeText(getApplicationContext(), getString(R.string.account_exists),
               Toast.LENGTH_SHORT).show();
@@ -64,5 +66,6 @@ public class NewAccountActivity extends AppCompatActivity {
 
 
   }
+
 
 }
