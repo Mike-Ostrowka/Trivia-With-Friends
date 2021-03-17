@@ -38,6 +38,9 @@ public class Users extends RealmObject {
     return loginStatus;
   }
 
+  void setLogin() {
+    loginStatus = !loginStatus;
+  }
   //takes parameter of other players elo
   void calculateElo(int otherElo) {
     //TODO: Calculate expected value for both players, calculate elo change, pass to updateElo()
