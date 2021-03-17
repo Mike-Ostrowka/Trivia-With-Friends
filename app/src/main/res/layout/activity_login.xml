@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".LoginActivity">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -22,10 +22,10 @@
         android:layout_width="272dp"
         android:layout_height="52dp"
         android:layout_marginTop="336dp"
+        android:autofillHints="@string/account_name"
         android:ems="10"
         android:hint="@string/account_name"
         android:inputType="textPersonName"
-android:autofillHints="@string/account_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,15 +35,25 @@ android:autofillHints="@string/account_name"
         android:id="@+id/loginPassword"
         android:layout_width="272dp"
         android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="@string/account_password"
         android:autofillHints="@string/account_password"
+        android:ems="10"
+        android:hint="@string/account_password"
+        android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/loginUsername"
         app:layout_constraintVertical_bias="0.134" />
+
+    <Button
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Button"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
 
 </android.support.constraint.ConstraintLayout>
