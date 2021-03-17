@@ -11,6 +11,9 @@ import android.widget.Toast;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+//todo fix java.lang.IllegalStateException: Cannot modify managed objects outside of a write transaction. at line 34 of this activity
+
+
 public class WelcomeActivity extends AppCompatActivity {
   private Realm realm;
   private Users current;

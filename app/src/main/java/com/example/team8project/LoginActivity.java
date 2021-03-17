@@ -38,13 +38,20 @@ public class LoginActivity extends AppCompatActivity {
             public void execute(Realm realm) {
 
               if(realm.where(Users.class).equalTo("userName", name).findFirst() != null){
-                Toast.makeText(getApplicationContext(), "Congrats it works" + name, Toast.LENGTH_LONG).show();
+                //create temp for user to check password
+                final Users currentUser = realm.where(Users.class).equalTo("userName", name).findFirst();
+                if (!currentUser.checkPassword(password)){
+                  currentUser.setLogin();
+                  realm.copyToRealmOrUpdate(currentUser);
 
-                //todo add logic to check password matches for user
+                          Intent intent = new Intent();
+                          intent.setClass(LoginActivity.this,WelcomeActivity.class);
+                          startActivity(intent);
+                }
               }
               else{
-                Toast.makeText(getApplicationContext(), "Does Not Exist" + name, Toast.LENGTH_LONG).show();
-                //add logic for inccorect login information
+                Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again", Toast.LENGTH_LONG).show();
+
               }
 
             }
