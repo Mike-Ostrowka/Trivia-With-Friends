@@ -12,6 +12,7 @@ public class Users extends RealmObject {
   @Required
   private String password;
   private String bio;
+  private boolean loginStatus = false;
 
   public Users(String name, String pswrd) {
     userName = name;
@@ -31,6 +32,10 @@ public class Users extends RealmObject {
 
   String getBio() {
     return bio;
+  }
+
+  boolean getLogin() {
+    return loginStatus;
   }
 
   //takes parameter of other players elo

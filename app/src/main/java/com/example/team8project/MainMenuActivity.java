@@ -27,6 +27,13 @@ public class MainMenuActivity extends AppCompatActivity {
     realm = Realm.getInstance(config);
     Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
 
+    //check if logged in
+    if(realm.where(Users.class).equalTo("loginStatus", "true").findFirst() != null) {
+      Intent intent = new Intent();
+      intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
+      startActivity(intent);
+    }
+
     //open a realm and save temp to it if it does not exist
     try {
       realm = Realm.getDefaultInstance();
