@@ -28,7 +28,7 @@ public class MainMenuActivity extends AppCompatActivity {
     Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
 
     //check if logged in
-    if(realm.where(Users.class).equalTo("loginStatus", "true").findFirst() != null) {
+    if(realm.where(Users.class).equalTo("loginStatus", true).findFirst() != null) {
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
       startActivity(intent);
