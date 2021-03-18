@@ -1,23 +1,25 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
-public class Users {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+import io.realm.annotations.Required;
 
+public class Users extends RealmObject {
+
+  @PrimaryKey
   private String userName;
   private int elo = 1000; //default value is 1000
-  private final int ELO_K_FACTOR = 32; //factor for calculating elo
+  @Required
   private String password;
-  private boolean accountActive; //if false, user must give new password
   private String bio;
+  private boolean loginStatus = false;
 
-  Users(String name, String pswrd) {
+  public Users(String name, String pswrd) {
     userName = name;
-    if (updatePassword(pswrd)) {
-      password = pswrd;
-      accountActive = true;
-    } else {
-      password = "";
-      accountActive = false;
-    }
+    password = pswrd;
+  }
+
+  public Users() {
   }
 
   String getUserName() {
@@ -28,14 +30,17 @@ public class Users {
     return elo;
   }
 
-  boolean getStatus() {
-    return accountActive;
-  }
-
   String getBio() {
     return bio;
   }
 
+  boolean getLogin() {
+    return loginStatus;
+  }
+
+  void setLogin() {
+    loginStatus = !loginStatus;
+  }
   //takes parameter of other players elo
   void calculateElo(int otherElo) {
     //TODO: Calculate expected value for both players, calculate elo change, pass to updateElo()
@@ -43,6 +48,8 @@ public class Users {
 
   //parameter is a positive or negative change in elo
   void updateElo(int eloChange) {
+    //factor for calculating elo
+    int ELO_K_FACTOR = 32;
     elo += ELO_K_FACTOR * eloChange;
   }
 
@@ -65,9 +72,7 @@ public class Users {
   //and a capital letter, and be at least 7 characters
   boolean updatePassword(String newPassword) {
     if (resetPassword(newPassword)) {
-      if (accountActive) {
-        password = newPassword;
-      }
+      password = newPassword;
       return true;
     } else {
       return false;
@@ -86,7 +91,7 @@ public class Users {
   }
 
   boolean checkPassword(String newPassword) {
-    return newPassword.equals(password);
+    return (!newPassword.equals(password));
   }
 
   boolean checkCapital(String newPassword) {
@@ -108,6 +113,7 @@ public class Users {
     }
     return false;
   }
+
 
   boolean checkLength(String newPassword) {
     return newPassword.length() > 6;

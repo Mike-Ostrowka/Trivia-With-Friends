@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".NewAccountActivity">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <TextView
+      android:id="@+id/newAccountTitle"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="200dp"
+      android:layout_gravity="center"
+      android:padding="5dp"
+      android:background="#333"
+      android:text="@string/new_account_title"
+      android:textColor="#fff" />
+    <EditText
+      android:id="@+id/registerName"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ems="10"
+      android:layout_gravity="center"
+        android:autofillHints="@string/account_name"
+        android:hint="@string/account_name"
+      android:inputType="textPersonName"
+      android:layout_marginTop="50dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+       />
+    <EditText
+      android:id="@+id/registerPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:ems="10"
+        android:autofillHints="@string/account_password"
+        android:hint="@string/account_password"
+      android:layout_marginTop="30dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:inputType="textPassword" />
+    <Button
+      android:id="@+id/registerButton"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="30dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:text="@string/new_account_register" />
+
+
+  </LinearLayout>
+</android.support.constraint.ConstraintLayout>

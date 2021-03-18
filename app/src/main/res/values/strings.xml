@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">My First App</string>
+    <string name="app_name">Trivia With Friends</string>
+    <string name="greeting">Welcome\t</string>
+    <string name="login">LOGIN</string>
+    <string name="register">Register</string>
+    <string name="app_title">“Happier, Smarter, Faster”</string>
+    <string name="new_account_title">Please enter a new username and password</string>
+    <string name="account_name">Name</string>
+    <string name="account_password">Password</string>
+    <string name="new_account_register">Register</string>
+    <string name="login_title">Enter your email and password</string>
+    <string name="account_success">Account created successfully, username:\t</string>
+    <string name="account_fail">Make sure your password has at least 7 characters, and at least one
+  capital letter and number</string>
+    <string name="account_exists">Account with this username already exists </string>
+    <string name="logout">Log me out</string>
+    <string name="logout_message">Successfully logged out user\t</string>
+    <string name="splash_text">You have successfully loged in</string>
 </resources>
