@@ -1,23 +1,22 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
 import android.content.Intent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
   private Realm realm;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_welcome);
+    setContentView(R.layout.activity_main_menu);
 
     //start realm
     Realm.init(this);
@@ -27,6 +26,13 @@ public class WelcomeActivity extends AppCompatActivity {
         .build();
     realm = Realm.getInstance(config);
     Log.v("EXAMPLE", "Successfully opened a realm at: " + realm.getPath());
+
+    //check if logged in
+    if(realm.where(Users.class).equalTo("loginStatus", true).findFirst() != null) {
+      Intent intent = new Intent();
+      intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
+      startActivity(intent);
+    }
 
     //open a realm and save temp to it if it does not exist
     try {
@@ -55,25 +61,24 @@ public class WelcomeActivity extends AppCompatActivity {
     btn_reg = findViewById(R.id.btn_register);
 
     //Set the event for the login button
-    btn_log_in.setOnClickListener(new View.OnClickListener(){
+    btn_log_in.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onClick(View v){
+      public void onClick(View v) {
         Intent intent = new Intent();
-        intent.setClass(WelcomeActivity.this,LoginActivity.class);
+        intent.setClass(MainMenuActivity.this, LoginActivity.class);
         startActivity(intent);
       }
     });
 
     //Set the event for register button
-    btn_reg.setOnClickListener(new View.OnClickListener(){
+    btn_reg.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onClick(View v){
+      public void onClick(View v) {
         Intent intent = new Intent();
-        intent.setClass(WelcomeActivity.this,NewAccountActivity.class);
+        intent.setClass(MainMenuActivity.this, NewAccountActivity.class);
         startActivity(intent);
       }
     });
-
   }
 
   @Override

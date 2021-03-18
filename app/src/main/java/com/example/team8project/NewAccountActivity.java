@@ -1,12 +1,13 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import io.realm.Realm;
 
 public class NewAccountActivity extends AppCompatActivity {
@@ -19,26 +20,30 @@ public class NewAccountActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_new_account);
     Button mButton = findViewById(R.id.registerButton);
-    final TextView errorFieldOne = findViewById(R.id.registerSuccessOne);
-    final TextView errorFieldTwo = findViewById(R.id.registerSuccessTwo);
     mButton.setOnClickListener(new View.OnClickListener() {
       public void onClick(View v) {
         EditText nameEdit = findViewById(R.id.registerName);
         EditText passwordEdit = findViewById(R.id.registerPassword);
         String name = nameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
-        temp = new Users(name, "");
-        while(!temp.updatePassword(password)) {
-            errorFieldOne.setVisibility(View.VISIBLE);
-            errorFieldTwo.setVisibility(View.VISIBLE);
-        }
-        errorFieldTwo.setVisibility(View.GONE);
-        errorFieldTwo.setTextColor(Color.GREEN);
-        errorFieldTwo.setText(getString(R.string.new_account_success));
-        //open a realm and save temp to it
-        try {
-          realm = Realm.getDefaultInstance();
 
+        //open a realm
+        realm = Realm.getDefaultInstance();
+        Users nameExists = realm.where(Users.class).equalTo("userName", name).findFirst();
+
+        if (nameExists != null) {
+          Toast.makeText(getApplicationContext(), getString(R.string.account_exists),
+              Toast.LENGTH_SHORT).show();
+          return;
+        }
+        temp = new Users(name, "");
+        if (!temp.updatePassword(password)) {
+          Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
+              Toast.LENGTH_SHORT).show();
+          return;
+        }
+        //save temp to realm
+        try {
           realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -51,11 +56,16 @@ public class NewAccountActivity extends AppCompatActivity {
             realm.close();
           }
         }
-
+        Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name,
+            Toast.LENGTH_LONG).show();
+        Intent intent = new Intent();
+        intent.setClass(NewAccountActivity.this, LoginActivity.class);
+        startActivity(intent);
       }
     });
 
 
   }
+
 
 }

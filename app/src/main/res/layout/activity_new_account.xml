@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
@@ -12,10 +11,11 @@
     android:orientation="vertical">
 
     <TextView
+      android:id="@+id/newAccountTitle"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="center"
       android:layout_marginTop="200dp"
+      android:layout_gravity="center"
       android:padding="5dp"
       android:background="#333"
       android:text="@string/new_account_title"
@@ -26,20 +26,23 @@
       android:layout_height="wrap_content"
       android:ems="10"
       android:layout_gravity="center"
+        android:autofillHints="@string/account_name"
+        android:hint="@string/account_name"
       android:inputType="textPersonName"
       android:layout_marginTop="50dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
-      android:text="@string/new_account_name" />
+       />
     <EditText
       android:id="@+id/registerPassword"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:ems="10"
+        android:autofillHints="@string/account_password"
+        android:hint="@string/account_password"
       android:layout_marginTop="30dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
-      android:text="@string/new_account_password"
       android:inputType="textPassword" />
     <Button
       android:id="@+id/registerButton"
@@ -49,28 +52,6 @@
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
       android:text="@string/new_account_register" />
-    <TextView
-      android:id="@+id/registerSuccessOne"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="30dp"
-      android:layout_marginLeft="50dp"
-      android:layout_marginRight="50dp"
-      android:layout_gravity="center"
-      android:visibility="gone"
-      android:textColor="#ff0000"
-      android:text="@string/new_account_fail1" />
-    <TextView
-      android:id="@+id/registerSuccessTwo"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="0dp"
-      android:layout_marginLeft="50dp"
-      android:layout_marginRight="50dp"
-      android:layout_gravity="center"
-      android:visibility="gone"
-      android:textColor="#ff0000"
-      android:text="@string/new_account_fail2"  />
 
 
   </LinearLayout>

@@ -1,4 +1,4 @@
-package com.example.myfirstapp;
+package com.example.team8project;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -12,6 +12,7 @@ public class Users extends RealmObject {
   @Required
   private String password;
   private String bio;
+  private boolean loginStatus = false;
 
   public Users(String name, String pswrd) {
     userName = name;
@@ -33,6 +34,13 @@ public class Users extends RealmObject {
     return bio;
   }
 
+  boolean getLogin() {
+    return loginStatus;
+  }
+
+  void setLogin() {
+    loginStatus = !loginStatus;
+  }
   //takes parameter of other players elo
   void calculateElo(int otherElo) {
     //TODO: Calculate expected value for both players, calculate elo change, pass to updateElo()
@@ -83,7 +91,7 @@ public class Users extends RealmObject {
   }
 
   boolean checkPassword(String newPassword) {
-    return newPassword.equals(password);
+    return (!newPassword.equals(password));
   }
 
   boolean checkCapital(String newPassword) {
