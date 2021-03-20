@@ -9,7 +9,7 @@ stages:
 
 
 .updateContainerJob:
-  image: docker:stable
+  image: docker:19.03.12
   stage: environment
   services:
     - docker:dind
