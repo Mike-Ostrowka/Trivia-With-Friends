@@ -7,7 +7,7 @@ import io.realm.annotations.Required;
 public class Users extends RealmObject {
 
   @PrimaryKey
-  private String userName;
+  private String _id; //username
   private int elo = 1000; //default value is 1000
   @Required
   private String password;
@@ -15,7 +15,7 @@ public class Users extends RealmObject {
   private boolean loginStatus = false;
 
   public Users(String name, String pswrd) {
-    userName = name;
+    _id = name;
     password = pswrd;
   }
 
@@ -23,7 +23,7 @@ public class Users extends RealmObject {
   }
 
   String getUserName() {
-    return userName;
+    return _id;
   }
 
   int getElo() {
@@ -54,9 +54,9 @@ public class Users extends RealmObject {
   }
 
   //TODO: check that name is acceptable
-  boolean updateUsername(String newName) {
+  boolean updateUserName(String newName) {
     if (checkName(newName)) {
-      userName = newName;
+      _id = newName;
       return true;
     } else {
       return false;
