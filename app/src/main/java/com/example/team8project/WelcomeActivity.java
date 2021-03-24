@@ -41,29 +41,27 @@ public class WelcomeActivity extends AppCompatActivity {
     greeting.setText(greetingText);
 
     Button mButton = findViewById(R.id.logout_button);
-    mButton.setOnClickListener(new View.OnClickListener() {
-      public void onClick(View v) {
+    mButton.setOnClickListener(v -> {
 
-        try {
-          realm = Realm.getDefaultInstance();
-          realm.executeTransaction( transactionRealm -> {
-            Users temp = transactionRealm.where(Users.class).equalTo("userName", current.getUserName()).findFirst();
-            temp.setLogin();
-          });
+      try {
+        realm = Realm.getDefaultInstance();
+        realm.executeTransactionAsync( transactionRealm -> {
+          Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
+          temp.setLogin();
+        });
 
 
-        } finally {
-          if (realm != null) {
-            realm.close();
-          }
+      } finally {
+        if (realm != null) {
+          realm.close();
         }
-
-        Toast.makeText(getApplicationContext(), R.string.logout_message + current.getUserName(),
-            Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent();
-        intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
-        startActivity(intent);
       }
+
+      Toast.makeText(getApplicationContext(), R.string.logout_message + current.getUserName(),
+          Toast.LENGTH_SHORT).show();
+      Intent intent = new Intent();
+      intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
+      startActivity(intent);
     });
   }
 

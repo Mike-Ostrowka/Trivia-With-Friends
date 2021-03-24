@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,7 +57,9 @@ public class MainMenuActivity extends AppCompatActivity {
             .build();
         uiThreadRealm = Realm.getInstance(config);
         addChangeListenerToRealm(uiThreadRealm);
-        FutureTask<String> task = new FutureTask(new BackgroundQuickStart(app.currentUser()), "test");
+
+        FutureTask<String> task = new FutureTask<>(new BackgroundQuickStart(app.currentUser()),
+            "test");
         ExecutorService executorService = Executors.newFixedThreadPool(2);
         executorService.execute(task);
       } else {
@@ -111,6 +114,7 @@ public class MainMenuActivity extends AppCompatActivity {
     });
   }
 
+
   public class BackgroundQuickStart implements Runnable {
 
     User user;
@@ -128,7 +132,8 @@ public class MainMenuActivity extends AppCompatActivity {
           PARTITION_VALUE)
           .build();
 
-      Realm realm = Realm.getInstance(config);
+      Realm.setDefaultConfiguration(config);
+      Realm realm = Realm.getDefaultInstance();
 
       if (realm.where(Users.class).equalTo("loginStatus", true).findFirstAsync() != null) {
         realm.close();
@@ -150,10 +155,11 @@ public class MainMenuActivity extends AppCompatActivity {
     }
   }
 
+
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    realm.close();
+    uiThreadRealm.close();
     app.currentUser().logOutAsync(result -> {
       if (result.isSuccess()) {
         Log.v("QUICKSTART", "Successfully logged out.");
