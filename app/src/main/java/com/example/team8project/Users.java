@@ -4,6 +4,15 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+
 public class Users extends RealmObject {
 
   @PrimaryKey
@@ -123,4 +132,82 @@ public class Users extends RealmObject {
     bio = newBio;
   }
 
+
+
+  // this code was found and adapted from
+  // https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#PBKDF2WithHmacSHA1
+  //TODO put this in the database and also in the other password functions
+  public static void encrypt(String[] args, String originalPassword)
+          throws NoSuchAlgorithmException, InvalidKeySpecException {
+     String encryptedPassword = generateEncryption(originalPassword);
+  } //TODO might not need this, can encrypt from
+    // constructor or whatever is passing password to database
+
+
+  //TODO make this the new check password
+  private static boolean validatePassword(String originalPassword, String storedPassword)
+          throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+    String[] breakApart = storedPassword.split(":");
+    int iterations = Integer.parseInt(breakApart[0]);
+    byte[] salt = fromHex(breakApart[1]); // could just bring it back in bytes
+    byte[] hash = fromHex(breakApart[2]); // could just bring it back in bytes
+
+    PBEKeySpec cryptoSpec = new PBEKeySpec(originalPassword.toCharArray(),
+            salt, iterations, hash.length * 8);
+    SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    byte[] checkHash = key.generateSecret(cryptoSpec).getEncoded();
+
+    // bitwise XOR checking
+    int difference = hash.length ^ checkHash.length;
+
+    // checks if the bits in the two hashes are the same (checking if the passwords match)
+    for( int i = 0; i < hash.length && i < checkHash.length; ++i) {
+      difference |= hash[i] ^ checkHash[i];
+    }
+
+    return difference == 0;
+  }
+
+  // generates password to be stored in the form of "iterations : salt in hex : hash in hex
+  private static String generateEncryption( String password)
+          throws NoSuchAlgorithmException, InvalidKeySpecException {
+
+    int iterations = 500;
+    char[] characters = password.toCharArray();
+    byte[] salt = getSalt();
+
+    PBEKeySpec cryptoSpec = new PBEKeySpec(characters, salt, iterations, 64 * 8);
+    SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+    byte[] hash = key.generateSecret(cryptoSpec).getEncoded();
+    return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+  }
+
+  // generates salt to be used in encryption
+  private static byte[] getSalt()
+          throws NoSuchAlgorithmException {
+
+    SecureRandom randomSalt = SecureRandom.getInstance("SHA1PRNG");
+    byte[] salt = new byte[16];
+    randomSalt.nextBytes(salt);
+    return salt;
+  }
+
+  // TODO see if tohex and fromhex are needed
+  // generates hex from the byte array
+  private static String toHex(byte[] array) {
+    BigInteger bigInt = new BigInteger(1, array);
+    String hex = bigInt.toString(16);
+    int paddingLength = array.length * 2 - hex.length();
+    return paddingLength > 0 ? String.format("%0" + paddingLength + "d", 0) + hex : hex;
+  }
+
+  // generates byte array from hex
+  private static byte[] fromHex(String hex) {
+    byte[] bytes = new byte[hex.length() / 2];
+    for(int i = 0; i < bytes.length; ++i) {
+      bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+    }
+    return bytes;
+  }
 }
