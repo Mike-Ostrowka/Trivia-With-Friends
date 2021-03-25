@@ -1,13 +1,11 @@
 package com.example.team8project;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
-import io.realm.OrderedCollectionChangeSet;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
 import io.realm.mongodb.Credentials;
@@ -56,7 +54,7 @@ public class StartupActivity extends AppCompatActivity {
     });
   }
 
-//  //change listener on local realm
+  //  //change listener on local realm
 //  private void addChangeListenerToRealm(Realm realm) {
 //    // all tasks in the realm
 //    RealmResults<Users> tasks = realm.where(Users.class).findAllAsync();
@@ -82,4 +80,18 @@ public class StartupActivity extends AppCompatActivity {
 //      }
 //    });
 //  }
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    if (uiThreadRealm != null) {
+      uiThreadRealm.close();
+    }
+    app.currentUser().logOutAsync(result -> {
+      if (result.isSuccess()) {
+        Log.v("QUICKSTART", "Successfully logged out.");
+      } else {
+        Log.e("QUICKSTART", "Failed to log out, error: " + result.getError());
+      }
+    });
+  }
 }

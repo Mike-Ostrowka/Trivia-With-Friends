@@ -1,29 +1,13 @@
 package com.example.team8project;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
-import io.realm.OrderedCollectionChangeSet;
 import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.mongodb.App;
-import io.realm.mongodb.AppConfiguration;
-import io.realm.mongodb.Credentials;
-import io.realm.mongodb.User;
-import io.realm.mongodb.sync.SyncConfiguration;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-  private Realm uiThreadRealm;
-  private Realm realm;
-  private App app;
-  private User user;
-  final private String PARTITION_VALUE = "all";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +41,6 @@ public class MainMenuActivity extends AppCompatActivity {
   }
 
 
-
-
   public void checkLogin() {
 
 //      //Open realm and check if logged in
@@ -87,22 +69,6 @@ public class MainMenuActivity extends AppCompatActivity {
       realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
     }
     realm.close();
-  }
-
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    if (uiThreadRealm != null) {
-      uiThreadRealm.close();
-    }
-    app.currentUser().logOutAsync(result -> {
-      if (result.isSuccess()) {
-        Log.v("QUICKSTART", "Successfully logged out.");
-      } else {
-        Log.e("QUICKSTART", "Failed to log out, error: " + result.getError());
-      }
-    });
   }
 
 
