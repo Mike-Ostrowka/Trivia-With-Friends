@@ -16,7 +16,6 @@ import io.realm.RealmConfiguration;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-  private Realm realm;
   private Users current;
 
   @Override
@@ -25,44 +24,29 @@ public class WelcomeActivity extends AppCompatActivity {
     setContentView(R.layout.activity_welcome);
 
     //open a realm and find logged in user
-    try {
-      realm = Realm.getDefaultInstance();
+    try (final Realm realm = Realm.getDefaultInstance()){
       current = realm.where(Users.class).equalTo("loginStatus", true).findFirst();
 
+      TextView greeting = findViewById(R.id.textViewGreeting);
+      String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
+      greeting.setText(greetingText);
 
-    } finally {
-      if (realm != null) {
-        realm.close();
-      }
-    }
+      Button mButton = findViewById(R.id.logout_button);
+      mButton.setOnClickListener(v -> {
 
-    TextView greeting = findViewById(R.id.textViewGreeting);
-    String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
-    greeting.setText(greetingText);
-
-    Button mButton = findViewById(R.id.logout_button);
-    mButton.setOnClickListener(v -> {
-
-      try {
-        realm = Realm.getDefaultInstance();
-        realm.executeTransactionAsync( transactionRealm -> {
-          Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
+        realm.executeTransaction(transactionRealm -> {
+          Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName())
+              .findFirst();
           temp.setLogin();
         });
 
-
-      } finally {
-        if (realm != null) {
-          realm.close();
-        }
-      }
-
-      Toast.makeText(getApplicationContext(), R.string.logout_message + current.getUserName(),
-          Toast.LENGTH_SHORT).show();
-      Intent intent = new Intent();
-      intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
-      startActivity(intent);
-    });
+        Toast.makeText(getApplicationContext(), R.string.logout_message + " " + current.getUserName(),
+            Toast.LENGTH_LONG).show();
+        Intent intent = new Intent();
+        intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
+        startActivity(intent);
+      });
+    }
   }
 
   @Override

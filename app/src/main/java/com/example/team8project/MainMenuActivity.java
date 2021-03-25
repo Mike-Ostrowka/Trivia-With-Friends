@@ -1,17 +1,15 @@
 package com.example.team8project;
 
 import android.content.Intent;
-import android.os.Parcelable;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 import io.realm.OrderedCollectionChangeSet;
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
-import io.realm.Realm.Callback;
-import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import io.realm.mongodb.App;
 import io.realm.mongodb.AppConfiguration;
@@ -34,39 +32,46 @@ public class MainMenuActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main_menu);
-
-    //start realm
     Realm.init(this);
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    if (!prefs.getBoolean("firstTime", false)) {
+      //start realm
 
-    //set up realm app
-    final String appID = "triviawithfriends-ljuog";
-    app = new App(new AppConfiguration.Builder(appID).build());
-    Credentials credentials = Credentials.anonymous();
+      //set up realm app
+      final String appID = "triviawithfriends-ljuog";
+      app = new App(new AppConfiguration.Builder(appID).build());
+      Credentials credentials = Credentials.anonymous();
 
-    //login to realm app anonymously
-    app.loginAsync(credentials, result -> {
-      if (result.isSuccess()) {
-        Log.v("QUICKSTART", "Successfully authenticated anonymously.");
-        user = app.currentUser();
-        if (user == null) {
-          Log.v("QUICKSTART", "null user");
+      //login to realm app anonymously
+      app.loginAsync(credentials, result -> {
+        if (result.isSuccess()) {
+          Log.v("QUICKSTART", "Successfully authenticated anonymously.");
+          user = app.currentUser();
+          if (user == null) {
+            Log.v("QUICKSTART", "null user");
+          }
+          SyncConfiguration config = new SyncConfiguration.Builder(
+              user,
+              PARTITION_VALUE).allowWritesOnUiThread(true).allowQueriesOnUiThread(true).build();
+          Realm.setDefaultConfiguration(config);
+          uiThreadRealm = Realm.getDefaultInstance();
+          addChangeListenerToRealm(uiThreadRealm);
+          SharedPreferences.Editor editor = prefs.edit();
+          editor.putBoolean("firstTime", true);
+          editor.apply();
+          checkLogin();
+        } else {
+          Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
+          Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
+          System.exit(0);
         }
-        SyncConfiguration config = new SyncConfiguration.Builder(
-            user,
-            PARTITION_VALUE)
-            .build();
-        uiThreadRealm = Realm.getInstance(config);
-        addChangeListenerToRealm(uiThreadRealm);
+      });
+    }
+  }
 
-        FutureTask<String> task = new FutureTask<>(new BackgroundQuickStart(app.currentUser()),
-            "test");
-        ExecutorService executorService = Executors.newFixedThreadPool(2);
-        executorService.execute(task);
-      } else {
-        Log.e("QUICKSTART", "Failed to log in. Error: " + result.getError());
-      }
-    });
-
+  @Override
+  protected void onResume() {
+    super.onResume();
     Button btn_log_in, btn_reg;
     //Set the buttons
     btn_log_in = findViewById(R.id.btn_login);
@@ -86,6 +91,7 @@ public class MainMenuActivity extends AppCompatActivity {
       startActivity(intent);
     });
   }
+
 
   //change listener on local realm
   private void addChangeListenerToRealm(Realm realm) {
@@ -115,27 +121,18 @@ public class MainMenuActivity extends AppCompatActivity {
   }
 
 
-  public class BackgroundQuickStart implements Runnable {
+    public void checkLogin() {
 
-    User user;
-
-    public BackgroundQuickStart(User user) {
-      this.user = user;
-    }
-
-    @Override
-    public void run() {
-
-      //Open realm and check if logged in
-      SyncConfiguration config = new SyncConfiguration.Builder(
-          user,
-          PARTITION_VALUE)
-          .build();
-
-      Realm.setDefaultConfiguration(config);
+//      //Open realm and check if logged in
+//      SyncConfiguration config = new SyncConfiguration.Builder(
+//          user,
+//          PARTITION_VALUE)
+//          .build();
+//
+//      Realm.setDefaultConfiguration(config);
       Realm realm = Realm.getDefaultInstance();
 
-      if (realm.where(Users.class).equalTo("loginStatus", true).findFirstAsync() != null) {
+      if (realm.where(Users.class).equalTo("loginStatus", true).findFirst() != null) {
         realm.close();
         Intent intent = new Intent();
         intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
@@ -144,7 +141,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
       //open a realm and save temp to it if it does not exist
 
-      Users defaultExists = realm.where(Users.class).equalTo("userName", "admin").findFirstAsync();
+      Users defaultExists = realm.where(Users.class).equalTo("_id", "admin").findFirst();
 
       if (defaultExists == null) {
         //default user
@@ -153,13 +150,22 @@ public class MainMenuActivity extends AppCompatActivity {
       }
       realm.close();
     }
-  }
+
 
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    uiThreadRealm.close();
+    if(uiThreadRealm != null) {
+      uiThreadRealm.close();
+    }
+    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+    if (!prefs.getBoolean("firstTime", false)) {
+      SharedPreferences.Editor editor = prefs.edit();
+      editor.putBoolean("firstTime", false);
+      editor.apply();
+      checkLogin();
+    }
     app.currentUser().logOutAsync(result -> {
       if (result.isSuccess()) {
         Log.v("QUICKSTART", "Successfully logged out.");

@@ -28,7 +28,7 @@ public class NewAccountActivity extends AppCompatActivity {
 
       //open a realm
       realm = Realm.getDefaultInstance();
-      Users nameExists = realm.where(Users.class).equalTo("_id", name).findFirst();
+      Users nameExists = realm.where(Users.class).equalTo("_id", name).findFirstAsync();
 
       if (nameExists != null) {
         Toast.makeText(getApplicationContext(), getString(R.string.account_exists),

@@ -14,12 +14,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
   private Realm realm; //declare realm variable
+  private Users currentUser;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
-
     Button mButton = findViewById(R.id.login_button);
     mButton.setOnClickListener(v -> {
       EditText nameEdit = findViewById(R.id.loginUsername);
@@ -33,10 +33,9 @@ public class LoginActivity extends AppCompatActivity {
 
         if (realm.where(Users.class).equalTo("_id", name).findFirst() != null) {
           //create temp for user to check password
-          final Users currentUser = realm.where(Users.class).equalTo("_id", name)
-              .findFirst();
+          currentUser = realm.where(Users.class).equalTo("_id", name).findFirst();
           if (!currentUser.checkPassword(password)) {
-            realm.executeTransactionAsync(transactionRealm -> {
+            realm.executeTransaction(transactionRealm -> {
               Users temp = transactionRealm.where(Users.class).equalTo("_id", currentUser.getUserName()).findFirst();
               temp.setLogin();
             });
