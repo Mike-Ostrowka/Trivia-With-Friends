@@ -134,20 +134,19 @@ public class Users extends RealmObject {
   }
 
 
-
   // this code was found and adapted from
   // https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#PBKDF2WithHmacSHA1
   //TODO put this in the database and also in the other password functions
   public static void encrypt(String[] args, String originalPassword)
-          throws NoSuchAlgorithmException, InvalidKeySpecException {
-     String encryptedPassword = generateEncryption(originalPassword);
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
+    String encryptedPassword = generateEncryption(originalPassword);
   } //TODO might not need this, can encrypt from
-    // constructor or whatever is passing password to database
+  // constructor or whatever is passing password to database
 
 
   //TODO make this the new check password
   private static boolean validatePassword(String originalPassword, String storedPassword)
-          throws NoSuchAlgorithmException, InvalidKeySpecException {
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
 
     String[] breakApart = storedPassword.split(":");
     int iterations = Integer.parseInt(breakApart[0]);
@@ -155,7 +154,7 @@ public class Users extends RealmObject {
     byte[] hash = fromHex(breakApart[2]); // could just bring it back in bytes
 
     PBEKeySpec cryptoSpec = new PBEKeySpec(originalPassword.toCharArray(),
-            salt, iterations, hash.length * 8);
+        salt, iterations, hash.length * 8);
     SecretKeyFactory key = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
     byte[] checkHash = key.generateSecret(cryptoSpec).getEncoded();
 
@@ -163,7 +162,7 @@ public class Users extends RealmObject {
     int difference = hash.length ^ checkHash.length;
 
     // checks if the bits in the two hashes are the same (checking if the passwords match)
-    for( int i = 0; i < hash.length && i < checkHash.length; ++i) {
+    for (int i = 0; i < hash.length && i < checkHash.length; ++i) {
       difference |= hash[i] ^ checkHash[i];
     }
 
@@ -171,8 +170,8 @@ public class Users extends RealmObject {
   }
 
   // generates password to be stored in the form of "iterations : salt in hex : hash in hex
-  private static String generateEncryption( String password)
-          throws NoSuchAlgorithmException, InvalidKeySpecException {
+  private static String generateEncryption(String password)
+      throws NoSuchAlgorithmException, InvalidKeySpecException {
 
     int iterations = 500;
     char[] characters = password.toCharArray();
@@ -186,7 +185,7 @@ public class Users extends RealmObject {
 
   // generates salt to be used in encryption
   private static byte[] getSalt()
-          throws NoSuchAlgorithmException {
+      throws NoSuchAlgorithmException {
 
     SecureRandom randomSalt = SecureRandom.getInstance("SHA1PRNG");
     byte[] salt = new byte[16];
@@ -206,8 +205,8 @@ public class Users extends RealmObject {
   // generates byte array from hex
   private static byte[] fromHex(String hex) {
     byte[] bytes = new byte[hex.length() / 2];
-    for(int i = 0; i < bytes.length; ++i) {
-      bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+    for (int i = 0; i < bytes.length; ++i) {
+      bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
     }
     return bytes;
   }
