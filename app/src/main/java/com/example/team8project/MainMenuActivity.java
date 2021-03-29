@@ -40,33 +40,14 @@ public class MainMenuActivity extends AppCompatActivity {
     });
   }
 
-
+//check if user is already logged in
   public void checkLogin() {
-
-//      //Open realm and check if logged in
-//      SyncConfiguration config = new SyncConfiguration.Builder(
-//          user,
-//          PARTITION_VALUE)
-//          .build();
-//
-//      Realm.setDefaultConfiguration(config);
     Realm realm = Realm.getDefaultInstance();
-
     if (realm.where(Users.class).equalTo("loginStatus", true).findFirst() != null) {
       realm.close();
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
       startActivity(intent);
-    }
-
-    //open a realm and save temp to it if it does not exist
-
-    Users defaultExists = realm.where(Users.class).equalTo("_id", "admin").findFirst();
-
-    if (defaultExists == null) {
-      //default user
-      final Users temp = new Users("admin", "Password123");
-      realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
     }
     realm.close();
   }

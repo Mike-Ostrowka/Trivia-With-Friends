@@ -24,7 +24,7 @@ public class WelcomeActivity extends AppCompatActivity {
     setContentView(R.layout.activity_welcome);
 
     //open a realm and find logged in user
-    try (final Realm realm = Realm.getDefaultInstance()){
+      Realm realm = Realm.getDefaultInstance();
       current = realm.where(Users.class).equalTo("loginStatus", true).findFirst();
 
       TextView greeting = findViewById(R.id.textViewGreeting);
@@ -42,15 +42,17 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Toast.makeText(getApplicationContext(), R.string.logout_message + " " + current.getUserName(),
             Toast.LENGTH_LONG).show();
+        realm.close();
         Intent intent = new Intent();
         intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
         startActivity(intent);
       });
     }
-  }
+
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
   }
 }
+

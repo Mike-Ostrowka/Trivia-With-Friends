@@ -28,7 +28,7 @@ public class NewAccountActivity extends AppCompatActivity {
 
       //open a realm
       realm = Realm.getDefaultInstance();
-      Users nameExists = realm.where(Users.class).equalTo("_id", name).findFirstAsync();
+      Users nameExists = realm.where(Users.class).equalTo("_id", name).findFirst();
 
       if (nameExists != null) {
         Toast.makeText(getApplicationContext(), getString(R.string.account_exists),
@@ -42,14 +42,11 @@ public class NewAccountActivity extends AppCompatActivity {
         return;
       }
       //save temp to realm
-      try {
-        realm.executeTransactionAsync(transactionRealm -> transactionRealm.insert(temp));
 
-      } finally {
+        realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
         if (realm != null) {
           realm.close();
         }
-      }
       Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name,
           Toast.LENGTH_LONG).show();
       Intent intent = new Intent();
