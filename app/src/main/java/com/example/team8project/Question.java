@@ -2,14 +2,14 @@ package com.example.team8project;
 
 public class Question {
 
-  private String question;
+  private String question = null;
   // Answer Choices
-  private String answerOne;
-  private String answerTwo;
-  private String answerThree;
-  private String answerFour;
+  private String answerOne = null;
+  private String answerTwo = null;
+  private String answerThree = null;
+  private String answerFour = null;
   //Correct Answer
-  private String correctAnswer;
+  private String correctAnswer = null;
 
   public Question(String question, String answerOne, String answerTwo, String answerThree,
       String answerFour, String correctAnswer) {
@@ -21,16 +21,25 @@ public class Question {
     this.correctAnswer = correctAnswer;
   }
 
-  public String[] getWrongAnswers() {
-    return new String[]{this.answerOne, this.answerTwo, this.answerThree,
-        this.answerFour};
+  public Question() {
+  // make it all null
   }
 
-  public String getAnswer() {
+  public String[] getWrongAnswers() {
+    return new String[]{this.answerOne, this.answerTwo, this.answerThree};
+  }
+
+  public String getOptionalAnswer() {
+    return this.answerFour;
+  }
+
+  public String getCorrectAnswer() {
     return this.correctAnswer;
   }
 
   public String getQuestion() {
     return this.question;
   }
+
+
 }

@@ -13,10 +13,15 @@ import java.io.File;
 
 public class QuestionXMLParser {
 
-  private List<Question> questionBank = new ArrayList<>();
-  public int sizeOfBank = 0;
+  private List<Question> questionBank;
+  public int sizeOfBank;
 
-  private void parse() {
+  public QuestionXMLParser() {
+    this.questionBank = new ArrayList<>();
+    this.sizeOfBank = 0;
+  }
+
+  public void parse() {
     try {
       File file = new File("questions.xml");
 
