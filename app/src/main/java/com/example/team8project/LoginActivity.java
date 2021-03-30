@@ -40,13 +40,16 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
             return;
           }
-          if (!currentUser.checkPassword(password)) {
+          if (currentUser.checkPassword(password)) {
             session = new loginPreferences(getApplicationContext());
             session.setusername(currentUser.getUserName());
 
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this, WelcomeActivity.class);
             startActivity(intent);
+          } else {
+            Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
+                Toast.LENGTH_LONG).show();
           }
         } else {
           Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
@@ -60,10 +63,6 @@ public class LoginActivity extends AppCompatActivity {
           realm.close();
         }
       }
-//        Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name, Toast.LENGTH_LONG).show();
-//        Intent intent = new Intent();
-//        intent.setClass(NewAccountActivity.this,LoginActivity.class);
-//        startActivity(intent);
     });
   }
 }

@@ -35,7 +35,7 @@ public class NewAccountActivity extends AppCompatActivity {
             Toast.LENGTH_SHORT).show();
         return;
       }
-      temp = new Users(name, "");
+      temp = new Users(name);
       if (!temp.updatePassword(password)) {
         Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
             Toast.LENGTH_SHORT).show();

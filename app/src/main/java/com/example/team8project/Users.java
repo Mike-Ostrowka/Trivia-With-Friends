@@ -24,9 +24,20 @@ public class Users extends RealmObject {
   private String bio;
   private boolean loginStatus = false;
 
+  public Users(String name) {
+    _id = name;
+    password = "";
+  }
+
   public Users(String name, String pswrd) {
     _id = name;
-    password = pswrd;
+    try {
+      password = generateEncryption(pswrd);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (InvalidKeySpecException e) {
+      e.printStackTrace();
+    }
   }
 
   public Users() {
@@ -51,6 +62,7 @@ public class Users extends RealmObject {
   void setLogin() {
     loginStatus = !loginStatus;
   }
+
   //takes parameter of other players elo
   void calculateElo(int otherElo) {
     //TODO: Calculate expected value for both players, calculate elo change, pass to updateElo()
@@ -63,26 +75,17 @@ public class Users extends RealmObject {
     elo += ELO_K_FACTOR * eloChange;
   }
 
-  //TODO: check that name is acceptable
-  boolean updateUserName(String newName) {
-    if (checkName(newName)) {
-      _id = newName;
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  //TODO: check for appropriate name (no vulgar language)
-  boolean checkName(String name) {
-    return true;
-  }
-
   //new password must be different from old one, contain a number
   //and a capital letter, and be at least 7 characters
   boolean updatePassword(String newPassword) {
     if (resetPassword(newPassword)) {
-      password = newPassword;
+      try {
+        password = generateEncryption(newPassword);
+      } catch (NoSuchAlgorithmException e) {
+        e.printStackTrace();
+      } catch (InvalidKeySpecException e) {
+        e.printStackTrace();
+      }
       return true;
     } else {
       return false;
@@ -90,18 +93,23 @@ public class Users extends RealmObject {
   }
 
   boolean resetPassword(String newPassword) {
-    if (checkPassword(newPassword)) {
       if (checkCapital(newPassword)) {
         if (checkNumber(newPassword)) {
           return checkLength(newPassword);
         }
       }
-    }
     return false;
   }
 
   boolean checkPassword(String newPassword) {
-    return (!newPassword.equals(password));
+    try {
+      return validatePassword(newPassword, this.password);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (InvalidKeySpecException e) {
+      e.printStackTrace();
+    }
+    return false;
   }
 
   boolean checkCapital(String newPassword) {
@@ -136,15 +144,6 @@ public class Users extends RealmObject {
 
   // this code was found and adapted from
   // https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#PBKDF2WithHmacSHA1
-  //TODO put this in the database and also in the other password functions
-  public static void encrypt(String[] args, String originalPassword)
-      throws NoSuchAlgorithmException, InvalidKeySpecException {
-    String encryptedPassword = generateEncryption(originalPassword);
-  } //TODO might not need this, can encrypt from
-  // constructor or whatever is passing password to database
-
-
-  //TODO make this the new check password
   private static boolean validatePassword(String originalPassword, String storedPassword)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
 
@@ -193,7 +192,6 @@ public class Users extends RealmObject {
     return salt;
   }
 
-  // TODO see if tohex and fromhex are needed
   // generates hex from the byte array
   private static String toHex(byte[] array) {
     BigInteger bigInt = new BigInteger(1, array);
