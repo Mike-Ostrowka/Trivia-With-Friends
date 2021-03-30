@@ -17,6 +17,8 @@ import io.realm.RealmConfiguration;
 public class WelcomeActivity extends AppCompatActivity {
 
   private Users current;
+  private loginPreferences session;
+  private String username;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -24,30 +26,28 @@ public class WelcomeActivity extends AppCompatActivity {
     setContentView(R.layout.activity_welcome);
 
     //open a realm and find logged in user
-      Realm realm = Realm.getDefaultInstance();
-      current = realm.where(Users.class).equalTo("loginStatus", true).findFirst();
+    session = new loginPreferences(getApplicationContext());
+    username = session.getusername();
+    Realm realm = Realm.getDefaultInstance();
+    current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
-      TextView greeting = findViewById(R.id.textViewGreeting);
-      String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
-      greeting.setText(greetingText);
+    TextView greeting = findViewById(R.id.textViewGreeting);
+    String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
+    greeting.setText(greetingText);
 
-      Button mButton = findViewById(R.id.logout_button);
-      mButton.setOnClickListener(v -> {
+    Button mButton = findViewById(R.id.logout_button);
+    mButton.setOnClickListener(v -> {
 
-        realm.executeTransaction(transactionRealm -> {
-          Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName())
-              .findFirst();
-          temp.setLogin();
-        });
+      session.setusername("");
 
-        Toast.makeText(getApplicationContext(), R.string.logout_message + " " + current.getUserName(),
-            Toast.LENGTH_LONG).show();
-        realm.close();
-        Intent intent = new Intent();
-        intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
-        startActivity(intent);
-      });
-    }
+      Toast.makeText(getApplicationContext(), R.string.logout_message + " " + current.getUserName(),
+          Toast.LENGTH_LONG).show();
+      realm.close();
+      Intent intent = new Intent();
+      intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
+      startActivity(intent);
+    });
+  }
 
 
   @Override

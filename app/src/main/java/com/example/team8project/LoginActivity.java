@@ -15,6 +15,7 @@ public class LoginActivity extends AppCompatActivity {
 
   private Realm realm; //declare realm variable
   private Users currentUser;
+  private loginPreferences session;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +35,14 @@ public class LoginActivity extends AppCompatActivity {
         if (realm.where(Users.class).equalTo("_id", name).findFirst() != null) {
           //create temp for user to check password
           currentUser = realm.where(Users.class).equalTo("_id", name).findFirst();
+          if (currentUser == null) {
+            Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
+                Toast.LENGTH_LONG).show();
+            return;
+          }
           if (!currentUser.checkPassword(password)) {
-            realm.executeTransaction(transactionRealm -> {
-              Users temp = transactionRealm.where(Users.class).equalTo("_id", currentUser.getUserName()).findFirst();
-              temp.setLogin();
-            });
+            session = new loginPreferences(getApplicationContext());
+            session.setusername(currentUser.getUserName());
 
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this, WelcomeActivity.class);

@@ -8,6 +8,7 @@ import io.realm.Realm;
 
 public class MainMenuActivity extends AppCompatActivity {
 
+  private loginPreferences session;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -40,16 +41,15 @@ public class MainMenuActivity extends AppCompatActivity {
     });
   }
 
-//check if user is already logged in
+  //check if user is already logged in
   public void checkLogin() {
-    Realm realm = Realm.getDefaultInstance();
-    if (realm.where(Users.class).equalTo("loginStatus", true).findFirst() != null) {
-      realm.close();
+    session = new loginPreferences(getApplicationContext());
+    String username = session.getusername();
+    if (!username.equals("")) {
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
       startActivity(intent);
     }
-    realm.close();
   }
 
 
