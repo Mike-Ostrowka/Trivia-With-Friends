@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -13,6 +14,7 @@ import java.io.File;
 public class QuestionXMLParser {
 
   private List<Question> questionBank = new ArrayList<>();
+  public int sizeOfBank = 0;
 
   private void parse() {
     try {
@@ -31,7 +33,7 @@ public class QuestionXMLParser {
         if (node.getNodeType() == Node.ELEMENT_NODE) {
           Element tElement = (Element) node;
           Question newQuestion = new Question(
-              tElement.getElementsByTagName("question").item(0).getTextContent(),
+              tElement.getElementsByTagName("questionText").item(0).getTextContent(),
               tElement.getElementsByTagName("answerOne").item(0).getTextContent(),
               tElement.getElementsByTagName("answerTwo").item(0).getTextContent(),
               tElement.getElementsByTagName("answerThree").item(0).getTextContent(),
@@ -44,10 +46,25 @@ public class QuestionXMLParser {
     } catch (Exception e) {
       System.out.println(e);
     }
+    this.sizeOfBank = this.questionBank.size();
   }
 
   public Question[] getQuestionBank(Question[] bank) {
-    this.parse();
     return this.questionBank.toArray(bank);
   }
+
+  // testing code
+//  void main() {
+//    QuestionXMLParser qxp = new QuestionXMLParser();
+//    qxp.parse();
+//    Question[] bank = new Question[qxp.sizeOfBank];
+//    qxp.getQuestionBank(bank);
+//    for(int i = 0; i < qxp.sizeOfBank; i++){
+//      System.out.println(bank[0].getQuestion());
+//      System.out.println(Arrays.toString(bank[0].getWrongAnswers()));
+//      System.out.println(bank[0].getAnswer());
+//    }
+//  }
 }
+
+
