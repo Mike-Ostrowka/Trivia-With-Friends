@@ -36,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
           //create temp for user to check password
           currentUser = realm.where(Users.class).equalTo("_id", name).findFirst();
           if (currentUser == null) {
-            Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
+            Toast.makeText(getApplicationContext(), "Username does not exist, please try again",
                 Toast.LENGTH_LONG).show();
             return;
           }
@@ -52,7 +52,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
           }
         } else {
-          Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
+          Toast.makeText(getApplicationContext(), "User does not exist, please try again",
               Toast.LENGTH_LONG).show();
 
         }

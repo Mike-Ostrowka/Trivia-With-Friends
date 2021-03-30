@@ -14,6 +14,7 @@ public class MainMenuActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main_menu);
+    addAdmin();
     checkLogin();
   }
 
@@ -49,6 +50,14 @@ public class MainMenuActivity extends AppCompatActivity {
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, WelcomeActivity.class);
       startActivity(intent);
+    }
+  }
+
+  public void addAdmin() {
+    Realm realm = Realm.getDefaultInstance();
+    if(realm.where(Users.class).equalTo("_id", "adminUser").findFirst() == null) {
+      Users temp = new Users("adminUser", "Password123");
+      realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
     }
   }
 
