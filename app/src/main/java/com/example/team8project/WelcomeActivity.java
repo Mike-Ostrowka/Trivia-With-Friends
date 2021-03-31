@@ -47,14 +47,14 @@ public class WelcomeActivity extends AppCompatActivity {
       intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
       startActivity(intent);
     });
-    Button mButtonFAQ = findViewById(R.id.btn_faq);
+    Button mButtonFAQ = findViewById(R.id.btn_settings);
     mButtonFAQ.setOnClickListener(v -> {
       Intent intent = new Intent();
       intent.setClass(WelcomeActivity.this, SettingsActivity.class);
       startActivity(intent);
     });
 
-    Button mButtonSettings = findViewById(R.id.btn_settings);
+    Button mButtonSettings = findViewById(R.id.btn_faq);
     mButtonSettings.setOnClickListener(v -> {
       Intent intent = new Intent();
       intent.setClass(WelcomeActivity.this, FaqActivity.class);
