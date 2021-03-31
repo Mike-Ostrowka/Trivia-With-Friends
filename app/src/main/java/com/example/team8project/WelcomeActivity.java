@@ -32,11 +32,11 @@ public class WelcomeActivity extends AppCompatActivity {
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
     TextView greeting = findViewById(R.id.textViewGreeting);
-    String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
+    String greetingText = current.getUserName();
     greeting.setText(greetingText);
 
-    Button mButton = findViewById(R.id.logout_button);
-    mButton.setOnClickListener(v -> {
+    Button mButtonLogout = findViewById(R.id.logout_button);
+    mButtonLogout.setOnClickListener(v -> {
 
       session.setusername("");
 
@@ -45,6 +45,19 @@ public class WelcomeActivity extends AppCompatActivity {
       realm.close();
       Intent intent = new Intent();
       intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
+      startActivity(intent);
+    });
+    Button mButtonFAQ = findViewById(R.id.btn_faq);
+    mButtonFAQ.setOnClickListener(v -> {
+      Intent intent = new Intent();
+      intent.setClass(WelcomeActivity.this, SettingsActivity.class);
+      startActivity(intent);
+    });
+
+    Button mButtonSettings = findViewById(R.id.btn_settings);
+    mButtonSettings.setOnClickListener(v -> {
+      Intent intent = new Intent();
+      intent.setClass(WelcomeActivity.this, FaqActivity.class);
       startActivity(intent);
     });
   }
