@@ -12,11 +12,14 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     <activity
+      android:name=".ChangePasswordActivity"
+      android:parentActivityName=".WelcomeActivity" />
+    <activity
       android:name=".FaqActivity"
-      android:parentActivityName="com.example.team8project.WelcomeActivity" />
+      android:parentActivityName=".WelcomeActivity" />
     <activity
       android:name=".SettingsActivity"
-      android:parentActivityName="com.example.team8project.WelcomeActivity" />
+      android:parentActivityName=".WelcomeActivity" />
     <activity android:name=".MainMenuActivity" />
     <activity android:name=".WelcomeActivity" />
     <activity android:name=".NewAccountActivity" />

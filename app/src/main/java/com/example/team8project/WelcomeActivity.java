@@ -20,7 +20,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
   private Users current;
   private loginPreferences session;
-  public static String username;
+  private String username;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
     boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
     //if switch value is false, disable music
-    if(!soundSwitch) {
+    if (!soundSwitch) {
       //TODO : disable music
     }
 
@@ -51,7 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
       session.setusername("");
 
-      Toast.makeText(getApplicationContext(), R.string.logout_message + " " + current.getUserName(),
+      Toast.makeText(getApplicationContext(), R.string.logout_message,
           Toast.LENGTH_LONG).show();
       realm.close();
       Intent intent = new Intent();
