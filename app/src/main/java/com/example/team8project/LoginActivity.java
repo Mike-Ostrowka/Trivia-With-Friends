@@ -21,6 +21,7 @@ public class LoginActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
+    checkLogin();
     Button mButton = findViewById(R.id.login_button);
     mButton.setOnClickListener(v -> {
       EditText nameEdit = findViewById(R.id.loginUsername);
@@ -64,5 +65,21 @@ public class LoginActivity extends AppCompatActivity {
         }
       }
     });
+  }
+  @Override
+  protected void onResume() {
+    super.onResume();
+    checkLogin();
+  }
+
+  //check if user is already logged in
+  public void checkLogin() {
+    session = new loginPreferences(getApplicationContext());
+    String username = session.getusername();
+    if (!username.equals("")) {
+      Intent intent = new Intent();
+      intent.setClass(LoginActivity.this, WelcomeActivity.class);
+      startActivity(intent);
+    }
   }
 }

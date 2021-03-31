@@ -62,6 +62,7 @@ public class MainMenuActivity extends AppCompatActivity {
   @Override
   protected void onResume() {
     super.onResume();
+    checkLogin();
     Button btn_log_in, btn_reg;
     //Set the buttons
     btn_log_in = findViewById(R.id.btn_login);
