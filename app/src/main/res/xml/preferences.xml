@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <PreferenceCategory android:title="\n">
+
+    <android.support.v7.preference.SwitchPreferenceCompat
+      android:defaultValue="true"
+      android:key="sound_enabled"
+      android:title="@string/toggle_sound" />
+  </PreferenceCategory>
+  <Preference
+    android:title=""
+    android:key="btn_change_pass"
+    android:summary=""
+    android:widgetLayout="@layout/pref_password_button"
+    />
+</PreferenceScreen>

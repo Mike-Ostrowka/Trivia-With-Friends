@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".LoginActivity">
+<LinearLayout
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="224dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/login_title"
-        app:layout_constraintBottom_toTopOf="@+id/loginUsername"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+      android:id="@+id/textView"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="200dp"
+      android:layout_marginLeft="95dp"
+      android:layout_marginRight="95dp"
+      android:text="@string/login_title"
+      />
 
     <EditText
-        android:id="@+id/loginUsername"
-        android:layout_width="272dp"
-        android:layout_height="52dp"
-        android:layout_marginTop="336dp"
-        android:autofillHints="@string/account_name"
-        android:ems="10"
-        android:hint="@string/account_name"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+      android:id="@+id/loginUsername"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="50dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:autofillHints="@string/account_name"
+      android:ems="10"
+      android:hint="@string/account_name"
+      android:inputType="textPersonName"
+      />
 
     <EditText
-        android:id="@+id/loginPassword"
-        android:layout_width="272dp"
-        android:layout_height="45dp"
-        android:autofillHints="@string/account_password"
-        android:ems="10"
-        android:hint="@string/account_password"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.489"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/loginUsername"
-        app:layout_constraintVertical_bias="0.134" />
+      android:id="@+id/loginPassword"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="50dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:autofillHints="@string/account_password"
+      android:ems="10"
+      android:hint="@string/account_password"
+      android:inputType="textPassword"
+      />
 
     <Button
       android:id="@+id/login_button"
-      android:layout_width="220dp"
-      android:layout_height="40dp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="30dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
       android:text="@string/login"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toBottomOf="@+id/loginPassword" />
-
+      android:textStyle="bold"
+      />
+</LinearLayout>
 </android.support.constraint.ConstraintLayout>
