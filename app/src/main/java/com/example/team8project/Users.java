@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -23,6 +25,9 @@ public class Users extends RealmObject {
   private String password;
   private String bio;
   private boolean loginStatus = false;
+
+  private ArrayList<Integer> eloTrackerList = new ArrayList<Integer>(Arrays.asList(
+      1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000));
   private int gamesPlayed = 0;
   private int gamesWon = 0;
 
@@ -107,6 +112,12 @@ public class Users extends RealmObject {
   // update stats on loss
   void lostGame(){
     gamesPlayed++;
+  }
+
+  // updates elo tracker list for analysis
+  void eloTracker(int newElo) {
+    eloTrackerList.remove(0);
+    eloTrackerList.add(newElo);
   }
 
   //new password must be different from old one, contain a number
