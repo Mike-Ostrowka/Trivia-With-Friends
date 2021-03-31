@@ -70,6 +70,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Set the event for the login button
     btn_log_in.setOnClickListener(v -> {
+      playSound(btn_log_in);
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, LoginActivity.class);
       startActivity(intent);
@@ -77,6 +78,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Set the event for register button
     btn_reg.setOnClickListener(v -> {
+      playSound(btn_reg);
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, NewAccountActivity.class);
       startActivity(intent);
