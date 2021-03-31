@@ -26,4 +26,5 @@ changing in-game settings such as your sound.<br/><br/><b>What are lifelines?</b
 that can swing the game in your favor! They have the ability to either hurt your opponent or to help
 you.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Jaden Yu<br/><br/>
 <b>Tools Used: </b>   Realm Database, MongoDB<br/><br/>]]></string>
+<string name="toggle_sound">Toggle Sound</string>
 </resources>
