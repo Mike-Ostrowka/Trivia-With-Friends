@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -19,12 +20,21 @@ public class WelcomeActivity extends AppCompatActivity {
 
   private Users current;
   private loginPreferences session;
-  private String username;
+  public static String username;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_welcome);
+
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if(!soundSwitch) {
+      //TODO : disable music
+    }
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
