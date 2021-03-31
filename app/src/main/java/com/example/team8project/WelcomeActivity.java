@@ -32,7 +32,7 @@ public class WelcomeActivity extends AppCompatActivity {
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
     TextView greeting = findViewById(R.id.textViewGreeting);
-    String greetingText = getString(R.string.greeting) + "  " + current.getUserName();
+    String greetingText = current.getUserName();
     greeting.setText(greetingText);
 
     Button mButtonLogout = findViewById(R.id.logout_button);
