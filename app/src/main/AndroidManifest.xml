@@ -10,9 +10,13 @@
     android:name=".AppStartup"
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
-    android:theme="@style/AppTheme">
-    <activity android:name=".FaqActivity" />
-    <activity android:name=".SettingsActivity" />
+    android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+    <activity
+      android:name=".FaqActivity"
+      android:parentActivityName="com.example.team8project.WelcomeActivity" />
+    <activity
+      android:name=".SettingsActivity"
+      android:parentActivityName="com.example.team8project.WelcomeActivity" />
     <activity android:name=".MainMenuActivity" />
     <activity android:name=".WelcomeActivity" />
     <activity android:name=".NewAccountActivity" />
