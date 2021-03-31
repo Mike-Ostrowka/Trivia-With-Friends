@@ -7,14 +7,14 @@ public class Game {
     public int questionCount = 0;
     public int playerOneScore, playerTwoScore = 0;
     QuestionList questionList = new QuestionList();
-    String getCurrentQuestion[];
+    String[] getCurrentQuestion;
     String getCorrect;
 
     //variables for timers
     private boolean running;
     public int startingTimerSecondsAnswer = 0;
     public int startingTimerSecondsRead = 0;
-    public int endtime = 10;
+    public int endTime = 10;
 
 
 
@@ -36,15 +36,16 @@ public class Game {
 
 
          */
-        questionList.separateQuestions();
-
+        questionList.AnswersJumbled();
+        // Changed the questionlist class, jumbled holds 3 correct and 1 wrong, fifth answer is optional
+        // but correct one is within one of the jumbled answers
         do{
-            currentQuestion = questionList.questions[questionCount];
-            firstAnswer = questionList.wrongAnswers[questionCount][0];
-            secondAnswer = questionList.wrongAnswers[questionCount][1];
-            thirdAnswer = questionList.wrongAnswers[questionCount][2];
-            fourthAnswer = questionList.wrongAnswers[questionCount][3];
-            getCorrect = questionList.correctAnswers[questionCount];
+            currentQuestion = questionList.getQuestion(questionCount);
+            firstAnswer = questionList.getJumbledAnswer(questionCount,0);
+            secondAnswer = questionList.getJumbledAnswer(questionCount,1);
+            thirdAnswer = questionList.getJumbledAnswer(questionCount,2);
+            fourthAnswer = questionList.getJumbledAnswer(questionCount,3);
+            getCorrect = questionList.getCorrectAnswer(questionCount);
         }while (startingTimerSecondsAnswer > 0);
 
         questionCount++;
