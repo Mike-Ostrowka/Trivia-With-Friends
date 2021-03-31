@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -22,57 +23,74 @@ public class GameActivity extends AppCompatActivity {
 
     public void playGame() {
 
+
         Button answerOneBtn = (Button) findViewById(R.id.AnswerOneButton);
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                currentGame.playerOneSelection = 1;
-                currentGame.getPlayerAnswer(currentGame.playerOneSelection);
-
-            }
-        });
-
         Button answerTwoBtn = (Button) findViewById(R.id.AnswerTwoButton);
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                currentGame.playerOneSelection = 2;
-                currentGame.getPlayerAnswer(currentGame.playerOneSelection);
-
-            }
-        });
-
         Button answerThreeBtn = (Button) findViewById(R.id.AnswerThreeButton);
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                currentGame.playerOneSelection = 3;
-                currentGame.getPlayerAnswer(currentGame.playerOneSelection);
-
-            }
-        });
-
         Button answerFourBtn = (Button) findViewById(R.id.AnswerFourButton);
+        Button answerFiveBtn = (Button) findViewById(R.id.AnswerFiveButton);
+
+        answerOneBtn.setText(currentGame.firstAnswer);
+        answerTwoBtn.setText(currentGame.secondAnswer);
+        answerThreeBtn.setText(currentGame.thirdAnswer);
+        answerFourBtn.setText(currentGame.fourthAnswer);
+        answerFiveBtn.setText(currentGame.fifthAnswer);
+
+        TextView questionTextView = findViewById(R.id.questionText);
+        questionTextView.setText(currentGame.loadQuestion());
+
+
         answerOneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                currentGame.playerOneSelection = 4;
-                currentGame.getPlayerAnswer(currentGame.playerOneSelection);
+                currentGame.playerOneSelection = answerOneBtn.getText().toString();
+                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
             }
         });
 
-        Button answerFiveBtn = (Button) findViewById(R.id.AnswerFiveButton);
+
         answerOneBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                currentGame.playerOneSelection = 5;
-                currentGame.getPlayerAnswer(currentGame.playerOneSelection);
+                currentGame.playerOneSelection = answerTwoBtn.getText().toString();
+                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+
+
+            }
+        });
+
+
+        answerOneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                currentGame.playerOneSelection = answerThreeBtn.getText().toString();
+                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+
+            }
+        });
+
+
+        answerOneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                currentGame.playerOneSelection = answerFourBtn.getText().toString();
+                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+
+            }
+        });
+
+
+        answerOneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                currentGame.playerOneSelection = answerFiveBtn.getText().toString();
+                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
             }
         });

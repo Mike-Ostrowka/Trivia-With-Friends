@@ -1,30 +1,38 @@
 package com.example.team8project;
 
+
 public class Game {
 
-    public int playerOneSelection, playerTwoSelection;
+    public String playerOneSelection, playerTwoSelection, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, fifthAnswer;
     public int startingTimerSecondsAnswer = 10;
     public int startingTimerSecondsRead = 10;
-    QuestionXMLParser getQBank = new QuestionXMLParser();
-    //Question getQuestion = new Question();
+    public int playerOneScore, playerTwoScore = 0;
+    QuestionList questionList = new QuestionList();
+    String getCurrentQuestion[];
+    String getCorrect[];
 
 
-    public QuestionXMLParser loadQuestion(){
+    public String loadQuestion() {
 
-        QuestionXMLParser currentQuestion = getQBank;
-        //TODO add logic for getting questions, questionbank must be completed first
 
-        return currentQuestion;
+        questionList.separateQuestions();
+        getCurrentQuestion[1] = questionList.correctAnswers[1];
+        return getCurrentQuestion[1];
     }
 
-    public void getPlayerAnswer(int selection){
+    public void checkPlayerAnswer(String selection) {
 
-        int playerSelection = selection;
-
-
-
+        getCorrect[1] = questionList.correctAnswers[1];
+        do {
+            for (int i = 0; i <= getCurrentQuestion.length; i++)
+                if (getCorrect[1] == selection) {
+                    playerOneScore += 5;
+                } else {
+                    //logic for incorrect question
+                }
+        } while (playerOneScore < 25);
     }
-
-
 
 }
+
+

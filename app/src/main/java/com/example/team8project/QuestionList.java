@@ -7,11 +7,11 @@ import java.util.*;
 
 public class QuestionList {
   public QuestionXMLParser allQuestions;
-  private Question[] list;
-  private String[] questions;
-  private String[][] wrongAnswers;
-  private String[] optionalAnswers;
-  private String[] correctAnswers;
+  public Question[] list;
+  public String[] questions;
+  public String[][] wrongAnswers;
+  public String[] optionalAnswers;
+  public String[] correctAnswers;
 
 
   public QuestionList() {
