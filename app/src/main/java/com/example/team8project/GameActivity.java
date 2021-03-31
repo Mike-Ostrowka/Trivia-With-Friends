@@ -12,23 +12,27 @@ import android.widget.TextView;
 public class GameActivity extends AppCompatActivity {
 
     Game currentGame = new Game();
+    Button answerOneBtn = (Button) findViewById(R.id.AnswerOneButton);
+    Button answerTwoBtn = (Button) findViewById(R.id.AnswerTwoButton);
+    Button answerThreeBtn = (Button) findViewById(R.id.AnswerThreeButton);
+    Button answerFourBtn = (Button) findViewById(R.id.AnswerFourButton);
+    Button answerFiveBtn = (Button) findViewById(R.id.AnswerFiveButton);
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        currentGame.startGame();
+
     }
 
 
     public void playGame() {
 
-
-        Button answerOneBtn = (Button) findViewById(R.id.AnswerOneButton);
-        Button answerTwoBtn = (Button) findViewById(R.id.AnswerTwoButton);
-        Button answerThreeBtn = (Button) findViewById(R.id.AnswerThreeButton);
-        Button answerFourBtn = (Button) findViewById(R.id.AnswerFourButton);
-        Button answerFiveBtn = (Button) findViewById(R.id.AnswerFiveButton);
 
         answerOneBtn.setText(currentGame.firstAnswer);
         answerTwoBtn.setText(currentGame.secondAnswer);
@@ -37,7 +41,7 @@ public class GameActivity extends AppCompatActivity {
         answerFiveBtn.setText(currentGame.fifthAnswer);
 
         TextView questionTextView = findViewById(R.id.questionText);
-        questionTextView.setText(currentGame.loadQuestion());
+        questionTextView.setText(currentGame.currentQuestion);
 
 
         answerOneBtn.setOnClickListener(new View.OnClickListener() {
