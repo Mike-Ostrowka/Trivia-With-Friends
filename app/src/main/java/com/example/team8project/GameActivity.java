@@ -12,11 +12,11 @@ import android.widget.TextView;
 public class GameActivity extends AppCompatActivity {
 
     Game currentGame = new Game();
-    Button answerOneBtn = (Button) findViewById(R.id.AnswerOneButton);
-    Button answerTwoBtn = (Button) findViewById(R.id.AnswerTwoButton);
-    Button answerThreeBtn = (Button) findViewById(R.id.AnswerThreeButton);
-    Button answerFourBtn = (Button) findViewById(R.id.AnswerFourButton);
-    Button answerFiveBtn = (Button) findViewById(R.id.AnswerFiveButton);
+    Button answerOneBtn = findViewById(R.id.AnswerOneButton);
+    Button answerTwoBtn = findViewById(R.id.AnswerTwoButton);
+    Button answerThreeBtn = findViewById(R.id.AnswerThreeButton);
+    Button answerFourBtn = findViewById(R.id.AnswerFourButton);
+    Button answerFiveBtn = findViewById(R.id.AnswerFiveButton);
 
 
 
@@ -44,59 +44,44 @@ public class GameActivity extends AppCompatActivity {
         questionTextView.setText(currentGame.currentQuestion);
 
 
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        answerOneBtn.setOnClickListener(v -> {
 
-                currentGame.playerOneSelection = answerOneBtn.getText().toString();
-                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            currentGame.playerOneSelection = answerOneBtn.getText().toString();
+            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
-            }
         });
 
 
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        answerOneBtn.setOnClickListener(v -> {
 
-                currentGame.playerOneSelection = answerTwoBtn.getText().toString();
-                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            currentGame.playerOneSelection = answerTwoBtn.getText().toString();
+            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
 
-            }
         });
 
 
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        answerOneBtn.setOnClickListener(v -> {
 
-                currentGame.playerOneSelection = answerThreeBtn.getText().toString();
-                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            currentGame.playerOneSelection = answerThreeBtn.getText().toString();
+            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
-            }
         });
 
 
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        answerOneBtn.setOnClickListener(v -> {
 
-                currentGame.playerOneSelection = answerFourBtn.getText().toString();
-                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            currentGame.playerOneSelection = answerFourBtn.getText().toString();
+            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
-            }
         });
 
 
-        answerOneBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        answerOneBtn.setOnClickListener(v -> {
 
-                currentGame.playerOneSelection = answerFiveBtn.getText().toString();
-                currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            currentGame.playerOneSelection = answerFiveBtn.getText().toString();
+            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
-            }
         });
 
     }

@@ -5,12 +5,17 @@ public class Game {
 
     public String playerOneSelection, playerTwoSelection, firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, fifthAnswer, currentQuestion;
     public int questionCount = 0;
-    public int startingTimerSecondsAnswer = 10;
-    public int startingTimerSecondsRead = 10;
     public int playerOneScore, playerTwoScore = 0;
     QuestionList questionList = new QuestionList();
     String getCurrentQuestion[];
     String getCorrect;
+
+    //variables for timers
+    private boolean running;
+    public int startingTimerSecondsAnswer = 0;
+    public int startingTimerSecondsRead = 0;
+    public int endtime = 10;
+
 
 
     public void loadQuestion() {
@@ -50,18 +55,21 @@ public class Game {
 
        // getCorrect[1] = questionList.correctAnswers[1];
         do {
-            for (int i = 0; i <= getCurrentQuestion.length; i++)
+            for (int i = 0; i <= getCurrentQuestion.length; i++) {
                 if (getCorrect == selection) {
                     playerOneScore += 5;
                 } else {
                     //logic for incorrect question
                 }
+            }
         } while (playerOneScore < 25);
     }
 
 
     public void startGame(){
         //control timer and call load
+
+
     }
 
 }
