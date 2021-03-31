@@ -23,6 +23,8 @@ public class Users extends RealmObject {
   private String password;
   private String bio;
   private boolean loginStatus = false;
+  private int gamesPlayed = 0;
+  private int gamesWon = 0;
 
   public Users(String name) {
     _id = name;
@@ -63,9 +65,30 @@ public class Users extends RealmObject {
     loginStatus = !loginStatus;
   }
 
-  //takes parameter of other players elo
-  void calculateElo(int otherElo) {
-    //TODO: Calculate expected value for both players, calculate elo change, pass to updateElo()
+  //takes parameter of other players elo and updates users elo on win
+  void calculateEloOnWin(int otherElo) {
+    int eloChange;
+    int difference = (otherElo - elo);
+    if (difference >= 128) {
+      eloChange = 4;
+    } else if (difference >= 64) {
+      eloChange = 2;
+    } else {
+      eloChange = 1;
+    }
+    updateElo(eloChange);
+  }
+
+  //takes parameter of other players elo and updates users elo on loss
+  void calculateEloOnLoss(int otherElo) {
+    int eloChange;
+    int difference = (otherElo - elo);
+    if (difference >= 128) {
+      eloChange = -1;
+    } else {
+      eloChange = -2;
+    }
+    updateElo(eloChange);
   }
 
   //parameter is a positive or negative change in elo
@@ -73,6 +96,17 @@ public class Users extends RealmObject {
     //factor for calculating elo
     int ELO_K_FACTOR = 32;
     elo += ELO_K_FACTOR * eloChange;
+  }
+
+  // update stats on win
+  void wonGame() {
+    gamesPlayed++;
+    gamesWon++;
+  }
+
+  // update stats on loss
+  void lostGame(){
+    gamesPlayed++;
   }
 
   //new password must be different from old one, contain a number
