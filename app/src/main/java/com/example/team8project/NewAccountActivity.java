@@ -27,7 +27,9 @@ public class NewAccountActivity extends AppCompatActivity {
       String password = passwordEdit.getText().toString();
 
       //open a realm
-      realm = Realm.getDefaultInstance();
+      if(realm == null) {
+        realm = Realm.getDefaultInstance();
+      }
       Users nameExists = realm.where(Users.class).equalTo("_id", name).findFirst();
 
       if (nameExists != null) {

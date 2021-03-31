@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -26,6 +27,15 @@ public class WelcomeActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_welcome);
 
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (!soundSwitch) {
+      //TODO : disable music
+    }
+
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
     username = session.getusername();
@@ -41,7 +51,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
       session.setusername("");
 
-      Toast.makeText(getApplicationContext(), R.string.logout_message + " " + current.getUserName(),
+      Toast.makeText(getApplicationContext(), R.string.logout_message,
           Toast.LENGTH_LONG).show();
       realm.close();
       Intent intent = new Intent();

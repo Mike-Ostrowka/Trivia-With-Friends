@@ -15,7 +15,7 @@
     app:layout_constraintTop_toTopOf="parent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
   <Button
-    android:id="@+id/btn_new_account"
+    android:id="@+id/btn_change_password"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="500dp"
@@ -23,7 +23,7 @@
     android:layout_marginEnd="162dp"
     android:layout_marginLeft="164dp"
     android:layout_marginRight="162dp"
-    android:text="@string/new_password"
+    android:text="@string/change_password"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/my_toolbar" />

@@ -29,5 +29,10 @@ you.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Ja
 <b>Tools Used: </b>   Realm Database, MongoDB<br/><br/>]]></string>
   <string name="toggle_sound">Toggle Sound</string>
   <string name="test_setting">Test</string>
-  <string name="new_password">Change Password</string>
+  <string name="change_password">Change Password</string>
+  <string name="old_password">Old Password</string>
+  <string name="new_password">New Password</string>
+  <string name="password_success">Password changed successfully</string>
+  <string name="different_password">You entered two different passwords, please try again</string>
+  <string name="credentials_incorrect">Credentials are incorrect, please try again</string>
 </resources>
