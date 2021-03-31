@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Button;
 
-public class SettingsActivity  extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity {
+
   public static final String KEY_PREF_SOUND_SWITCH = "sound_enabled";
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -21,11 +24,12 @@ public class SettingsActivity  extends AppCompatActivity {
     getSupportFragmentManager().beginTransaction()
         .replace(android.R.id.content, new SettingsFragment())
         .commit();
-    Button mButton = findViewById(R.id.btn_change_password);
-    mButton.setOnClickListener(v -> {
-      Intent intent = new Intent();
-      intent.setClass(SettingsActivity.this, ChangePasswordActivity.class);
-      startActivity(intent);
-    });
+  }
+
+
+  public void changePass(View view) {
+    Intent intent = new Intent();
+    intent.setClass(SettingsActivity.this, ChangePasswordActivity.class);
+    startActivity(intent);
   }
 }
