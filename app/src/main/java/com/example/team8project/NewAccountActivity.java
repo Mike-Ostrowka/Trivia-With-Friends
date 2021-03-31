@@ -35,6 +35,14 @@ public class NewAccountActivity extends AppCompatActivity {
             Toast.LENGTH_SHORT).show();
         return;
       }
+
+      BadWordFilter vulgarityCheck = new BadWordFilter();
+      if (vulgarityCheck.isBannedWordUsed(name)) {
+        Toast.makeText(getApplicationContext(), getString(R.string.user_name_banned),
+            Toast.LENGTH_SHORT).show();
+        return;
+      }
+
       temp = new Users(name);
       if (!temp.updatePassword(password)) {
         Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
