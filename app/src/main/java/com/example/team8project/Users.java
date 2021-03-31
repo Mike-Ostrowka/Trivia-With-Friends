@@ -1,5 +1,6 @@
 package com.example.team8project;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
@@ -10,8 +11,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -26,8 +25,7 @@ public class Users extends RealmObject {
   private String bio;
   private boolean loginStatus = false;
 
-  private ArrayList<Integer> eloTrackerList = new ArrayList<Integer>(Arrays.asList(
-      1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000));
+  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
   private int gamesPlayed = 0;
   private int gamesWon = 0;
 
@@ -101,6 +99,7 @@ public class Users extends RealmObject {
     //factor for calculating elo
     int ELO_K_FACTOR = 32;
     elo += ELO_K_FACTOR * eloChange;
+    updateEloTracker(elo);
   }
 
   // update stats on win
@@ -115,7 +114,7 @@ public class Users extends RealmObject {
   }
 
   // updates elo tracker list for analysis
-  void eloTracker(int newElo) {
+  void updateEloTracker(int newElo) {
     eloTrackerList.remove(0);
     eloTrackerList.add(newElo);
   }
