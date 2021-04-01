@@ -13,14 +13,15 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 
-@RequiresApi(api = VERSION_CODES.LOLLIPOP)
 public class MainMenuActivity extends AppCompatActivity {
 
   private loginPreferences session;
   private SoundPool soundPool;
   private int C_sound;
+  private int clickSound;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -28,36 +29,9 @@ public class MainMenuActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main_menu);
     addAdmin();
     checkLogin();
-
-    if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-        AudioAttributes audioAttributes = new AudioAttributes.Builder()
-            .setUsage(AudioAttributes.USAGE_ASSISTANCE_SONIFICATION)
-            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
-            .build();
-
-        soundPool = new SoundPool.Builder()
-            .setMaxStreams(1)
-            .setAudioAttributes(audioAttributes)
-            .build();
-    } else {
-        soundPool = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
-    }
-    C_sound = soundPool.load(this, R.raw.click, 1);
+    clickSound = R.raw.click;
 
   }
-
-  @SuppressLint("NonConstantResourceId")
-  public void playSound(View v) {
-    switch (v.getId()) {
-      case R.id.btn_login:
-        soundPool.play(C_sound, 1, 1, 0, 0, 1);
-        break;
-      case R.id.btn_register:
-        soundPool.play(C_sound, 1, 1, 0, 0, 1);
-        break;
-    }
-  }
-
 
   @Override
   protected void onResume() {
@@ -70,7 +44,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Set the event for the login button
     btn_log_in.setOnClickListener(v -> {
-      playSound(btn_log_in);
+      HXSound.sound().load(clickSound).play(this);
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, LoginActivity.class);
       startActivity(intent);
@@ -78,7 +52,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Set the event for register button
     btn_reg.setOnClickListener(v -> {
-      playSound(btn_reg);
+      HXSound.sound().load(clickSound).play(this);
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, NewAccountActivity.class);
       startActivity(intent);

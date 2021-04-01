@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.huhx0015.hxaudio.audio.HXMusic;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -21,6 +22,7 @@ public class WelcomeActivity extends AppCompatActivity {
   private Users current;
   private loginPreferences session;
   private String username;
+  private int song;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,8 @@ public class WelcomeActivity extends AppCompatActivity {
     SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
     boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
     //if switch value is false, disable music
-    if (!soundSwitch) {
-      //TODO : disable music
+    if (soundSwitch) {
+     playMusic();
     }
 
     //open a realm and find logged in user
@@ -74,10 +76,37 @@ public class WelcomeActivity extends AppCompatActivity {
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
   }
 
+  private void playMusic() {
+    song = R.raw.menu;
+    HXMusic.music().load(song).gapless(true).looped(true).play(this);
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (soundSwitch) {
+      playMusic();
+    }
+  }
 
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXMusic.stop();
+    HXMusic.clear();
   }
 }
 
