@@ -2,10 +2,7 @@ package com.example.team8project;
 
 import android.os.Bundle;
 import android.support.v7.preference.PreferenceFragmentCompat;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -13,5 +10,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   public void onCreatePreferences(Bundle savedInstanceState,
       String rootKey) {
     setPreferencesFromResource(R.xml.preferences, rootKey);
+  }
+
+  @Override
+  public void onCreate(Bundle saveInstanceState) {
+    super.onCreate(saveInstanceState);
   }
 }

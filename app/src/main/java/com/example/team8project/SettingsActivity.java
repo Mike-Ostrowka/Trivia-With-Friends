@@ -16,20 +16,20 @@ public class SettingsActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_settings);
-    //load toolbar
-    Toolbar myToolbar = findViewById(R.id.my_toolbar);
-    setSupportActionBar(myToolbar);
-    ActionBar ab = getSupportActionBar();
-    ab.setDisplayHomeAsUpEnabled(true);
     getSupportFragmentManager().beginTransaction()
         .replace(android.R.id.content, new SettingsFragment())
         .commit();
   }
 
-
   public void changePass(View view) {
     Intent intent = new Intent();
     intent.setClass(SettingsActivity.this, ChangePasswordActivity.class);
+    startActivity(intent);
+  }
+
+  public void saveSettings(View view) {
+    Intent intent = new Intent();
+    intent.setClass(SettingsActivity.this, WelcomeActivity.class);
     startActivity(intent);
   }
 }

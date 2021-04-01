@@ -35,4 +35,5 @@ you.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Ja
   <string name="password_success">Password changed successfully</string>
   <string name="different_password">You entered two different passwords, please try again</string>
   <string name="credentials_incorrect">Credentials are incorrect, please try again</string>
+  <string name="save_settings">Save Settings</string>
 </resources>
