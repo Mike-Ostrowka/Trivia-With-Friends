@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXMusic;
-import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -24,14 +23,11 @@ public class WelcomeActivity extends AppCompatActivity {
   private loginPreferences session;
   private String username;
   private int song;
-  private int clickSound;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_welcome);
-
-    clickSound = R.raw.click;
 
     //load preferences
     PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
@@ -55,8 +51,6 @@ public class WelcomeActivity extends AppCompatActivity {
     Button mButtonLogout = findViewById(R.id.logout_button);
     mButtonLogout.setOnClickListener(v -> {
 
-      HXSound.sound().load(clickSound).play(this);
-
       session.setusername("");
 
       Toast.makeText(getApplicationContext(), R.string.logout_message,
@@ -68,7 +62,6 @@ public class WelcomeActivity extends AppCompatActivity {
     });
     Button mButtonFAQ = findViewById(R.id.btn_settings);
     mButtonFAQ.setOnClickListener(v -> {
-      HXSound.sound().load(clickSound).play(this);
       Intent intent = new Intent();
       intent.setClass(WelcomeActivity.this, SettingsActivity.class);
       startActivity(intent);
@@ -76,7 +69,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
     Button mButtonSettings = findViewById(R.id.btn_faq);
     mButtonSettings.setOnClickListener(v -> {
-      HXSound.sound().load(clickSound).play(this);
       Intent intent = new Intent();
       intent.setClass(WelcomeActivity.this, FaqActivity.class);
       startActivity(intent);

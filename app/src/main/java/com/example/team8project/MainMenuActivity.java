@@ -11,6 +11,8 @@ import io.realm.Realm;
 public class MainMenuActivity extends AppCompatActivity {
 
   private loginPreferences session;
+  private SoundPool soundPool;
+  private int C_sound;
   private int clickSound;
 
   @Override
