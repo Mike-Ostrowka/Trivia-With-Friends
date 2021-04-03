@@ -13,4 +13,10 @@
     android:summary=""
     android:widgetLayout="@layout/pref_password_button"
     />
+  <Preference
+    android:title=""
+    android:key="btn_save_settings"
+    android:summary=""
+    android:widgetLayout="@layout/pref_save_button"
+    />
 </PreferenceScreen>

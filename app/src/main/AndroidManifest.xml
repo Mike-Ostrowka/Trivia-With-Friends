@@ -19,9 +19,15 @@
       android:parentActivityName=".WelcomeActivity" />
     <activity
       android:name=".SettingsActivity"
-      android:parentActivityName=".WelcomeActivity" />
+      android:parentActivityName=".WelcomeActivity"
+      android:label="@string/settings">
+    <meta-data
+      android:name="android.support.PARENT_ACTIVITY"
+      android:value="com.example.team8project.WelcomeActivity" />
+    </activity>
     <activity android:name=".MainMenuActivity" />
-    <activity android:name=".WelcomeActivity" />
+    <activity android:name=".WelcomeActivity"
+      android:launchMode="singleTop"/>
     <activity android:name=".NewAccountActivity" />
     <activity android:name=".LoginActivity" />
     <activity android:name=".StartupActivity">
