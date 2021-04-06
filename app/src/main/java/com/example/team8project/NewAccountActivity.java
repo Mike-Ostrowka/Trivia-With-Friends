@@ -9,18 +9,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import io.realm.Realm;
+import com.huhx0015.hxaudio.audio.HXSound;
 
 public class NewAccountActivity extends AppCompatActivity {
 
   private Realm realm; //declare realm variable
   private Users temp; //temp user to register new account
+  private int click_sound;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
+    click_sound = R.raw.click;
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_new_account);
     Button mButton = findViewById(R.id.registerButton);
     mButton.setOnClickListener(v -> {
+      HXSound.sound().load(click_sound).play(this);
       EditText nameEdit = findViewById(R.id.registerName);
       EditText passwordEdit = findViewById(R.id.registerPassword);
       String name = nameEdit.getText().toString();

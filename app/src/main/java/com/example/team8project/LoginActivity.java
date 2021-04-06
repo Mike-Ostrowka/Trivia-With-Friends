@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
+import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 
 public class LoginActivity extends AppCompatActivity {
@@ -16,14 +16,19 @@ public class LoginActivity extends AppCompatActivity {
   private Realm realm; //declare realm variable
   private Users currentUser;
   private loginPreferences session;
+  private int click_sound;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
+    click_sound = R.raw.click;
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     checkLogin();
     Button mButton = findViewById(R.id.login_button);
     mButton.setOnClickListener(v -> {
+      HXSound.sound().load(click_sound).play(this);
       EditText nameEdit = findViewById(R.id.loginUsername);
       EditText passwordEdit = findViewById(R.id.loginPassword);
       final String name = nameEdit.getText().toString();

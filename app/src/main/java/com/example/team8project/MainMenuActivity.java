@@ -11,9 +11,7 @@ import io.realm.Realm;
 public class MainMenuActivity extends AppCompatActivity {
 
   private loginPreferences session;
-  private SoundPool soundPool;
-  private int C_sound;
-  private int clickSound;
+  private int click_sound;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +19,7 @@ public class MainMenuActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main_menu);
     addAdmin();
     checkLogin();
-    clickSound = R.raw.click;
+    click_sound = R.raw.click;
 
   }
 
@@ -36,7 +34,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Set the event for the login button
     btn_log_in.setOnClickListener(v -> {
-      HXSound.sound().load(clickSound).play(this);
+      HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, LoginActivity.class);
       startActivity(intent);
@@ -44,7 +42,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Set the event for register button
     btn_reg.setOnClickListener(v -> {
-      HXSound.sound().load(clickSound).play(this);
+      HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, NewAccountActivity.class);
       startActivity(intent);
