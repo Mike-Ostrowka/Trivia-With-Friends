@@ -46,8 +46,17 @@ public class SettingsActivity extends AppCompatActivity {
   }
 
   public void saveSettings(View view) {
+    HXMusic.stop();
+    HXMusic.clear();
     Intent intent = new Intent();
     intent.setClass(SettingsActivity.this, WelcomeActivity.class);
     startActivity(intent);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    HXMusic.stop();
+    HXMusic.clear();
   }
 }

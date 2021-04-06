@@ -20,7 +20,7 @@ public class FaqActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_faq);
     //load toolbar
-    Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+    Toolbar myToolbar = findViewById(R.id.my_toolbar);
     setSupportActionBar(myToolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -41,6 +41,13 @@ public class FaqActivity extends AppCompatActivity {
       song = R.raw.smooth_jazz;
       HXMusic.music().load(song).gapless(true).looped(true).play(this);
     }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
 
 }
 
