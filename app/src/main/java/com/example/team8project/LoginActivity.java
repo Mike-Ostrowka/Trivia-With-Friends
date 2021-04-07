@@ -70,6 +70,12 @@ public class LoginActivity extends AppCompatActivity {
         }
       }
     });
+    Button forgot = findViewById(R.id.btn_forgot);
+    forgot.setOnClickListener(view -> {
+      Intent intent = new Intent();
+      intent.setClass(LoginActivity.this, ResetActivity.class);
+      startActivity(intent);
+    });
   }
   @Override
   protected void onResume() {

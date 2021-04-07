@@ -24,8 +24,9 @@ public class Users extends RealmObject {
   private String password;
   private String bio;
   private boolean loginStatus = false;
+  private String securityAnswer;
 
-  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
+//  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
   private int gamesPlayed = 0;
   private int gamesWon = 0;
 
@@ -99,7 +100,7 @@ public class Users extends RealmObject {
     //factor for calculating elo
     int ELO_K_FACTOR = 32;
     elo += ELO_K_FACTOR * eloChange;
-    updateEloTracker(elo);
+//    updateEloTracker(elo);
   }
 
   // update stats on win
@@ -113,11 +114,37 @@ public class Users extends RealmObject {
     gamesPlayed++;
   }
 
-  // updates elo tracker list for analysis
-  void updateEloTracker(int newElo) {
-    eloTrackerList.remove(0);
-    eloTrackerList.add(newElo);
+//  // updates elo tracker list for analysis
+//  void updateEloTracker(int newElo) {
+//    eloTrackerList.remove(0);
+//    eloTrackerList.add(newElo);
+//  }
+
+  void setSecurityAnswer(String answer) {
+    try {
+      securityAnswer = generateEncryption(answer);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (InvalidKeySpecException e) {
+      e.printStackTrace();
+    }
   }
+
+  boolean checkSecurityAnswer(String answer) {
+    try {
+      return validatePassword(answer, this.securityAnswer);
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (InvalidKeySpecException e) {
+      e.printStackTrace();
+    }
+    return false;
+  }
+
+  boolean securityExists() {
+    return securityAnswer != null;
+  }
+
 
   //new password must be different from old one, contain a number
   //and a capital letter, and be at least 7 characters

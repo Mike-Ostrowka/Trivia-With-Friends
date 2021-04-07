@@ -15,6 +15,12 @@
     />
   <Preference
     android:title=""
+    android:key="btn_security"
+    android:summary=""
+    android:widgetLayout="@layout/pref_security_button"
+    />
+  <Preference
+    android:title=""
     android:key="btn_save_settings"
     android:summary=""
     android:widgetLayout="@layout/pref_save_button"

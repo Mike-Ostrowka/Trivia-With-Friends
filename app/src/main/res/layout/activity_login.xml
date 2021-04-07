@@ -55,5 +55,13 @@ tools:context=".LoginActivity">
       android:text="@string/login"
       android:textStyle="bold"
       />
+    <Button
+      android:id="@+id/btn_forgot"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="90dp"
+      android:layout_marginLeft="90dp"
+      android:layout_marginRight="90dp"
+      android:text="@string/forgot_password" />
 </LinearLayout>
 </android.support.constraint.ConstraintLayout>

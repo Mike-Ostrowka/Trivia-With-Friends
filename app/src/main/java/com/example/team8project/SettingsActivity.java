@@ -53,6 +53,12 @@ public class SettingsActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
+  public void securityQuestions(View view) {
+    Intent intent = new Intent();
+    intent.setClass(SettingsActivity.this, SecurityActivity.class);
+    startActivity(intent);
+  }
+
   @Override
   protected void onPause() {
     super.onPause();
