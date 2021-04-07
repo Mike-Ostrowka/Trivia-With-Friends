@@ -43,6 +43,7 @@ public class SecurityActivity extends AppCompatActivity {
       });
 
       Toast.makeText(getApplicationContext(), getString(R.string.security_success), Toast.LENGTH_LONG).show();
+      realm.close();
       Intent intent = new Intent();
       intent.setClass(SecurityActivity.this, WelcomeActivity.class);
       startActivity(intent);

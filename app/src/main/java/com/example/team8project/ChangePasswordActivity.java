@@ -30,7 +30,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
     String username = session.getusername();
     Realm realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
-    realm.close();
 
     Button mButton = findViewById(R.id.btn_confirm_password);
     mButton.setOnClickListener(view -> {
@@ -48,6 +47,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             if (temp.updatePassword(newPassword)) {
               Toast.makeText(getApplicationContext(), getString(R.string.password_success),
                   Toast.LENGTH_LONG).show();
+              realm.close();
               Intent intent = new Intent();
               intent.setClass(ChangePasswordActivity.this, SettingsActivity.class);
               startActivity(intent);

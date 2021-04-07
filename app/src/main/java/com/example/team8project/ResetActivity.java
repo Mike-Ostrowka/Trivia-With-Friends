@@ -70,6 +70,7 @@ public class ResetActivity extends AppCompatActivity {
         if (temp.updatePassword(password)) {
           Toast.makeText(getApplicationContext(), getString(R.string.password_success),
               Toast.LENGTH_LONG).show();
+          realm.close();
           Intent intent = new Intent();
           intent.setClass(ResetActivity.this, LoginActivity.class);
           startActivity(intent);
