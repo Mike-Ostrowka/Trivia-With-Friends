@@ -25,7 +25,9 @@
 <b> How do I change my password? </b>     You can change your password in the setting page, along with
 changing in-game settings such as your sound.<br/><br/><b>What are lifelines?</b>    Lifelines are power-ups
 that can swing the game in your favor! They have the ability to either hurt your opponent or to help
-you.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Jaden Yu<br/><br/>
+you.<br/><br/><b>How is the game scored?</b>    Players are given no points for a wrong answer, and
+ (10 - time taken) points for a correct answer. For example, a 4 second answer would be worth 10 - 4
+ = 6 points<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Jaden Yu<br/><br/>
 <b>Tools Used: </b>   Realm Database, MongoDB<br/><br/>]]></string>
   <string name="toggle_sound">Toggle Sound</string>
   <string name="test_setting">Test</string>

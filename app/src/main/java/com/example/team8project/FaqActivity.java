@@ -43,8 +43,8 @@ public class FaqActivity extends AppCompatActivity {
     }
 
   @Override
-  protected void onDestroy() {
-    super.onDestroy();
+  protected void onPause() {
+    super.onPause();
     HXMusic.stop();
     HXMusic.clear();
   }
