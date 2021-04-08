@@ -36,7 +36,6 @@ public class WelcomeActivity extends AppCompatActivity {
   private NavigationView navigationView;
   private DrawerLayout drawerLayout;
 
-  @SuppressLint("RestrictedApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     requestWindowFeature(Window.FEATURE_ACTION_BAR);

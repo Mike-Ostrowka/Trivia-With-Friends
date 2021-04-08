@@ -54,5 +54,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="profile">Profile</string>
   <string name="camera">Camera</string>
   <string name="profile_picture">Profile Picture</string>
+  <string name="friends">Friends</string>
+  <string name="friends_fragment">Friends List</string>
+  <string name="inbox_fragment">Inbox</string>
 
 </resources>

@@ -28,6 +28,7 @@ public class Users extends RealmObject {
 //  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
   private int gamesPlayed = 0;
   private int gamesWon = 0;
+  private RealmList<String> friends = new RealmList<>();
 
   public Users(String name) {
     _id = name;
@@ -58,6 +59,14 @@ public class Users extends RealmObject {
 
   String getBio() {
     return bio;
+  }
+
+  void addFriend(String name) {
+    friends.add(name);
+  }
+
+  boolean removeFriend(String name) {
+    return friends.remove(name);
   }
 
   //takes parameter of other players elo and updates users elo on win

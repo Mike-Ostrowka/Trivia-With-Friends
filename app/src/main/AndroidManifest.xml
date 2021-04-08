@@ -11,19 +11,22 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-    <activity android:name=".ResetActivity"
-      android:parentActivityName=".LoginActivity"
-      />
-    <activity android:name=".SecurityActivity"
-      android:parentActivityName=".WelcomeActivity"/>
+    <activity android:name=".FriendsActivity"/>
+    <activity
+      android:name=".ResetActivity"
+      android:parentActivityName=".LoginActivity" />
+    <activity
+      android:name=".SecurityActivity"
+      android:parentActivityName=".WelcomeActivity" />
     <activity
       android:name=".ChangePasswordActivity"
       android:parentActivityName=".WelcomeActivity" />
     <activity
       android:name=".FaqActivity"
       android:parentActivityName=".WelcomeActivity" />
-    <activity android:name=".ProfileActivity"
-      android:parentActivityName=".WelcomeActivity"/>
+    <activity
+      android:name=".ProfileActivity"
+      android:parentActivityName=".WelcomeActivity" />
     <activity
       android:label="@string/settings"
       android:name=".SettingsActivity"

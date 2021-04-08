@@ -44,7 +44,14 @@ public class ProfileActivity extends AppCompatActivity {
     click_sound = R.raw.click;
 
     Button cameraButton = findViewById(R.id.camera_button);
+    Button friends = findViewById(R.id.btn_friends);
     profilePicture = findViewById(R.id.profile_picture);
+
+    friends.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+      startActivity(intent);
+    });
 
     cameraButton.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
@@ -99,6 +106,15 @@ public class ProfileActivity extends AppCompatActivity {
   @Override
   protected void onDestroy() {
     super.onDestroy();
+    HXSound.clear();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXSound.clear();
     HXMusic.stop();
     HXMusic.clear();
   }
