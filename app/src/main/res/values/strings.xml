@@ -51,5 +51,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="user_failed">Username does not exist</string>
   <string name="security_failed">Incorrect Security Answer</string>
   <string name="security_missing">This account does not have a security answer, remember to secure you account next time!</string>
+  <string name="profile">Profile</string>
+  <string name="camera">Camera</string>
+  <string name="profile_picture">Profile Picture</string>
 
 </resources>

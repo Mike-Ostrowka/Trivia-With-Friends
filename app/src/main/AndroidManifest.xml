@@ -22,6 +22,8 @@
     <activity
       android:name=".FaqActivity"
       android:parentActivityName=".WelcomeActivity" />
+    <activity android:name=".ProfileActivity"
+      android:parentActivityName=".WelcomeActivity"/>
     <activity
       android:label="@string/settings"
       android:name=".SettingsActivity"

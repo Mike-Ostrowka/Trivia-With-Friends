@@ -94,6 +94,14 @@ public class WelcomeActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
+    Button mButtonProfile = findViewById(R.id.profile_button);
+    mButtonProfile.setOnClickListener(v -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent();
+      intent.setClass(WelcomeActivity.this, ProfileActivity.class);
+      startActivity(intent);
+    });
+
     Button newGameBtn = findViewById(R.id.newgame_button);
     newGameBtn.setOnClickListener(v -> {
       HXSound.sound().load(click_sound).play(this);
