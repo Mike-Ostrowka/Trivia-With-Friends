@@ -93,6 +93,14 @@ public class WelcomeActivity extends AppCompatActivity {
       intent.setClass(WelcomeActivity.this, FaqActivity.class);
       startActivity(intent);
     });
+
+    Button newGameBtn = findViewById(R.id.newgame_button);
+    newGameBtn.setOnClickListener(v -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent();
+      intent.setClass(WelcomeActivity.this, GameActivity.class);
+      startActivity(intent);
+    });
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
     navigationView = (NavigationView)findViewById(R.id.nav_veiw);

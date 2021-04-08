@@ -12,19 +12,20 @@ import android.widget.TextView;
 public class GameActivity extends AppCompatActivity {
 
     Game currentGame = new Game();
-    Button answerOneBtn = findViewById(R.id.AnswerOneButton);
-    Button answerTwoBtn = findViewById(R.id.AnswerTwoButton);
-    Button answerThreeBtn = findViewById(R.id.AnswerThreeButton);
-    Button answerFourBtn = findViewById(R.id.AnswerFourButton);
-    Button answerFiveBtn = findViewById(R.id.AnswerFiveButton);
 
-
+    Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn, answerFiveBtn;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        answerOneBtn = findViewById(R.id.AnswerOneButton);
+        answerTwoBtn = findViewById(R.id.AnswerTwoButton);
+        answerThreeBtn = findViewById(R.id.AnswerThreeButton);
+        answerFourBtn = findViewById(R.id.AnswerFourButton);
+        answerFiveBtn = findViewById(R.id.AnswerFiveButton);
 
         currentGame.startGame();
 

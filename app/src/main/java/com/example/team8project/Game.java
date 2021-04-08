@@ -1,6 +1,7 @@
 package com.example.team8project;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.team8project.Timer;
 
@@ -18,11 +19,11 @@ public class Game extends AppCompatActivity {
     public int startingTimerSecondsAnswer = 0;
     public int startingTimerSecondsRead = 0;
     public int endTime = 10;
-    Button answerOneBtn = findViewById(R.id.AnswerOneButton);
-    Button answerTwoBtn = findViewById(R.id.AnswerTwoButton);
-    Button answerThreeBtn = findViewById(R.id.AnswerThreeButton);
-    Button answerFourBtn = findViewById(R.id.AnswerFourButton);
-    Button answerFiveBtn = findViewById(R.id.AnswerFiveButton);
+//    Button answerOneBtn = findViewById(R.id.AnswerOneButton);
+//    Button answerTwoBtn = findViewById(R.id.AnswerTwoButton);
+//    Button answerThreeBtn = findViewById(R.id.AnswerThreeButton);
+//    Button answerFourBtn = findViewById(R.id.AnswerFourButton);
+//    Button answerFiveBtn = findViewById(R.id.AnswerFiveButton);
 
 
     public void loadQuestion(int questionCount) {
@@ -64,7 +65,7 @@ public class Game extends AppCompatActivity {
                 if (getCorrect == selection) {
                     playerOneScore += 5;
                 } else {
-                    //logic for incorrect question
+                    Toast.makeText(this, "You chose the wrong answer sorry!", Toast.LENGTH_SHORT).show();
                 }
             }
         } while (playerOneScore < 25);
@@ -76,11 +77,11 @@ public class Game extends AppCompatActivity {
         for(int i = 0; i <= 10; i++) {
             loadQuestion(i);
             Thread threadRead = new Thread(new Timer());
-            answerOneBtn.setClickable(true);
-            answerTwoBtn.setClickable(true);
-            answerThreeBtn.setClickable(true);
-            answerFourBtn.setClickable(true);
-            answerFiveBtn.setClickable(true);
+//            answerOneBtn.setClickable(true);
+//            answerTwoBtn.setClickable(true);
+//            answerThreeBtn.setClickable(true);
+//            answerFourBtn.setClickable(true);
+//            answerFiveBtn.setClickable(true);
             Thread threadAnswer = new Thread(new Timer());
         }
     }
