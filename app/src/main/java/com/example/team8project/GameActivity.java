@@ -48,6 +48,12 @@ public class GameActivity extends AppCompatActivity {
 
             currentGame.playerOneSelection = answerOneBtn.getText().toString();
             currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
+            answerFiveBtn.setClickable(false);
+
 
         });
 
@@ -56,6 +62,12 @@ public class GameActivity extends AppCompatActivity {
 
             currentGame.playerOneSelection = answerTwoBtn.getText().toString();
             currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
+            answerFiveBtn.setClickable(false);
+
 
 
         });
@@ -65,6 +77,11 @@ public class GameActivity extends AppCompatActivity {
 
             currentGame.playerOneSelection = answerThreeBtn.getText().toString();
             currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
+            answerFiveBtn.setClickable(false);
 
         });
 
@@ -73,6 +90,12 @@ public class GameActivity extends AppCompatActivity {
 
             currentGame.playerOneSelection = answerFourBtn.getText().toString();
             currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
+            answerFiveBtn.setClickable(false);
+
 
         });
 
@@ -81,6 +104,11 @@ public class GameActivity extends AppCompatActivity {
 
             currentGame.playerOneSelection = answerFiveBtn.getText().toString();
             currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
+            answerFiveBtn.setClickable(false);
 
         });
 
