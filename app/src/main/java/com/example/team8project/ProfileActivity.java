@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +33,12 @@ public class ProfileActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_profile);
+
+    //load toolbar
+    Toolbar myToolbar = findViewById(R.id.toolbar_profile);
+    setSupportActionBar(myToolbar);
+    ActionBar ab = getSupportActionBar();
+    ab.setDisplayHomeAsUpEnabled(true);
 
 //    //load preferences
 //    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
@@ -107,15 +115,11 @@ public class ProfileActivity extends AppCompatActivity {
   protected void onDestroy() {
     super.onDestroy();
     HXSound.clear();
-    HXMusic.stop();
-    HXMusic.clear();
   }
 
   @Override
   protected void onPause() {
     super.onPause();
     HXSound.clear();
-    HXMusic.stop();
-    HXMusic.clear();
   }
 }

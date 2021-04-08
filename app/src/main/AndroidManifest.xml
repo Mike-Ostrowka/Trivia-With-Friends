@@ -11,7 +11,8 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-    <activity android:name=".FriendsActivity"/>
+    <activity android:name=".FriendsActivity"
+      android:parentActivityName=".ProfileActivity" />
     <activity
       android:name=".ResetActivity"
       android:parentActivityName=".LoginActivity" />
