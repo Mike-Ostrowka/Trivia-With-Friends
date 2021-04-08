@@ -26,65 +26,65 @@ public class BadWordFilter {
    * then ask user to pick another username.
    */
 
-//  public static String getCensoredText(final String input) {
-//    loadBannedWords();
-//    if (input == null) {
-//      return "";
-//    }
-//
-//    String modifiedInput = input;
-//
-//    // remove leetspeak
-//    modifiedInput = modifiedInput.replaceAll("1", "i").replaceAll("!", "i").replaceAll("3", "e")
-//        .replaceAll("4", "a").replaceAll("@", "a").replaceAll("5", "s").replaceAll("7", "t").
-//            replaceAll("0", "o").replaceAll("9", "g");
-//
-//    // ignore any character that is not a letter
-//    modifiedInput = modifiedInput.toLowerCase().replaceAll("[^a-zA-Z]", "");
-//
-//    ArrayList<String> badWordsFound = new ArrayList<>();
-//
-//    // iterate over each letter in the word
-//    for (int start = 0; start < modifiedInput.length(); start++) {
-//      // from each letter, keep going to find bad words until either the end of
-//      // the sentence is reached, or the max word length is reached.
-//      for (int offset = 1;
-//          offset < (modifiedInput.length() + 1 - start) && offset < largestWordLength; offset++) {
-//
-//        String wordToCheck = modifiedInput.substring(start, start + offset);
-//
-//        if (allBadWords.containsKey(wordToCheck)) {
-//
+  public static String getCensoredText(final String input) {
+    loadBannedWords();
+    if (input == null) {
+      return "";
+    }
+
+    String modifiedInput = input;
+
+    // remove leetspeak
+    modifiedInput = modifiedInput.replaceAll("1", "i").replaceAll("!", "i").replaceAll("3", "e")
+        .replaceAll("4", "a").replaceAll("@", "a").replaceAll("5", "s").replaceAll("7", "t").
+            replaceAll("0", "o").replaceAll("9", "g");
+
+    // ignore any character that is not a letter
+    modifiedInput = modifiedInput.toLowerCase().replaceAll("[^a-zA-Z]", "");
+
+    ArrayList<String> badWordsFound = new ArrayList<>();
+
+    // iterate over each letter in the word
+    for (int start = 0; start < modifiedInput.length(); start++) {
+      // from each letter, keep going to find bad words until either the end of
+      // the sentence is reached, or the max word length is reached.
+      for (int offset = 1;
+          offset < (modifiedInput.length() + 1 - start) && offset < largestWordLength; offset++) {
+
+        String wordToCheck = modifiedInput.substring(start, start + offset);
+
+        if (allBadWords.contains(wordToCheck)) {
+
 //          String ignoreCheck = allBadWords.get(wordToCheck);
-//          boolean ignore = false;
-//
-////          for (int stringIndex = 0; stringIndex < ignoreCheck.length; stringIndex++) {
-//
+          boolean ignore = false;
+
+//          for (int stringIndex = 0; stringIndex < ignoreCheck.length; stringIndex++) {
+
 //            if (modifiedInput.contains(ignoreCheck)) {
 //              ignore = true;
 //              break;
 ////            } // end if statement
 //          } // end of innermost for loop
-//
-//          if (!ignore) {
-//            badWordsFound.add(wordToCheck);
-//          } // end if statement
-//        } // end if statement
-//      } // end of inner for loop
-//    } // end of outside for loop
-//
-//    String inputToReturn = input;
-//    for (String swearWord : badWordsFound) {
-//      char[] charsStars = new char[swearWord.length()];
-//      Arrays.fill(charsStars, '*');
-//      final String stars = new String(charsStars);
-//
-//      // The "(?i)" is to make the replacement case insensitive.
-//      inputToReturn = inputToReturn.replaceAll("(?i)" + swearWord, stars);
-//    }
-//
-//    return inputToReturn;
-//  } // end getCensoredText
+
+          if (!ignore) {
+            badWordsFound.add(wordToCheck);
+          } // end if statement
+        } // end if statement
+      } // end of inner for loop
+    } // end of outside for loop
+    // TODO clean up this code, Randy
+    String inputToReturn = input;
+    for (String swearWord : badWordsFound) {
+      char[] charsStars = new char[swearWord.length()];
+      Arrays.fill(charsStars, '*');
+      final String stars = new String(charsStars);
+
+      // The "(?i)" is to make the replacement case insensitive.
+      inputToReturn = inputToReturn.replaceAll("(?i)" + swearWord, stars);
+    }
+
+    return inputToReturn;
+  } // end getCensoredText
 
   public boolean isBannedWordUsed(String userName) {
     loadBannedWords();
