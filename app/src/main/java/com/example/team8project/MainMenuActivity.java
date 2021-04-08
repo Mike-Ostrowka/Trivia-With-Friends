@@ -65,6 +65,7 @@ public class MainMenuActivity extends AppCompatActivity {
     if(realm.where(Users.class).equalTo("_id", "adminUser").findFirst() == null) {
       Users temp = new Users("adminUser", "Password123");
       realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
+      realm.close();
     }
   }
 

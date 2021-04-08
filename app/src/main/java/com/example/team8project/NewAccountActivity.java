@@ -73,5 +73,17 @@ public class NewAccountActivity extends AppCompatActivity {
 
   }
 
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    HXSound.clear();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXSound.clear();
+  }
+
 
 }

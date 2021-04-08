@@ -20,7 +20,7 @@ public class FaqActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_faq);
     //load toolbar
-    Toolbar myToolbar = findViewById(R.id.my_toolbar);
+    Toolbar myToolbar = findViewById(R.id.toolbar_faq);
     setSupportActionBar(myToolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);

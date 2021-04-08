@@ -12,8 +12,10 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     <activity android:name=".ResetActivity"
+      android:parentActivityName=".LoginActivity"
       />
-    <activity android:name=".SecurityActivity" />
+    <activity android:name=".SecurityActivity"
+      android:parentActivityName=".WelcomeActivity"/>
     <activity
       android:name=".ChangePasswordActivity"
       android:parentActivityName=".WelcomeActivity" />

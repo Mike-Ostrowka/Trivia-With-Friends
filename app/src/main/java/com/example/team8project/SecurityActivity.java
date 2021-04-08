@@ -20,7 +20,7 @@ public class SecurityActivity extends AppCompatActivity {
     setContentView(R.layout.activity_security);
 
     //load toolbar
-    Toolbar myToolbar = findViewById(R.id.my_toolbar);
+    Toolbar myToolbar = findViewById(R.id.toolbar_security);
     setSupportActionBar(myToolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);

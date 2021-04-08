@@ -1,9 +1,8 @@
 package com.example.team8project;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -72,6 +71,7 @@ public class LoginActivity extends AppCompatActivity {
     });
     Button forgot = findViewById(R.id.btn_forgot);
     forgot.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent();
       intent.setClass(LoginActivity.this, ResetActivity.class);
       startActivity(intent);
@@ -92,5 +92,17 @@ public class LoginActivity extends AppCompatActivity {
       intent.setClass(LoginActivity.this, WelcomeActivity.class);
       startActivity(intent);
     }
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    HXSound.clear();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXSound.clear();
   }
 }
