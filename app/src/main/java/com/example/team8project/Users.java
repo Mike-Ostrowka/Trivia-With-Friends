@@ -23,7 +23,6 @@ public class Users extends RealmObject {
   @Required
   private String password;
   private String bio;
-  private boolean loginStatus = false;
   private String securityAnswer;
 
 //  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
@@ -59,14 +58,6 @@ public class Users extends RealmObject {
 
   String getBio() {
     return bio;
-  }
-
-  boolean getLogin() {
-    return loginStatus;
-  }
-
-  void setLogin() {
-    loginStatus = !loginStatus;
   }
 
   //takes parameter of other players elo and updates users elo on win

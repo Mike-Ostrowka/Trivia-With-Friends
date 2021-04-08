@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import com.huhx0015.hxaudio.audio.HXMusic;
@@ -50,22 +51,22 @@ public class ProfileActivity extends AppCompatActivity {
 
       Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-      if (intent.resolveActivity(getPackageManager()) != null) {
-        /* creating file where photo should go */
-        File photoFile = null;
-        try {
-          photoFile = createImageFile();
-        } catch (IOException e) {
-          // error occurred while creating the file
-        }
-        if (photoFile != null) {
-          Uri photoURI = FileProvider.getUriForFile(this,
-              "com.example.android.fileprovider",
-              photoFile);
-          intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+//      if (intent.resolveActivity(getPackageManager()) != null) {
+//        /* creating file where photo should go */
+//        File photoFile = null;
+//        try {
+//          photoFile = createImageFile();
+//        } catch (IOException e) {
+//          e.printStackTrace();
+//        }
+//        if (photoFile != null) {
+//          Uri photoURI = FileProvider.getUriForFile(this,
+//              "com.example.android.fileprovider",
+//              photoFile);
+//          intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
           startActivityForResult(intent, 0);
-        }
-      }
+//        }
+//      }
     });
   }
 
