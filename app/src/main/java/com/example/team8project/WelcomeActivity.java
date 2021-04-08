@@ -1,12 +1,20 @@
 package com.example.team8project;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,9 +33,14 @@ public class WelcomeActivity extends AppCompatActivity {
   private String username;
   private int song;
   private int click_sound;
+  private NavigationView navigationView;
+  private DrawerLayout drawerLayout;
 
+  @SuppressLint("RestrictedApi")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    requestWindowFeature(Window.FEATURE_ACTION_BAR);
+
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_welcome);
 
@@ -81,6 +94,53 @@ public class WelcomeActivity extends AppCompatActivity {
       startActivity(intent);
     });
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+    navigationView = (NavigationView)findViewById(R.id.nav_veiw);
+
+    navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+      @Override
+      public boolean onNavigationItemSelected(MenuItem menuItem) {
+        Intent intent;
+        switch (menuItem.getItemId()) {
+          case R.id.nm_setting:
+            intent = new Intent();
+            intent.setClass(WelcomeActivity.this, SettingsActivity.class);
+            startActivity(intent);
+            break;
+          case R.id.nm_faq:
+            intent = new Intent();
+            intent.setClass(WelcomeActivity.this, FaqActivity.class);
+            startActivity(intent);
+            break;
+          case R.id.nm_logout:
+            session.setusername("");
+
+            Toast.makeText(getApplicationContext(), R.string.logout_message,
+                Toast.LENGTH_LONG).show();
+            realm.close();
+            intent = new Intent();
+            intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
+            startActivity(intent);
+            break;
+        }
+        drawerLayout.closeDrawers();
+        return false;
+      }
+    });
+    drawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
+
+  }
+
+  private void openDrawer() {
+    if (!drawerLayout.isDrawerOpen(navigationView)) {
+      drawerLayout.openDrawer(navigationView);
+    }
+  }
+
+  private void closeDrawer() {
+    if (drawerLayout.isDrawerOpen(navigationView)) {
+      drawerLayout.closeDrawers();
+    }
   }
 
   private void playMusic() {
@@ -115,5 +175,7 @@ public class WelcomeActivity extends AppCompatActivity {
     HXMusic.stop();
     HXMusic.clear();
   }
+
+
 }
 
