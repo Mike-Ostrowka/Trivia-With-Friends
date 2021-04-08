@@ -1,7 +1,7 @@
 package com.example.team8project;
 
+import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -9,7 +9,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-import java.io.File;
+
 
 public class QuestionXMLParser {
 
@@ -21,9 +21,10 @@ public class QuestionXMLParser {
     this.sizeOfBank = 0;
   }
 
-  public void parse() {
+  public void parser() {
     try {
-      File file = new File("questions.xml");
+
+      InputStream file = getClass().getClassLoader().getResourceAsStream("questions.xml");
 
       DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 
@@ -35,8 +36,10 @@ public class QuestionXMLParser {
 
       for (int i = 0; i < nodeList.getLength(); ++i) {
         Node node = nodeList.item(i);
+
         if (node.getNodeType() == Node.ELEMENT_NODE) {
           Element tElement = (Element) node;
+
           Question newQuestion = new Question(
               tElement.getElementsByTagName("questionText").item(0).getTextContent(),
               tElement.getElementsByTagName("answerOne").item(0).getTextContent(),
@@ -57,19 +60,6 @@ public class QuestionXMLParser {
   public Question[] getQuestionBank(Question[] bank) {
     return this.questionBank.toArray(bank);
   }
-
-  // testing code
-//  void main() {
-//    QuestionXMLParser qxp = new QuestionXMLParser();
-//    qxp.parse();
-//    Question[] bank = new Question[qxp.sizeOfBank];
-//    qxp.getQuestionBank(bank);
-//    for(int i = 0; i < qxp.sizeOfBank; i++){
-//      System.out.println(bank[0].getQuestion());
-//      System.out.println(Arrays.toString(bank[0].getWrongAnswers()));
-//      System.out.println(bank[0].getAnswer());
-//    }
-//  }
 }
 
 

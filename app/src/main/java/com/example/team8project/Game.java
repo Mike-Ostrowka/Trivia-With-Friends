@@ -44,7 +44,7 @@ public class Game extends AppCompatActivity {
 
 
          */
-        questionList.AnswersJumbled();
+
         // Changed the questionlist class, jumbled holds 3 correct and 1 wrong, fifth answer is optional
         // but correct one is within one of the jumbled answers
 
@@ -74,7 +74,8 @@ public class Game extends AppCompatActivity {
 
     public void startGame(){
 
-        for(int i = 0; i <= 10; i++) {
+        questionList.AnswersJumbled();
+        for(int i = 0; i < 10; i++) {
             loadQuestion(i);
             Thread threadRead = new Thread(new Timer());
 //            answerOneBtn.setClickable(true);

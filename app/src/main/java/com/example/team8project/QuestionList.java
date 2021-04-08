@@ -27,8 +27,8 @@ public class QuestionList {
     this.jumbledAnswers = new String[10][4];
   }
 
-  public Question[] getQuestionBank() {
-    this.allQuestions.parse();
+  public Question[] getAllQuestions() {
+    this.allQuestions.parser();
     Question[] bank = new Question[this.allQuestions.sizeOfBank];
     return this.allQuestions.getQuestionBank(bank);
   }
@@ -37,17 +37,18 @@ public class QuestionList {
   // store the 10 questions in new array and return new array
 
   public void getQuestionList() {
-    Question[] bank = this.getQuestionBank();
+    Question[] bank = this.getAllQuestions();
 
     List<Integer> range = new ArrayList<>();
     //randomize an array from 0 to 99
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < 80; i++) {
       range.add(i);
     }
     Collections.shuffle(range, new Random(System.currentTimeMillis()));
 
     //take first 10 randomized numbers and get the corresponding questions associated with those indices
     for(int j = 0; j < 10; j++) {
+
       this.list[j] = bank[range.get(j)];
     }
   }
@@ -55,8 +56,10 @@ public class QuestionList {
   // Seperates the Question object into an array of questions, array within array of 3 wrong answers,
   // array of optional answers, and an array of correct answers.
   public void separateQuestions() {
+
     this.getQuestionList();
     for (int i = 0; i < 10; i++) {
+
       this.questions[i] = this.list[i].getQuestion();
       this.wrongAnswers[i] = this.list[i].getWrongAnswers();
       this.optionalAnswers[i] = this.list[i].getOptionalAnswer();
@@ -66,36 +69,43 @@ public class QuestionList {
 
   // jumble order of wrong and correct answers
   public void AnswersJumbled(){
+
     this.separateQuestions();
-    List<String> list = new ArrayList<>();
     for(int i = 0; i < 10; i++){
+
+      List<String> list = new ArrayList<>();
+      list.add(this.wrongAnswers[i][0]);
       list.add(this.wrongAnswers[i][1]);
       list.add(this.wrongAnswers[i][2]);
-      list.add(this.wrongAnswers[i][3]);
       list.add(this.correctAnswers[i]);
+
       Collections.shuffle(list, new Random(System.currentTimeMillis()));
+
       list.toArray(this.jumbledAnswers[i]);
     }
   }
 
   // returns answer text of indexed question and answer
   public String getJumbledAnswer(int i, int j){
+    System.out.println(this.jumbledAnswers[i][j]);
     return this.jumbledAnswers[i][j];
   }
 
   // return question text of indexed question
   public String getQuestion(int i){
+    System.out.println(this.questions[i]);
     return this.questions[i];
   }
 
   // to be used for lifeline system, to add an extra answer to opponents next question.
   public String getOptionalAnswer(int i){
+    System.out.println(this.optionalAnswers[i]);
     return this.optionalAnswers[i];
   }
 
   // returns answer text of the correct answer for the indexed question
   public String getCorrectAnswer(int i) {
+    System.out.println(this.correctAnswers[i]);
     return this.correctAnswers[i];
   }
-
 }
