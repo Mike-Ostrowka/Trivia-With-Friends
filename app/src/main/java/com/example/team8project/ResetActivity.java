@@ -21,7 +21,7 @@ public class ResetActivity extends AppCompatActivity {
     setContentView(R.layout.activity_reset);
 
     //load toolbar
-    Toolbar myToolbar = findViewById(R.id.my_toolbar);
+    Toolbar myToolbar = findViewById(R.id.toolbar_reset);
     setSupportActionBar(myToolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
