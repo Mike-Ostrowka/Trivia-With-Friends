@@ -1,5 +1,6 @@
 package com.example.team8project;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
-import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -22,6 +22,7 @@ import io.realm.Realm;
 //todo fix java.lang.IllegalStateException: Cannot modify managed objects outside of a write transaction. at line 34 of this activity
 
 
+@SuppressWarnings("FieldCanBeLocal")
 public class WelcomeActivity extends AppCompatActivity {
 
   private Users current;
@@ -33,6 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
   private DrawerLayout drawerLayout;
 
 
+  @SuppressLint("NonConstantResourceId")
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     requestWindowFeature(Window.FEATURE_ACTION_BAR);
@@ -119,35 +121,33 @@ public class WelcomeActivity extends AppCompatActivity {
 
     navigationView = (NavigationView)findViewById(R.id.nav_view);
     navigationView.setBackgroundColor(getResources().getColor(R.color.white));
-    navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-      @Override
-      public boolean onNavigationItemSelected(MenuItem menuItem) {
-        Intent intent;
-        switch (menuItem.getItemId()) {
-          case R.id.nm_setting:
-            intent = new Intent();
-            intent.setClass(WelcomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
-            break;
-          case R.id.nm_faq:
-            intent = new Intent();
-            intent.setClass(WelcomeActivity.this, FaqActivity.class);
-            startActivity(intent);
-            break;
-          case R.id.nm_logout:
-            session.setusername("");
 
-            Toast.makeText(getApplicationContext(), R.string.logout_message,
-                Toast.LENGTH_LONG).show();
-            realm.close();
-            intent = new Intent();
-            intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
-            startActivity(intent);
-            break;
-        }
-        drawerLayout.closeDrawers();
-        return false;
+    navigationView.setNavigationItemSelectedListener(menuItem -> {
+      Intent intent;
+      switch (menuItem.getItemId()) {
+        case R.id.nm_setting:
+          intent = new Intent();
+          intent.setClass(WelcomeActivity.this, SettingsActivity.class);
+          startActivity(intent);
+          break;
+        case R.id.nm_faq:
+          intent = new Intent();
+          intent.setClass(WelcomeActivity.this, FaqActivity.class);
+          startActivity(intent);
+          break;
+        case R.id.nm_logout:
+          session.setusername("");
+
+          Toast.makeText(getApplicationContext(), R.string.logout_message,
+              Toast.LENGTH_LONG).show();
+          realm.close();
+          intent = new Intent();
+          intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
+          startActivity(intent);
+          break;
       }
+      drawerLayout.closeDrawers();
+      return false;
     });
     drawerLayout =(DrawerLayout) findViewById(R.id.drawer_layout);
 
