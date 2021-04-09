@@ -8,7 +8,7 @@ public class Timer  implements java.lang.Runnable{
             while (i>0){
                 try {
                     i--;
-                    Thread.sleep(1000L);    // 1000L = 1000ms = 1 second
+                    Thread.sleep(1000);    // 1000L = 1000ms = 1 second
                 }
                 catch (InterruptedException e) {
 

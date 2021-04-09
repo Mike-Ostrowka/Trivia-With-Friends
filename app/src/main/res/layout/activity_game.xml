@@ -45,11 +45,11 @@
             android:layout_weight="1"
             android:text="Button" />
 
-        <Button
+        <TextView
             android:id="@+id/AnswerFiveButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="0" />
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

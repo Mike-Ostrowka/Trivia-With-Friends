@@ -5,15 +5,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
 
-    Game currentGame = new Game();
 
-    Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn, answerFiveBtn;
+    int questionCount;
+    Boolean readFlag = true;
+    Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
+    TextView answerFiveBtn;
+    int playerScore = 0;
+    Game currentGame = new Game(questionCount, readFlag, playerScore);
 
 
     @Override
@@ -27,19 +32,10 @@ public class GameActivity extends AppCompatActivity {
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         answerFiveBtn = findViewById(R.id.AnswerFiveButton);
 
-        currentGame.startGame();
-
-    }
-
-
-    public void playGame() {
-
-
         answerOneBtn.setText(currentGame.firstAnswer);
         answerTwoBtn.setText(currentGame.secondAnswer);
         answerThreeBtn.setText(currentGame.thirdAnswer);
         answerFourBtn.setText(currentGame.fourthAnswer);
-        answerFiveBtn.setText(currentGame.fifthAnswer);
 
         TextView questionTextView = findViewById(R.id.questionText);
         questionTextView.setText(currentGame.currentQuestion);
@@ -48,70 +44,67 @@ public class GameActivity extends AppCompatActivity {
         answerOneBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerOneBtn.getText().toString();
-            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            answerOneBtn.setClickable(false);
-            answerTwoBtn.setClickable(false);
-            answerThreeBtn.setClickable(false);
-            answerFourBtn.setClickable(false);
-            answerFiveBtn.setClickable(false);
+            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            Log.e("error", "button one clicked");
+
+
 
 
         });
 
 
-        answerOneBtn.setOnClickListener(v -> {
+        answerTwoBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerTwoBtn.getText().toString();
-            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            answerOneBtn.setClickable(false);
-            answerTwoBtn.setClickable(false);
-            answerThreeBtn.setClickable(false);
-            answerFourBtn.setClickable(false);
-            answerFiveBtn.setClickable(false);
-
+            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            Log.e("error", "button two clicked");
 
 
         });
 
 
-        answerOneBtn.setOnClickListener(v -> {
+        answerThreeBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerThreeBtn.getText().toString();
-            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            answerOneBtn.setClickable(false);
-            answerTwoBtn.setClickable(false);
-            answerThreeBtn.setClickable(false);
-            answerFourBtn.setClickable(false);
-            answerFiveBtn.setClickable(false);
+            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            Log.e("error", "button 3 clicked");
+
 
         });
 
 
-        answerOneBtn.setOnClickListener(v -> {
+        answerFourBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerFourBtn.getText().toString();
-            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            answerOneBtn.setClickable(false);
-            answerTwoBtn.setClickable(false);
-            answerThreeBtn.setClickable(false);
-            answerFourBtn.setClickable(false);
-            answerFiveBtn.setClickable(false);
+            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            Log.e("error", "button 4 clicked");
 
 
         });
 
 
-        answerOneBtn.setOnClickListener(v -> {
 
-            currentGame.playerOneSelection = answerFiveBtn.getText().toString();
-            currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            answerOneBtn.setClickable(false);
-            answerTwoBtn.setClickable(false);
-            answerThreeBtn.setClickable(false);
-            answerFourBtn.setClickable(false);
-            answerFiveBtn.setClickable(false);
 
-        });
+    }
+
+
+
+    public void playGame() {
+
+        if(playerScore < 25){
+            if (readFlag = true){
+                currentGame.startGame();
+            }
+            else{
+
+            }
+        }
+        else {
+           //user wins
+        }
+
+
+
 
     }
 
