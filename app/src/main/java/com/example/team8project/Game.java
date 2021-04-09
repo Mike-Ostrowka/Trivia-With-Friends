@@ -67,11 +67,12 @@ public class Game extends AppCompatActivity {
     }
 
 
-    public void startGame(){
+    public void startGame(int questionCount){
 
         //changes orders of answers so that correct answer is not always the same button
         questionList.AnswersJumbled();
-
+        loadQuestion(questionCount);
+        Log.e("loading questions", "loaded");
 
 
     }
