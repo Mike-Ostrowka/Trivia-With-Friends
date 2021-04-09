@@ -41,12 +41,7 @@ public class SecurityActivity extends AppCompatActivity {
         Users current = transactionRealm.where(Users.class).equalTo("_id", username).findFirst();
         current.setSecurityAnswer(text);
       });
-
-      Toast.makeText(getApplicationContext(), getString(R.string.security_success), Toast.LENGTH_LONG).show();
-      realm.close();
-      Intent intent = new Intent();
-      intent.setClass(SecurityActivity.this, WelcomeActivity.class);
-      startActivity(intent);
+      Dialogs.intentDialog(getString(R.string.security_success), this, WelcomeActivity.class);
     });
   }
 }
