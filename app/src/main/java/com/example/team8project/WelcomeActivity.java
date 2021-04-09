@@ -83,7 +83,8 @@ public class WelcomeActivity extends AppCompatActivity {
       intent.setClass(WelcomeActivity.this, SettingsActivity.class);
       startActivity(intent);
     });
-//todo delete the setting, faq, logout button from the welcome activity
+//todo delete the profile, setting, faq, logout button from the welcome activity
+    // todo add profile to navigation bar
     Button mButtonSettings = findViewById(R.id.btn_faq);
     mButtonSettings.setOnClickListener(v -> {
       HXSound.sound().load(click_sound).play(this);
