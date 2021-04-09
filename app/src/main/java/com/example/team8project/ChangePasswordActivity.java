@@ -1,15 +1,14 @@
 package com.example.team8project;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 import io.realm.Realm;
-import io.realm.mongodb.User;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 

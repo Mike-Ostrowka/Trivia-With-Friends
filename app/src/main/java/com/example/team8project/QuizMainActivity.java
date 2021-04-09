@@ -1,10 +1,9 @@
 package com.example.team8project;
 
 import android.app.Activity;
-import android.os.Bundle;
+
 //import com.example.quizmaybedelete.Question;
 //import com.example.quizmaybedelete.QuestionDatabase;
-import java.util.List;
 
 public class QuizMainActivity extends Activity {
 //  @Override

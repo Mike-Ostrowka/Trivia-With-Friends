@@ -1,11 +1,7 @@
 package com.example.team8project;
+
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.Button;
-import android.widget.Toast;
-import android.os.CountDownTimer;
-
-import com.example.team8project.Timer;
 
 
 public class Game extends AppCompatActivity {
