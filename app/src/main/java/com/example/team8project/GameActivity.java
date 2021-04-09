@@ -11,13 +11,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.sql.Time;
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class GameActivity extends AppCompatActivity {
 
 
-    int questionCount;
+    int questionCount = 0;
+    int textUpdate = 0;
+
     Boolean readFlag = true;
     Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
-    TextView answerFiveBtn;
+    TextView counterTxt;
     int playerScore = 0;
     Game currentGame = new Game(questionCount, readFlag, playerScore);
 
@@ -32,12 +38,12 @@ public class GameActivity extends AppCompatActivity {
         answerTwoBtn = findViewById(R.id.AnswerTwoButton);
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
-        answerFiveBtn = findViewById(R.id.AnswerFiveButton);
+        counterTxt = findViewById(R.id.CounterText);
 
-        answerOneBtn.setText(currentGame.firstAnswer);
-        answerTwoBtn.setText(currentGame.secondAnswer);
-        answerThreeBtn.setText(currentGame.thirdAnswer);
-        answerFourBtn.setText(currentGame.fourthAnswer);
+//        answerOneBtn.setText(currentGame.firstAnswer);
+//        answerTwoBtn.setText(currentGame.secondAnswer);
+//        answerThreeBtn.setText(currentGame.thirdAnswer);
+//        answerFourBtn.setText(currentGame.fourthAnswer);
 
         TextView questionTextView = findViewById(R.id.questionText);
         questionTextView.setText(currentGame.currentQuestion);
@@ -46,8 +52,7 @@ public class GameActivity extends AppCompatActivity {
         answerOneBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerOneBtn.getText().toString();
-            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            Log.e("error", "button one clicked");
+            Log.e("error", currentGame.playerOneSelection);
 
 
 
@@ -58,8 +63,7 @@ public class GameActivity extends AppCompatActivity {
         answerTwoBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerTwoBtn.getText().toString();
-            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            Log.e("error", "button two clicked");
+            Log.e("error", currentGame.playerOneSelection);
 
 
         });
@@ -68,8 +72,7 @@ public class GameActivity extends AppCompatActivity {
         answerThreeBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerThreeBtn.getText().toString();
-            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            Log.e("error", "button 3 clicked");
+            Log.e("error", currentGame.playerOneSelection);
 
 
         });
@@ -78,8 +81,7 @@ public class GameActivity extends AppCompatActivity {
         answerFourBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerFourBtn.getText().toString();
-            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            Log.e("error", "button 4 clicked");
+            Log.e("error", currentGame.playerOneSelection);
 
 
         });
@@ -92,21 +94,51 @@ public class GameActivity extends AppCompatActivity {
 
 
     public void playGame() {
+        currentGame.questionList.AnswersJumbled();
 
-        for (int i = 0; i < 10; i++)
-            currentGame.startGame(i);
+        answerOneBtn = findViewById(R.id.AnswerOneButton);
+        answerTwoBtn = findViewById(R.id.AnswerTwoButton);
+        answerThreeBtn = findViewById(R.id.AnswerThreeButton);
+        answerFourBtn = findViewById(R.id.AnswerFourButton);
+        counterTxt = findViewById(R.id.CounterText);
 
-        CountDownTimer currentCount = new CountDownTimer(10000,1000) {
+//        for (int i = 0; i < 10; i++) {
+//
+//            currentGame.loadQuestion(i);
+//            answerOneBtn.setText(currentGame.firstAnswer);
+//            answerTwoBtn.setText(currentGame.secondAnswer);
+//            answerThreeBtn.setText(currentGame.thirdAnswer);
+//            answerFourBtn.setText(currentGame.fourthAnswer);
+//
+//            new Timer().schedule(new TimerTask() {
+//                @Override
+//                public void run() {
+//
+//                    Log.e("Running", currentGame.firstAnswer);
+//                }
+//            },0,1000000);
+//
+//
+//        }
+
+        do{
+
+
+            new Timer().schedule(new TimerTask() {
                 @Override
-                public void onTick(long l) {
+                public void run() {
+                    currentGame.loadQuestion(questionCount);
+                    Log.e("Running", currentGame.firstAnswer);
+                                answerOneBtn.setText(currentGame.firstAnswer);
+            answerTwoBtn.setText(currentGame.secondAnswer);
+            answerThreeBtn.setText(currentGame.thirdAnswer);
+            answerFourBtn.setText(currentGame.fourthAnswer);
 
                 }
+            },0,1000);
+            questionCount++;
 
-                @Override
-                public void onFinish() {
-
-                }
-            };
+        }while (questionCount < 9);
 
 
 
