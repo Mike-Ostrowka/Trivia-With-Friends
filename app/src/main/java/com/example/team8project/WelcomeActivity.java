@@ -5,8 +5,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -16,12 +18,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+
+
 
 //todo fix java.lang.IllegalStateException: Cannot modify managed objects outside of a write transaction. at line 34 of this activity
 
@@ -35,6 +41,7 @@ public class WelcomeActivity extends AppCompatActivity {
   private int click_sound;
   private NavigationView navigationView;
   private DrawerLayout drawerLayout;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +91,7 @@ public class WelcomeActivity extends AppCompatActivity {
       intent.setClass(WelcomeActivity.this, SettingsActivity.class);
       startActivity(intent);
     });
-
+//todo delete the setting, faq, logout button from the welcome activity
     Button mButtonSettings = findViewById(R.id.btn_faq);
     mButtonSettings.setOnClickListener(v -> {
       HXSound.sound().load(click_sound).play(this);
@@ -109,6 +116,15 @@ public class WelcomeActivity extends AppCompatActivity {
       startActivity(intent);
     });
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+
+    Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_WA);
+    setSupportActionBar(toolbar);
+
+    drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        this, drawerLayout,toolbar,R.string.open,R.string.close);
+    drawerLayout.addDrawerListener(toggle);
+    toggle.syncState();
 
     navigationView = (NavigationView)findViewById(R.id.nav_veiw);
 
@@ -146,17 +162,17 @@ public class WelcomeActivity extends AppCompatActivity {
 
   }
 
-  private void openDrawer() {
-    if (!drawerLayout.isDrawerOpen(navigationView)) {
-      drawerLayout.openDrawer(navigationView);
+  @Override
+  public void onBackPressed() {
+    drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+      drawerLayout.closeDrawer(GravityCompat.START);
+    } else {
+      super.onBackPressed();
     }
   }
 
-  private void closeDrawer() {
-    if (drawerLayout.isDrawerOpen(navigationView)) {
-      drawerLayout.closeDrawers();
-    }
-  }
+  
 
   private void playMusic() {
     song = R.raw.menu;
