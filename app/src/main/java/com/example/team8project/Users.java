@@ -8,6 +8,9 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+
+import java.util.ArrayList;
+import java.util.List;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
@@ -21,8 +24,19 @@ public class Users extends RealmObject {
   private String password;
   private String bio;
   private String securityAnswer;
+//  private Byte[] profilePictureByteArray;
 
 //  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
+  protected Integer eloOne = 1000;
+  protected int eloTwo = 1000;
+  protected int eloThree = 1000;
+  protected int eloFour = 1000;
+  protected int eloFive = 1000;
+  protected int eloSix = 1000;
+  protected int eloSeven = 1000;
+  protected int eloEight = 1000;
+  protected int eloNine = 1000;
+  protected int eloTen = 1000;
   private int gamesPlayed = 0;
   private int gamesWon = 0;
   private RealmList<String> friends = new RealmList<>();
@@ -57,6 +71,16 @@ public class Users extends RealmObject {
   String getBio() {
     return bio;
   }
+
+  void setBio(String updatedBio) {
+    bio = updatedBio;
+  }
+
+//  Byte[] getProfilePictureByteArray() {return profilePictureByteArray; }
+//
+//  void setProfilePictureByteArray(Byte[] newByteArray){
+//    profilePictureByteArray = newByteArray;
+//  }
 
   void addFriend(String name) {
     friends.add(name);
@@ -97,7 +121,7 @@ public class Users extends RealmObject {
     //factor for calculating elo
     int ELO_K_FACTOR = 32;
     elo += ELO_K_FACTOR * eloChange;
-//    updateEloTracker(elo);
+    updateEloTracker(elo);
   }
 
   // update stats on win
@@ -107,15 +131,42 @@ public class Users extends RealmObject {
   }
 
   // update stats on loss
-  void lostGame(){
-    gamesPlayed++;
+  void lostGame(){ gamesPlayed++; }
+
+  int getGamesPlayed(){ return gamesPlayed; }
+
+  int getGamesWon(){ return gamesWon; }
+
+  // updates elo tracker list for analysis
+  void updateEloTracker(int newElo) {
+    eloOne = eloTwo;
+    eloTwo = eloThree;
+    eloThree = eloFour;
+    eloFour = eloFive;
+    eloFive = eloSix;
+    eloSix = eloSeven;
+    eloSeven = eloEight;
+    eloEight = eloNine;
+    eloNine = eloTen;
+    eloTen = newElo;
   }
 
-//  // updates elo tracker list for analysis
-//  void updateEloTracker(int newElo) {
-//    eloTrackerList.remove(0);
-//    eloTrackerList.add(newElo);
-//  }
+  ArrayList<Integer> eloList() {
+    return new ArrayList<Integer>(){
+      {
+        add(eloOne);
+        add(eloTwo);
+        add(eloThree);
+        add(eloFour);
+        add(eloFive);
+        add(eloSix);
+        add(eloSeven);
+        add(eloEight);
+        add(eloNine);
+        add(eloTen);
+      }
+    };
+  }
 
   void setSecurityAnswer(String answer) {
     try {

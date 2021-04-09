@@ -51,6 +51,7 @@ public class QuestionXMLParser {
           this.questionBank.add(newQuestion);
         }
       }
+      file.close();
     } catch (Exception e) {
       System.out.println(e);
     }
