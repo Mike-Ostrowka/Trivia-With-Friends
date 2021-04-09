@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        playGame();
 
         answerOneBtn = findViewById(R.id.AnswerOneButton);
         answerTwoBtn = findViewById(R.id.AnswerTwoButton);
@@ -91,17 +93,20 @@ public class GameActivity extends AppCompatActivity {
 
     public void playGame() {
 
-        if(playerScore < 25){
-            if (readFlag = true){
-                currentGame.startGame();
-            }
-            else{
+        for (int i = 0; i < 10; i++)
+            currentGame.startGame(i);
 
-            }
-        }
-        else {
-           //user wins
-        }
+        CountDownTimer currentCount = new CountDownTimer(10000,1000) {
+                @Override
+                public void onTick(long l) {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                }
+            };
 
 
 
