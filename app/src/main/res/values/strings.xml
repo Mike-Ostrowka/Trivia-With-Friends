@@ -65,6 +65,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="update_bio">Update Bio</string>
   <string name="games_played">Games Played: </string>
   <string name="games_won">Games Won: </string>
+  <string name="friend_added">Friend added!</string>
+  <string name="ok">OK</string>
 
 
 </resources>
