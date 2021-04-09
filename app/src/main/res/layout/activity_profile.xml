@@ -21,7 +21,6 @@
     android:layout_marginEnd="323dp"
     android:layout_marginRight="323dp"
     android:text="@string/camera"
-    app:layout_constraintBottom_toTopOf="@+id/game_stats"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
@@ -65,16 +64,6 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toEndOf="@+id/profile_picture"
     app:layout_constraintTop_toBottomOf="@+id/toolbar_profile" />
-  <EditText
-    android:id="@+id/game_stats"
-    android:layout_width="412dp"
-    android:layout_height="101dp"
-    android:ems="10"
-    android:gravity="start|top"
-    android:inputType="textMultiLine"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/camera_button" />
   <Button
     android:id="@+id/updateBio_button"
     android:layout_width="wrap_content"
@@ -82,8 +71,25 @@
     android:layout_marginStart="221dp"
     android:layout_marginLeft="221dp"
     android:text="@string/update_bio"
-    app:layout_constraintBottom_toTopOf="@+id/game_stats"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toEndOf="@+id/camera_button"
     app:layout_constraintTop_toBottomOf="@+id/user_bio" />
+  <TextView
+    android:id="@+id/games_played"
+    android:layout_width="407dp"
+    android:layout_height="42dp"
+    android:text="@string/games_played"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/camera_button" />
+  <TextView
+    android:id="@+id/games_won"
+    android:layout_width="407dp"
+    android:layout_height="42dp"
+    android:layout_marginTop="40dp"
+    android:text="@string/games_won"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.0"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/camera_button" />
 </android.support.constraint.ConstraintLayout>

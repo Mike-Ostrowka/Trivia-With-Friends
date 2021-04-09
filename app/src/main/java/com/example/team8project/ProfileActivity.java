@@ -13,12 +13,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
+import io.realm.Realm;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,11 @@ public class ProfileActivity extends AppCompatActivity {
   private int song;
   private int click_sound;
   private ImageView profilePicture;
+  private String bio;
+  private Realm realm;
+  private Users current;
+  private loginPreferences session;
+  private String username;
 //  private String currentPhotoPath;
 
   @Override
@@ -60,6 +67,7 @@ public class ProfileActivity extends AppCompatActivity {
     profilePicture = findViewById(R.id.profile_picture);
     TextView userBio = findViewById(R.id.user_bio);
 
+
     friends.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
@@ -84,14 +92,26 @@ public class ProfileActivity extends AppCompatActivity {
     });
 
     //todo check if bio is present in realm
+//    bio = users.getBio;
+//    if (!(bio==null){
+//      userBio.setText(bio);
+//    }
     //todo make button update realm bio with whatever user typed into the textbox
     updateBio.setOnClickListener(view ->{
       HXSound.sound().load(click_sound).play(this);
 
     });
 
-    //todo present users stats on page, and graph
+    //todo present users stats on page
+//    TextView gamesPlayed = findViewById(R.id.games_played);
+//    String gamesPlayedString = getString(R.string.games_played) + users.getGamesPlayed;
+//    gamesPlayed.setText(gamesPlayedString);
+//
+//    TextView gamesWon = findViewById(R.id.games_won);
+//    String gamesWonString = getString(R.string.games_played) + users.getGamesWon;
+//    gamesWon.setText(gamesWonString);
 
+    //todo present elo tracker graph
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -133,9 +133,11 @@ public class Users extends RealmObject {
   }
 
   // update stats on loss
-  void lostGame(){
-    gamesPlayed++;
-  }
+  void lostGame(){ gamesPlayed++; }
+
+  int getGamesPlayed(){ return gamesPlayed; }
+
+  int getGamesWon(){ return gamesWon; }
 
   // updates elo tracker list for analysis
   void updateEloTracker(int newElo) {
