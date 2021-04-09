@@ -57,5 +57,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="friends">Friends</string>
   <string name="friends_fragment">Friends List</string>
   <string name="inbox_fragment">Inbox</string>
+  <string name="new_friend">New Friend</string>
+  <string name="add_friend">Add</string>
+
 
 </resources>

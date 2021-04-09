@@ -10,8 +10,13 @@ import android.os.Bundle;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
+import io.realm.Realm;
+import io.realm.mongodb.User;
 
 public class FriendsActivity extends AppCompatActivity {
 
@@ -19,6 +24,7 @@ public class FriendsActivity extends AppCompatActivity {
   private loginPreferences session;
   private String username;
   private int song;
+  private Realm realm;
   private int click_sound;
   ViewPager simpleViewPager;
   TabLayout tabLayout;
@@ -43,8 +49,16 @@ public class FriendsActivity extends AppCompatActivity {
       playMusic();
     }
 
+    //open a realm and find logged in user
+    session = new loginPreferences(getApplicationContext());
+    username = session.getusername();
+    realm = Realm.getDefaultInstance();
+    current = realm.where(Users.class).equalTo("_id", username).findFirst();
+    realm.close();
+
     simpleViewPager = (ViewPager) findViewById(R.id.simpleViewPager);
     tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
+    Button newFriend = findViewById(R.id.btn_new_friend);
 
     TabLayout.Tab firstTab = tabLayout.newTab();
     firstTab.setText("Friends");
@@ -64,6 +78,7 @@ public class FriendsActivity extends AppCompatActivity {
     simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     //change on button press
     tabLayout.setOnTabSelectedListener(onTabSelectedListener(simpleViewPager));
+
   }
 
   private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
