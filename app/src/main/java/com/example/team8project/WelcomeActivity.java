@@ -114,10 +114,11 @@ public class WelcomeActivity extends AppCompatActivity {
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
         this, drawerLayout,toolbar,R.string.open,R.string.close);
     drawerLayout.addDrawerListener(toggle);
+
     toggle.syncState();
 
     navigationView = (NavigationView)findViewById(R.id.nav_view);
-
+    navigationView.setBackgroundColor(getResources().getColor(R.color.white));
     navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
       @Override
       public boolean onNavigationItemSelected(MenuItem menuItem) {
