@@ -4,12 +4,37 @@
   android:layout_height="match_parent"
   tools:context="com.example.team8project.FriendsFragment">
 
-  <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_centerInParent="true"
-    android:text="@string/friends_fragment"
-    android:textSize="40sp"
-    android:textStyle="bold" />
+  <android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+      <EditText
+        android:id="@+id/tf_new_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:gravity="center"
+        android:hint="@string/new_friend"
+        android:autofillHints="@string/new_friend"
+        android:ems="10"
+        android:inputType="textPersonName"
+         />
+      <Button
+        android:id="@+id/btn_new_friend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:gravity="center"
+        android:text="@string/add_friend" />
+    </LinearLayout>
+  </android.support.constraint.ConstraintLayout>
 
 </RelativeLayout>

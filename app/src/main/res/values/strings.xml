@@ -59,5 +59,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="inbox_fragment">Inbox</string>
   <string name="open" />
   <string name="close" />
+  <string name="new_friend">New Friend</string>
+  <string name="add_friend">Add</string>
+
 
 </resources>
