@@ -1,13 +1,17 @@
 package com.example.team8project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import com.huhx0015.hxaudio.audio.HXMusic;
+import com.huhx0015.hxaudio.audio.HXSound;
 
 public class FriendsActivity extends AppCompatActivity {
 
@@ -30,27 +34,35 @@ public class FriendsActivity extends AppCompatActivity {
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
 
-// get the reference of ViewPager and TabLayout
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (soundSwitch) {
+      playMusic();
+    }
+
     simpleViewPager = (ViewPager) findViewById(R.id.simpleViewPager);
     tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
-// Create a new Tab named "First"
+
     TabLayout.Tab firstTab = tabLayout.newTab();
-    firstTab.setText("Friends"); // set the Text for the first Tab
-    firstTab.setIcon(R.drawable.ic_launcher_foreground); // set an icon for the
-// first tab
-    tabLayout.addTab(firstTab); // add  the tab at in the TabLayout
-// Create a new Tab named "Second"
+    firstTab.setText("Friends");
+    firstTab.setIcon(R.drawable.ic_friends_tab);
+    tabLayout.addTab(firstTab);
+
     TabLayout.Tab secondTab = tabLayout.newTab();
-    secondTab.setText("Inbox"); // set the Text for the second Tab
-    secondTab.setIcon(R.drawable.ic_launcher_foreground); // set an icon for the second tab
-    tabLayout.addTab(secondTab); // add  the tab  in the TabLayout
-//    tabLayout.bringToFront();
+    secondTab.setText("Inbox");
+    secondTab.setIcon(R.drawable.ic_inbox_tab);
+    tabLayout.addTab(secondTab);
 
     PagerAdapter adapter = new PagerAdapter
         (getSupportFragmentManager(), tabLayout.getTabCount());
     simpleViewPager.setAdapter(adapter);
-// addOnPageChangeListener event change the tab on slide
+
+    //change on swipe
     simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    //change on button press
     tabLayout.setOnTabSelectedListener(onTabSelectedListener(simpleViewPager));
   }
 
@@ -58,6 +70,7 @@ public class FriendsActivity extends AppCompatActivity {
     return new TabLayout.OnTabSelectedListener() {
       @Override
       public void onTabSelected(TabLayout.Tab tab) {
+        HXSound.sound().load(R.raw.click).play(getApplicationContext());
         pager.setCurrentItem(tab.getPosition());
       }
 
@@ -72,4 +85,26 @@ public class FriendsActivity extends AppCompatActivity {
       }
     };
   }
+
+  private void playMusic() {
+    song = R.raw.smooth_jazz;
+    HXMusic.music().load(song).gapless(true).looped(true).play(this);
+  }
+
+  @Override
+  protected void onDestroy() {
+    super.onDestroy();
+    HXSound.clear();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXSound.clear();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
+
 }
