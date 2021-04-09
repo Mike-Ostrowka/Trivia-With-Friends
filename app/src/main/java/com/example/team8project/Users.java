@@ -4,6 +4,7 @@ import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
+import io.realm.mongodb.User;
 import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -39,7 +40,7 @@ public class Users extends RealmObject {
   protected int eloTen = 1000;
   private int gamesPlayed = 0;
   private int gamesWon = 0;
-  private RealmList<String> friends = new RealmList<>();
+  private RealmList<Users> friends = new RealmList<>();
 
   public Users(String name) {
     _id = name;
@@ -82,12 +83,12 @@ public class Users extends RealmObject {
 //    profilePictureByteArray = newByteArray;
 //  }
 
-  void addFriend(String name) {
-    friends.add(name);
+  void addFriend(Users user) {
+    friends.add(user);
   }
 
-  boolean removeFriend(String name) {
-    return friends.remove(name);
+  boolean removeFriend(Users user) {
+    return friends.remove(user);
   }
 
   //takes parameter of other players elo and updates users elo on win

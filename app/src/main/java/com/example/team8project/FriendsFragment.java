@@ -1,7 +1,11 @@
 package com.example.team8project;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -11,12 +15,13 @@ import android.widget.EditText;
 import android.widget.Toast;
 import io.realm.Realm;
 
-public class FriendsFragment extends Fragment implements OnClickListener {
+public class FriendsFragment extends Fragment implements View.OnClickListener {
   private Button friendButton;
   private Realm realm;
   private Users current;
   private loginPreferences session;
   private String username;
+  private View mView;
   public FriendsFragment() {
 // Required empty public constructor
   }
@@ -38,33 +43,51 @@ public class FriendsFragment extends Fragment implements OnClickListener {
     realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
     realm.close();
-
-    //add listener to button
-    friendButton = (Button) myView.findViewById(R.id.btn_new_friend);
-    friendButton.setOnClickListener(this);
+    mView = myView;
     return myView;
 
   }
 
   @Override
+  public void onViewCreated(View view, Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+
+    //add listener to button
+    friendButton = view.findViewById(R.id.btn_new_friend);
+    friendButton.setOnClickListener(this);
+    updateTable(view);
+  }
+
+  @Override
   public void onClick(View view) {
-      EditText friendField = view.findViewById(R.id.tf_new_friend);
-      String friendName = friendField.getText().toString();
-      if (friendName == null) {
+      EditText friendField = mView.findViewById(R.id.tf_new_friend);
+      if(friendField.getText() == null) {
         return;
       }
+      String friendName = friendField.getText().toString();
       realm = Realm.getDefaultInstance();
       Users checkFriend = realm.where(Users.class).equalTo("_id", friendName).findFirst();
       if (checkFriend == null) {
-        Toast.makeText(getActivity().getApplicationContext(), getString(R.string.user_failed), Toast.LENGTH_LONG)
-            .show();
+        Context context = getActivity();
+        Dialogs.buildDialog(getString(R.string.user_failed), context);
         realm.close();
         return;
       }
       realm.executeTransaction(transactionRealm -> {
         Users temp = realm.where(Users.class).equalTo("_id", username).findFirst();
-        temp.addFriend(friendName);
+        temp.addFriend(checkFriend);
       });
       realm.close();
+      friendField.setText("");
+      Dialogs.buildDialog(getString(R.string.friend_added), getActivity());
+  }
+
+  void updateTable(View v) {
+
+  }
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    mView = null;
   }
 }
