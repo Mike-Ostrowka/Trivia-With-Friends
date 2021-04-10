@@ -9,112 +9,114 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
+
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
+
 import io.realm.Realm;
 
 public class FriendsActivity extends AppCompatActivity {
 
-  private Users current;
-  private loginPreferences session;
-  private String username;
-  private int song;
-  private Realm realm;
-  private int click_sound;
-  ViewPager simpleViewPager;
-  TabLayout tabLayout;
+    ViewPager simpleViewPager;
+    TabLayout tabLayout;
+    private Users current;
+    private loginPreferences session;
+    private String username;
+    private int song;
+    private Realm realm;
+    private int click_sound;
 
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_friends);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_friends);
 
-    //load toolbar
-    Toolbar myToolbar = findViewById(R.id.toolbar_friends);
-    setSupportActionBar(myToolbar);
-    ActionBar ab = getSupportActionBar();
-    ab.setDisplayHomeAsUpEnabled(true);
+        //load toolbar
+        Toolbar myToolbar = findViewById(R.id.toolbar_friends);
+        setSupportActionBar(myToolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);
 
-    //load preferences
-    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
-    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
-    //if switch value is false, disable music
-    if (soundSwitch) {
-      playMusic();
+        //load preferences
+        PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+        //if switch value is false, disable music
+        if (soundSwitch) {
+            playMusic();
+        }
+
+        //open a realm and find logged in user
+        session = new loginPreferences(getApplicationContext());
+        username = session.getusername();
+        realm = Realm.getDefaultInstance();
+        current = realm.where(Users.class).equalTo("_id", username).findFirst();
+        realm.close();
+
+        simpleViewPager = findViewById(R.id.simpleViewPager);
+        tabLayout = findViewById(R.id.simpleTabLayout);
+        Button newFriend = findViewById(R.id.btn_new_friend);
+
+        TabLayout.Tab firstTab = tabLayout.newTab();
+        firstTab.setText("Friends");
+        firstTab.setIcon(R.drawable.ic_friends_tab);
+        tabLayout.addTab(firstTab);
+
+        TabLayout.Tab secondTab = tabLayout.newTab();
+        secondTab.setText("Inbox");
+        secondTab.setIcon(R.drawable.ic_inbox_tab);
+        tabLayout.addTab(secondTab);
+
+        PagerAdapter adapter = new PagerAdapter
+                (getSupportFragmentManager(), tabLayout.getTabCount());
+        simpleViewPager.setAdapter(adapter);
+
+        //change on swipe
+        simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        //change on button press
+        tabLayout.setOnTabSelectedListener(onTabSelectedListener(simpleViewPager));
+
     }
 
-    //open a realm and find logged in user
-    session = new loginPreferences(getApplicationContext());
-    username = session.getusername();
-    realm = Realm.getDefaultInstance();
-    current = realm.where(Users.class).equalTo("_id", username).findFirst();
-    realm.close();
+    private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
+        return new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                HXSound.sound().load(R.raw.click).play(getApplicationContext());
+                pager.setCurrentItem(tab.getPosition());
+            }
 
-    simpleViewPager = (ViewPager) findViewById(R.id.simpleViewPager);
-    tabLayout = (TabLayout) findViewById(R.id.simpleTabLayout);
-    Button newFriend = findViewById(R.id.btn_new_friend);
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
 
-    TabLayout.Tab firstTab = tabLayout.newTab();
-    firstTab.setText("Friends");
-    firstTab.setIcon(R.drawable.ic_friends_tab);
-    tabLayout.addTab(firstTab);
+            }
 
-    TabLayout.Tab secondTab = tabLayout.newTab();
-    secondTab.setText("Inbox");
-    secondTab.setIcon(R.drawable.ic_inbox_tab);
-    tabLayout.addTab(secondTab);
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
 
-    PagerAdapter adapter = new PagerAdapter
-        (getSupportFragmentManager(), tabLayout.getTabCount());
-    simpleViewPager.setAdapter(adapter);
+            }
+        };
+    }
 
-    //change on swipe
-    simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-    //change on button press
-    tabLayout.setOnTabSelectedListener(onTabSelectedListener(simpleViewPager));
+    private void playMusic() {
+        song = R.raw.smooth_jazz;
+        HXMusic.music().load(song).gapless(true).looped(true).play(this);
+    }
 
-  }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        HXSound.clear();
+        HXMusic.stop();
+        HXMusic.clear();
+    }
 
-  private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
-    return new TabLayout.OnTabSelectedListener() {
-      @Override
-      public void onTabSelected(TabLayout.Tab tab) {
-        HXSound.sound().load(R.raw.click).play(getApplicationContext());
-        pager.setCurrentItem(tab.getPosition());
-      }
-
-      @Override
-      public void onTabUnselected(TabLayout.Tab tab) {
-
-      }
-
-      @Override
-      public void onTabReselected(TabLayout.Tab tab) {
-
-      }
-    };
-  }
-
-  private void playMusic() {
-    song = R.raw.smooth_jazz;
-    HXMusic.music().load(song).gapless(true).looped(true).play(this);
-  }
-
-  @Override
-  protected void onDestroy() {
-    super.onDestroy();
-    HXSound.clear();
-    HXMusic.stop();
-    HXMusic.clear();
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    HXSound.clear();
-    HXMusic.stop();
-    HXMusic.clear();
-  }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        HXSound.clear();
+        HXMusic.stop();
+        HXMusic.clear();
+    }
 
 }
