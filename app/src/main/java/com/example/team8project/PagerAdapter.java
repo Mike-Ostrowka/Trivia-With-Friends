@@ -19,6 +19,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new FriendsFragment();
             case 1:
+                return new FriendsListFragment();
+            case 2:
                 return new InboxFragment();
             default:
                 return null;

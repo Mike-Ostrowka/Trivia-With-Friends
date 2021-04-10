@@ -3,6 +3,8 @@ package com.example.team8project;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.design.widget.TabLayout.Tab;
+import android.support.design.widget.TabLayout.TabLayoutOnPageChangeListener;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -55,24 +57,28 @@ public class FriendsActivity extends AppCompatActivity {
 
         simpleViewPager = findViewById(R.id.simpleViewPager);
         tabLayout = findViewById(R.id.simpleTabLayout);
-        Button newFriend = findViewById(R.id.btn_new_friend);
 
-        TabLayout.Tab firstTab = tabLayout.newTab();
-        firstTab.setText("Friends");
-        firstTab.setIcon(R.drawable.ic_friends_tab);
+        Tab firstTab = tabLayout.newTab();
+        firstTab.setText("Add Friends");
+        firstTab.setIcon(R.drawable.ic__add_friend);
         tabLayout.addTab(firstTab);
 
-        TabLayout.Tab secondTab = tabLayout.newTab();
-        secondTab.setText("Inbox");
-        secondTab.setIcon(R.drawable.ic_inbox_tab);
+        Tab secondTab = tabLayout.newTab();
+        secondTab.setText("Friends List");
+        secondTab.setIcon(R.drawable.ic_friends_tab);
         tabLayout.addTab(secondTab);
+
+        Tab thirdTab = tabLayout.newTab();
+        thirdTab.setText("Inbox");
+        thirdTab.setIcon(R.drawable.ic_inbox_tab);
+        tabLayout.addTab(thirdTab);
 
         PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         simpleViewPager.setAdapter(adapter);
 
         //change on swipe
-        simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        simpleViewPager.addOnPageChangeListener(new TabLayoutOnPageChangeListener(tabLayout));
         //change on button press
         tabLayout.setOnTabSelectedListener(onTabSelectedListener(simpleViewPager));
 

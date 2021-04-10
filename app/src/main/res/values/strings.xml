@@ -67,7 +67,9 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="games_won">Games Won: </string>
   <string name="friend_added">Friend added!</string>
   <string name="ok">OK</string>
-  <string name="elo">Elo</string>
+  <string name="elo">ELO:</string>
+  <string name="delete">Delete</string>
+
 
 
 </resources>

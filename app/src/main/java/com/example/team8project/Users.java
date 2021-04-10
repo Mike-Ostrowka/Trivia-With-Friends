@@ -152,8 +152,16 @@ public class Users extends RealmObject {
         friends.add(user);
     }
 
-    boolean removeFriend(Users user) {
-        return friends.remove(user);
+    void removeFriend(int index) {
+        friends.remove(index);
+    }
+
+    int getSizeFriends() {
+        return friends.size();
+    }
+
+    Users getFriend(int index) {
+        return friends.get(index);
     }
 
     //takes parameter of other players elo and updates users elo on win
