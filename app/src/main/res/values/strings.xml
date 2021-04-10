@@ -8,7 +8,7 @@
   <string name="account_name">Name</string>
   <string name="account_password">Password</string>
   <string name="new_account_register">Register</string>
-  <string name="login_title">Enter your email and password</string>
+  <string name="login_title">Enter your username and password</string>
   <string name="account_success">Account created successfully, username:\t</string>
   <string name="account_fail">Make sure your password has at least 7 characters, and at least one
   capital letter and number</string>
@@ -67,6 +67,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="games_won">Games Won: </string>
   <string name="friend_added">Friend added!</string>
   <string name="ok">OK</string>
+  <string name="elo">Elo</string>
 
 
 </resources>
