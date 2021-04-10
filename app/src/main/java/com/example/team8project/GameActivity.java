@@ -1,5 +1,6 @@
 package com.example.team8project;
 
+import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +8,10 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.sql.Time;
-import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -19,7 +21,8 @@ public class GameActivity extends AppCompatActivity {
 
     Boolean readFlag = true;
     Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
-    TextView counterTxt;
+    TextView questionTextView;
+
     int playerScore = 0;
     Game currentGame = new Game(questionCount, readFlag, playerScore);
 
@@ -28,29 +31,35 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        playGame();
+        currentGame.questionList.AnswersJumbled();
+
+        for(int i = 0; i < 10; i++) {
+            Log.e("Error", "For Loop is Running");
+
+            ScheduledExecutorService scheduler =
+                    Executors.newSingleThreadScheduledExecutor();
+
+            scheduler.scheduleAtFixedRate
+                    (new Runnable() {
+                        public void run() {
+                            // call service
+                            playGame();
+                        }
+                    }, 0, 10, TimeUnit.SECONDS);
+
+        }
 
         answerOneBtn = findViewById(R.id.AnswerOneButton);
         answerTwoBtn = findViewById(R.id.AnswerTwoButton);
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
-        counterTxt = findViewById(R.id.CounterText);
-
-//        answerOneBtn.setText(currentGame.firstAnswer);
-//        answerTwoBtn.setText(currentGame.secondAnswer);
-//        answerThreeBtn.setText(currentGame.thirdAnswer);
-//        answerFourBtn.setText(currentGame.fourthAnswer);
-
-        TextView questionTextView = findViewById(R.id.questionText);
-        questionTextView.setText(currentGame.currentQuestion);
+        questionTextView = findViewById(R.id.questionText);
 
 
         answerOneBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerOneBtn.getText().toString();
             Log.e("error", currentGame.playerOneSelection);
-
-
 
 
         });
@@ -83,60 +92,27 @@ public class GameActivity extends AppCompatActivity {
         });
 
 
-
-
     }
 
 
-
     public void playGame() {
-        currentGame.questionList.AnswersJumbled();
 
         answerOneBtn = findViewById(R.id.AnswerOneButton);
         answerTwoBtn = findViewById(R.id.AnswerTwoButton);
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
-        counterTxt = findViewById(R.id.CounterText);
-
-//        for (int i = 0; i < 10; i++) {
-//
-//            currentGame.loadQuestion(i);
-//            answerOneBtn.setText(currentGame.firstAnswer);
-//            answerTwoBtn.setText(currentGame.secondAnswer);
-//            answerThreeBtn.setText(currentGame.thirdAnswer);
-//            answerFourBtn.setText(currentGame.fourthAnswer);
-//
-//            new Timer().schedule(new TimerTask() {
-//                @Override
-//                public void run() {
-//
-//                    Log.e("Running", currentGame.firstAnswer);
-//                }
-//            },0,1000000);
-//
-//
-//        }
-
-        do{
+        questionTextView = findViewById(R.id.questionText);
 
 
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    currentGame.loadQuestion(questionCount);
-                    Log.e("Running", currentGame.firstAnswer);
-                                answerOneBtn.setText(currentGame.firstAnswer);
-            answerTwoBtn.setText(currentGame.secondAnswer);
-            answerThreeBtn.setText(currentGame.thirdAnswer);
-            answerFourBtn.setText(currentGame.fourthAnswer);
 
-                }
-            },0,1000);
-            questionCount++;
+        currentGame.loadQuestion(questionCount);
+        questionTextView.setText(currentGame.currentQuestion);
+        answerOneBtn.setText(currentGame.firstAnswer);
+        answerTwoBtn.setText(currentGame.secondAnswer);
+        answerThreeBtn.setText(currentGame.thirdAnswer);
+        answerFourBtn.setText(currentGame.fourthAnswer);
 
-        }while (questionCount < 9);
-
-
+        questionCount++;
 
 
     }

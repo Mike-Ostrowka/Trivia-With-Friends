@@ -6,13 +6,14 @@ import android.util.Log;
 
 public class Game extends AppCompatActivity {
 
-    public String playerOneSelection, /* playerTwoSelection, */ firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, currentQuestion;
+    public String playerOneSelection, /* playerTwoSelection, */
+            firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, currentQuestion;
     QuestionList questionList = new QuestionList();
     String getCorrect;
     int questCount, playerScore;
     boolean readFlag;
 
-    public Game(int questionCount, boolean readWrite, int playerScore){
+    public Game(int questionCount, boolean readWrite, int playerScore) {
         this.questCount = questionCount;
         this.readFlag = readWrite;
         this.playerScore = playerScore;
@@ -42,28 +43,28 @@ public class Game extends AppCompatActivity {
         // but correct one is within one of the jumbled answers
 
         currentQuestion = questionList.getQuestion(questionCount);
-        firstAnswer = questionList.getJumbledAnswer(questionCount,0);
-        secondAnswer = questionList.getJumbledAnswer(questionCount,1);
-        thirdAnswer = questionList.getJumbledAnswer(questionCount,2);
-        fourthAnswer = questionList.getJumbledAnswer(questionCount,3);
+        firstAnswer = questionList.getJumbledAnswer(questionCount, 0);
+        secondAnswer = questionList.getJumbledAnswer(questionCount, 1);
+        thirdAnswer = questionList.getJumbledAnswer(questionCount, 2);
+        fourthAnswer = questionList.getJumbledAnswer(questionCount, 3);
         getCorrect = questionList.getCorrectAnswer(questionCount);
 
     }
 
     public int checkPlayerAnswer(String selection) {
 
-                if (getCorrect == selection) {
-                    return 5;
+        if (getCorrect == selection) {
+            return 5;
 
-                } else {
-                    return 0;
-                }
+        } else {
+            return 0;
+        }
 
 
     }
 
 
-    public void startGame(int questionCount){
+    public void startGame(int questionCount) {
 
         //changes orders of answers so that correct answer is not always the same button
         loadQuestion(questionCount);
