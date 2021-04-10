@@ -1,10 +1,8 @@
 package com.example.team8project;
 
-
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -14,12 +12,18 @@ public class GameActivity extends AppCompatActivity {
 
     int questionCount = 0;
     int playerScore = 0;
+    boolean playerAnswered = false;
 
-
+    //declaring all of the layout objects
     Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
-    TextView questionTextView;
-    Game currentGame = new Game(playerScore);
-    Handler handler;
+    TextView questionTextView, playerScoreText;
+
+    //declaring current game, handler for rounds, and player one and two
+    Handler handler = new Handler();
+    Game currentGame;
+    Player playerOne;
+    // Player playerTwo;
+
 
 
     @Override
@@ -28,21 +32,28 @@ public class GameActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        currentGame.questionList.AnswersJumbled();
+
         handler = new Handler();
+        currentGame = new Game();
+        playerOne = new Player(playerScore);
+        currentGame.questionList.AnswersJumbled();
 
         answerOneBtn = findViewById(R.id.AnswerOneButton);
         answerTwoBtn = findViewById(R.id.AnswerTwoButton);
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         questionTextView = findViewById(R.id.questionText);
+        playerScoreText = findViewById(R.id.playerScore);
+
+
 
 
         answerOneBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerOneBtn.getText().toString();
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            Log.e("Error", "Clicked");
+            playerOne.setPlayerScore(playerScore);
+            playerAnswered = true;
 
 
         });
@@ -51,7 +62,10 @@ public class GameActivity extends AppCompatActivity {
         answerTwoBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerTwoBtn.getText().toString();
+
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            playerOne.setPlayerScore(playerScore);
+            playerAnswered = true;
 
 
         });
@@ -60,7 +74,10 @@ public class GameActivity extends AppCompatActivity {
         answerThreeBtn.setOnClickListener(v -> {
 
             currentGame.playerOneSelection = answerThreeBtn.getText().toString();
+
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            playerOne.setPlayerScore(playerScore);
+            playerAnswered = true;
 
 
         });
@@ -70,14 +87,16 @@ public class GameActivity extends AppCompatActivity {
 
             currentGame.playerOneSelection = answerFourBtn.getText().toString();
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
-            System.out.println("Player Score" + playerScore);
+            playerOne.setPlayerScore(playerScore);
+            playerAnswered = true;
 
         });
 
         for (int i = 0; i < 10; i++) {
 
             handler.postDelayed(() -> playGame(), 10000 * i);
-            // playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            playerAnswered = false;
+//            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
 
         }
 
@@ -93,6 +112,7 @@ public class GameActivity extends AppCompatActivity {
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         questionTextView = findViewById(R.id.questionText);
+        playerScoreText.setText(String.valueOf(playerOne.getPlayerScore()));
 
         currentGame.loadQuestion(questionCount);
         questionTextView.setText(currentGame.currentQuestion);

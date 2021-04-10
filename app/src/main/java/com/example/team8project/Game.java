@@ -10,39 +10,13 @@ public class Game extends AppCompatActivity {
             firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, currentQuestion;
     QuestionList questionList = new QuestionList();
     String getCorrect;
-    int playerScore;
-    boolean readFlag;
 
-    public Game(boolean readWrite, int playerScore) {
-        this.readFlag = readWrite;
-        this.playerScore = playerScore;
-
+    public Game() {
     }
 
-    public Game(int playerScore) {
 
-        this.playerScore = playerScore;
-
-    }
 
     public void loadQuestion(int questionCount) {
-
-        /*
-        Pseudo-Code for loading questions
-        -->load first question DONE
-        -->load answers corresponding to question and randomize their order??(how to do this) DONE
-        -->timer starts counting down from 10
-        -->when timer reaches 0, player has 10 seconds to answer
-        -->take player input and use checkPlayerAnswer() to compare to current questions correct answer
-        -->if correct player gains 5 points
-        -->refresh GameActivity with next question(increment questionCount 1)-->most likely to be done using new activity(must research this)
-        -->game runs until player has 25 points(this is more in relation to multiplayer.
-        -->return to welcomeActivity
-
-
-
-
-         */
 
         // Changed the questionlist class, jumbled holds 3 correct and 1 wrong, fifth answer is optional
         // but correct one is within one of the jumbled answers
@@ -58,7 +32,7 @@ public class Game extends AppCompatActivity {
 
     public int checkPlayerAnswer(String selection) {
 
-        if (getCorrect == selection) {
+        if (getCorrect.equals(selection)) {
             return 5;
 
         } else {
@@ -69,14 +43,6 @@ public class Game extends AppCompatActivity {
     }
 
 
-    public void startGame(int questionCount) {
-
-        //changes orders of answers so that correct answer is not always the same button
-        loadQuestion(questionCount);
-        Log.e("loading questions", "loaded");
-
-
-    }
 
 }
 
