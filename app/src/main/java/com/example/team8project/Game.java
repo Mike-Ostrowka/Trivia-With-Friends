@@ -10,12 +10,17 @@ public class Game extends AppCompatActivity {
             firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, currentQuestion;
     QuestionList questionList = new QuestionList();
     String getCorrect;
-    int questCount, playerScore;
+    int playerScore;
     boolean readFlag;
 
-    public Game(int questionCount, boolean readWrite, int playerScore) {
-        this.questCount = questionCount;
+    public Game(boolean readWrite, int playerScore) {
         this.readFlag = readWrite;
+        this.playerScore = playerScore;
+
+    }
+
+    public Game(int playerScore) {
+
         this.playerScore = playerScore;
 
     }

@@ -17,13 +17,14 @@ import io.realm.annotations.Required;
 
 public class Users extends RealmObject {
 
+    private final RealmList<Users> friends = new RealmList<>();
     //  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
     protected Integer eloOne = 1000;
     protected int eloTwo = 1000;
     protected int eloThree = 1000;
     protected int eloFour = 1000;
     protected int eloFive = 1000;
-//  private Byte[] profilePictureByteArray;
+    //  private Byte[] profilePictureByteArray;
     protected int eloSix = 1000;
     protected int eloSeven = 1000;
     protected int eloEight = 1000;
@@ -38,7 +39,6 @@ public class Users extends RealmObject {
     private String securityAnswer;
     private int gamesPlayed = 0;
     private int gamesWon = 0;
-    private final RealmList<Users> friends = new RealmList<>();
 
     public Users(String name) {
         _id = name;

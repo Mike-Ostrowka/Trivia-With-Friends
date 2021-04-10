@@ -15,8 +15,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 public class QuestionXMLParser {
 
-    public int sizeOfBank;
     private final List<Question> questionBank;
+    public int sizeOfBank;
 
     public QuestionXMLParser() {
         this.questionBank = new ArrayList<>();

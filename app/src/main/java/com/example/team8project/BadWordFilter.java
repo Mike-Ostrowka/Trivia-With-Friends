@@ -12,11 +12,9 @@ import java.util.Arrays;
 
 public class BadWordFilter {
 
-    private static int largestWordLength = 0;
-
-
     //  private static Map<String, String> allBadWords = new HashMap<String, String>();
     private static final ArrayList<String> allBadWords = new ArrayList<>();
+    private static int largestWordLength = 0;
 
     /**
      * Iterates over a String input and checks whether any cuss word was found - and for any/all cuss
