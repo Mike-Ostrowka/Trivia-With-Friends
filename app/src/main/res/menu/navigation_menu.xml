@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
   <item
+    android:id="@+id/nm_friends"
+    android:title="@string/friends"
+    android:icon="@drawable/ic_baseline_friends">
+
+  </item>
+
+  <item
     android:id="@+id/nm_setting"
     android:title="@string/settings"
     android:icon="@drawable/ic_baseline_settings_24">
@@ -20,4 +27,5 @@
     android:icon="@drawable/ic_baseline_logout_24">
 
   </item>
+
 </menu>
