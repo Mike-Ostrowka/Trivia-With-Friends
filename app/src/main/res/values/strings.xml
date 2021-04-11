@@ -82,6 +82,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="input_placeholder">Write a message</string>
   <string name ="placeholder_message">Placeholder message</string>
   <string name="friend_exists">Already added this user as a friend</string>
+  <string name="chat_button">Chat With Friends!</string>
 
 
 </resources>

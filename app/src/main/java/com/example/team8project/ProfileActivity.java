@@ -9,7 +9,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,105 +24,123 @@ import io.realm.Realm;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    private int song;
-    private int click_sound;
-    private ImageView profilePicture;
-    private String bio;
-    private Realm realm;
-    private Users current;
-    private loginPreferences session;
-    private String username;
+  private int song;
+  private int click_sound;
+  private ImageView profilePicture;
+  private String bio;
+  private Realm realm;
+  private Users current;
+  private loginPreferences session;
+  private String username;
 //  private String currentPhotoPath;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_profile);
 
-        //load toolbar
-        Toolbar myToolbar = findViewById(R.id.toolbar_profile);
-        setSupportActionBar(myToolbar);
-        ActionBar ab = getSupportActionBar();
-        ab.setDisplayHomeAsUpEnabled(true);
+    //load toolbar
+    Toolbar myToolbar = findViewById(R.id.toolbar_profile);
+    setSupportActionBar(myToolbar);
+    ActionBar ab = getSupportActionBar();
+    ab.setDisplayHomeAsUpEnabled(true);
 
-        //load preferences
-        PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
-        //if switch value is false, disable music
-        if (soundSwitch) {
-            playMusic();
-        }
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (soundSwitch) {
+      playMusic();
+    }
 
-        click_sound = R.raw.click;
+    //open a realm and find logged in user
+    session = new loginPreferences(getApplicationContext());
+    username = session.getusername();
+    Realm realm = Realm.getDefaultInstance();
+    current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
-        Button cameraButton = findViewById(R.id.camera_button);
-        Button friends = findViewById(R.id.btn_friends);
-        Button updateBio = findViewById(R.id.updateBio_button);
-        profilePicture = findViewById(R.id.profile_picture);
-        TextView userBio = findViewById(R.id.user_bio);
+    click_sound = R.raw.click;
 
+    Button cameraButton = findViewById(R.id.camera_button);
+    Button friends = findViewById(R.id.btn_friends);
+    Button updateBio = findViewById(R.id.updateBio_button);
+    Button chat = findViewById(R.id.btn_chat);
+    profilePicture = findViewById(R.id.profile_picture);
+    TextView userBio = findViewById(R.id.user_bio);
 
-        friends.setOnClickListener(view -> {
-            HXSound.sound().load(click_sound).play(this);
-            Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
-            startActivity(intent);
-        });
+    friends.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
+      startActivity(intent);
+    });
 
-        // TODO need to take profile pic byte[] from realm, and use as profile pic
+    // TODO need to take profile pic byte[] from realm, and use as profile pic
 //    byte[] bitmapData = users.getProfilePictureByteArray;
 //    if (bitmapData != null) {
 //      Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
 //      profilePicture.setImageBitmap(bitmap);
 //    }
 
-        // camera button will update profile picture and what is stored in realm database
-        cameraButton.setOnClickListener(view -> {
-            HXSound.sound().load(click_sound).play(this);
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    // camera button will update profile picture and what is stored in realm database
+    cameraButton.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivityForResult(intent, 0);
-            }
-        });
+      if (intent.resolveActivity(getPackageManager()) != null) {
+        startActivityForResult(intent, 0);
+      }
+    });
 
-        //todo check if bio is present in realm
-//    bio = users.getBio;
-//    if (!(bio==null){
-//      userBio.setText(bio);
-//    }
-        //todo make button update realm bio with whatever user typed into the textbox
-        updateBio.setOnClickListener(view -> {
-            HXSound.sound().load(click_sound).play(this);
-            Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
-            startActivity(intent);
-
-        });
-
-        //todo present users stats on page
-//    TextView gamesPlayed = findViewById(R.id.games_played);
-//    String gamesPlayedString = getString(R.string.games_played) + users.getGamesPlayed;
-//    gamesPlayed.setText(gamesPlayedString);
-//
-//    TextView gamesWon = findViewById(R.id.games_won);
-//    String gamesWonString = getString(R.string.games_played) + users.getGamesWon;
-//    gamesWon.setText(gamesWonString);
-
-        //todo present elo tracker graph
+    bio = current.getBio();
+    if (!(bio == null)) {
+      userBio.setText(bio);
+      userBio.setCursorVisible(false);
+      getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
+    // todo add toast saying bio is updated
+    updateBio.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
 
-        Bitmap bp = (Bitmap) data.getExtras().get("data");
-        profilePicture.setImageBitmap(bp);
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] byteArray = stream.toByteArray();
-        //TODO save byte[] byteArray to Realm
-        // something like:
-        // users.setProfilePictureByteArray(byteArray);
-    }
+      String text = userBio.getText().toString();
+      if (text.equals("")) {
+        return;
+      }
+      realm.executeTransaction(transactionRealm -> current.setBio(text));
+    });
+
+    chat.setOnClickListener(view -> {
+      Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+      startActivity(intent);
+    });
+
+    TextView gamesPlayed = findViewById(R.id.games_played);
+    String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
+    gamesPlayed.setText(gamesPlayedString);
+
+    TextView gamesWon = findViewById(R.id.games_won);
+    String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
+    gamesWon.setText(gamesWonString);
+
+    //todo present elo tracker graph
+
+    realm.close();
+  }
+
+  protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    super.onActivityResult(requestCode, resultCode, data);
+
+    Bitmap bp = (Bitmap) data.getExtras().get("data");
+    profilePicture.setImageBitmap(bp);
+    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+    byte[] byteArray = stream.toByteArray();
+    //TODO save byte[] byteArray to Realm
+    // something like:
+    // users.setProfilePictureByteArray(byteArray);
+  }
 
 //  private File createImageFile() throws IOException {
 //    // create an image file name
@@ -136,26 +156,19 @@ public class ProfileActivity extends AppCompatActivity {
 //    return image;
 //  }
 
-    private void playMusic() {
-        song = R.raw.smooth_jazz;
-        HXMusic.music().load(song).gapless(true).looped(true).play(this);
-    }
+  private void playMusic() {
+    song = R.raw.smooth_jazz;
+    HXMusic.music().load(song).gapless(true).looped(true).play(this);
+  }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        HXSound.clear();
-        HXMusic.stop();
-        HXMusic.clear();
-    }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        HXSound.clear();
-        HXMusic.stop();
-        HXMusic.clear();
-    }
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXSound.clear();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
 }
 
 

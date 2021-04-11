@@ -1,7 +1,11 @@
 package com.example.team8project;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -9,6 +13,8 @@ import android.widget.ListView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.huhx0015.hxaudio.audio.HXMusic;
+import com.huhx0015.hxaudio.audio.HXSound;
 import com.scaledrone.lib.Listener;
 import com.scaledrone.lib.Member;
 import com.scaledrone.lib.Room;
@@ -20,7 +26,7 @@ import java.util.Random;
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private String channelID = "vARN10riQporwYKC";
+  private String channelID = "m5hujbRaUXtIVzj4";
   private String roomName = "observable-room";
   private EditText editText;
   private Scaledrone scaledrone;
@@ -31,7 +37,23 @@ public class ChatActivity extends AppCompatActivity implements
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_chat);
-    // This is where we write the mesage
+
+    //load toolbar
+    Toolbar myToolbar = findViewById(R.id.toolbar_profile);
+    setSupportActionBar(myToolbar);
+    ActionBar ab = getSupportActionBar();
+    ab.setDisplayHomeAsUpEnabled(true);
+
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (soundSwitch) {
+      playMusic();
+    }
+
+    // This is where we write the message
     editText = (EditText) findViewById(R.id.editText);
 
     messageAdapter = new MessageAdapter(this);
@@ -86,12 +108,14 @@ public class ChatActivity extends AppCompatActivity implements
     final ObjectMapper mapper = new ObjectMapper();
     try {
       // member.clientData is a MemberData object, let's parse it as such
-      final MemberData data = mapper.treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
+      final MemberData data = mapper
+          .treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
       // if the clientID of the message sender is the same as our's it was sent by us
       boolean belongsToCurrentUser = receivedMessage.getClientID().equals(scaledrone.getClientID());
       // since the message body is a simple string in our case we can use json.asText() to parse it as such
       // if it was instead an object we could use a similar pattern to data parsing
-      final Message message = new Message(receivedMessage.getData().asText(), data, belongsToCurrentUser);
+      final Message message = new Message(receivedMessage.getData().asText(), data,
+          belongsToCurrentUser);
       runOnUiThread(new Runnable() {
         @Override
         public void run() {
@@ -106,8 +130,21 @@ public class ChatActivity extends AppCompatActivity implements
   }
 
   private String getRandomName() {
-    String[] adjs = {"autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark", "summer", "icy", "delicate", "quiet", "white", "cool", "spring", "winter", "patient", "twilight", "dawn", "crimson", "wispy", "weathered", "blue", "billowing", "broken", "cold", "damp", "falling", "frosty", "green", "long", "late", "lingering", "bold", "little", "morning", "muddy", "old", "red", "rough", "still", "small", "sparkling", "throbbing", "shy", "wandering", "withered", "wild", "black", "young", "holy", "solitary", "fragrant", "aged", "snowy", "proud", "floral", "restless", "divine", "polished", "ancient", "purple", "lively", "nameless"};
-    String[] nouns = {"waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning", "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter", "forest", "hill", "cloud", "meadow", "sun", "glade", "bird", "brook", "butterfly", "bush", "dew", "dust", "field", "fire", "flower", "firefly", "feather", "grass", "haze", "mountain", "night", "pond", "darkness", "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder", "violet", "water", "wildflower", "wave", "water", "resonance", "sun", "wood", "dream", "cherry", "tree", "fog", "frost", "voice", "paper", "frog", "smoke", "star"};
+    String[] adjs = {"autumn", "hidden", "bitter", "misty", "silent", "empty", "dry", "dark",
+        "summer", "icy", "delicate", "quiet", "white", "cool", "spring", "winter", "patient",
+        "twilight", "dawn", "crimson", "wispy", "weathered", "blue", "billowing", "broken", "cold",
+        "damp", "falling", "frosty", "green", "long", "late", "lingering", "bold", "little",
+        "morning", "muddy", "old", "red", "rough", "still", "small", "sparkling", "throbbing",
+        "shy", "wandering", "withered", "wild", "black", "young", "holy", "solitary", "fragrant",
+        "aged", "snowy", "proud", "floral", "restless", "divine", "polished", "ancient", "purple",
+        "lively", "nameless"};
+    String[] nouns = {"waterfall", "river", "breeze", "moon", "rain", "wind", "sea", "morning",
+        "snow", "lake", "sunset", "pine", "shadow", "leaf", "dawn", "glitter", "forest", "hill",
+        "cloud", "meadow", "sun", "glade", "bird", "brook", "butterfly", "bush", "dew", "dust",
+        "field", "fire", "flower", "firefly", "feather", "grass", "haze", "mountain", "night",
+        "pond", "darkness", "snowflake", "silence", "sound", "sky", "shape", "surf", "thunder",
+        "violet", "water", "wildflower", "wave", "water", "resonance", "sun", "wood", "dream",
+        "cherry", "tree", "fog", "frost", "voice", "paper", "frog", "smoke", "star"};
     return (
         adjs[(int) Math.floor(Math.random() * adjs.length)] +
             "_" +
@@ -118,7 +155,7 @@ public class ChatActivity extends AppCompatActivity implements
   private String getRandomColor() {
     Random r = new Random();
     StringBuffer sb = new StringBuffer("#");
-    while(sb.length() < 7){
+    while (sb.length() < 7) {
       sb.append(Integer.toHexString(r.nextInt()));
     }
     return sb.toString().substring(0, 7);
@@ -131,11 +168,25 @@ public class ChatActivity extends AppCompatActivity implements
       editText.getText().clear();
     }
   }
+
+  private void playMusic() {
+    int song = R.raw.smooth_jazz;
+    HXMusic.music().load(song).gapless(true).looped(true).play(this);
+  }
+
+  @Override
+  protected void onPause() {
+    super.onPause();
+    HXSound.clear();
+    HXMusic.stop();
+    HXMusic.clear();
+  }
 }
 
 
 // todo use users class as member data instead, set into own file
 class MemberData {
+
   private String name;
   private String color;
 
