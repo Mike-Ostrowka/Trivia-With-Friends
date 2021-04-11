@@ -48,7 +48,7 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
     Users dataModel = getItem(position);
     if (v.getId() == R.id.item_delete) {
       String message =
-          "Are you sure you want to remove : " + current.getFriend(position).getUserName()
+          "Are you sure you want to remove :    " + current.getFriend(position).getUserName()
               + " as a friend?";
       AlertDialog.Builder builder = new AlertDialog.Builder(mDialog);
       builder.setMessage(message);
@@ -56,10 +56,17 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
       builder.setPositiveButton(R.string.delete, (dialogInterface, i) -> {
         realm = Realm.getDefaultInstance();
         realm.executeTransaction(transactionRealm -> {
-          Users tempOther = realm.where(Users.class).equalTo("_id", current.getFriend(position).getUserName()).findFirst();
-          tempOther.removeFriend(current);
+          Users tempOther = realm.where(Users.class)
+              .equalTo("_id", current.getFriend(position).getUserName()).findFirst();
+          if (tempOther != null) {
+            tempOther.removeFriend(current);
+          }
+
           Users temp = realm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
-          temp.removeFriend(current.getFriend(position));
+          if (temp != null) {
+            temp.removeFriend(current.getFriend(position));
+          }
+
         });
         realm.close();
       });
