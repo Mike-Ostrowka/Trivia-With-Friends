@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import io.realm.Realm;
 import java.util.ArrayList;
 
 //code adapted from https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
@@ -16,6 +18,10 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
 
   private ArrayList<Users> dataSet;
   Context mContext;
+  Context mDialog;
+  private Users current;
+  private String username;
+  private loginPreferences session;
 
   // View lookup cache
   private static class ViewHolder {
@@ -24,10 +30,11 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
     ImageView mDelete;
   }
 
-  public TableAdapter(ArrayList<Users> data, Context context) {
+  public TableAdapter(ArrayList<Users> data, Context context, Context contextTwo) {
     super(context, R.layout.row_item, data);
     this.dataSet = data;
     this.mContext=context;
+    this.mDialog = contextTwo;
 
   }
 
@@ -36,9 +43,20 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
 
     int position=(Integer) v.getTag();
     Users dataModel= getItem(position);
-
     if (v.getId() == R.id.item_delete) {
-      //TODO delete
+      String message = R.string.confirm_delete + dataModel.getUserName();
+//      if(Dialogs.confirmDialog(message, mDialog)) {
+        //open a realm and find logged in user
+        session = new loginPreferences(v.getContext());
+        username = session.getusername();
+        Realm realm = Realm.getDefaultInstance();
+        current = realm.where(Users.class).equalTo("_id", username).findFirst();
+        realm.executeTransaction(transactionRealm-> {
+          Users temp = realm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
+          temp.removeFriend(dataModel);
+        });
+        realm.close();
+//      }
     }
   }
 
@@ -75,10 +93,11 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
     result.startAnimation(animation);
     lastPosition = position;
 
-
+    int elo = dataModel.getElo();
+    String strElo = Integer.toString(elo);
 
     viewHolder.txtName.setText(dataModel.getUserName());
-    viewHolder.txtElo.setText(dataModel.getElo());
+    viewHolder.txtElo.setText(strElo);
     viewHolder.mDelete.setOnClickListener(this);
     viewHolder.mDelete.setTag(position);
     // Return the completed view to render on screen

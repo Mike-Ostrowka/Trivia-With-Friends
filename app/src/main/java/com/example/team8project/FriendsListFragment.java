@@ -2,11 +2,13 @@ package com.example.team8project;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import io.realm.Realm;
+import io.realm.mongodb.User;
 import java.util.ArrayList;
 
 
@@ -54,11 +56,22 @@ public class FriendsListFragment extends Fragment {
     for(int i = 0; i < current.getSizeFriends(); i++) {
       dataModels.add(current.getFriend(i));
     }
-    adapter= new TableAdapter(dataModels, getActivity().getApplicationContext());
+    adapter= new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity());
     listView.setAdapter(adapter);
-    listView.setOnItemClickListener((parent, view1, position, id) -> {
-      Users dataModel= current.getFriend(position);
-      //delete
+//    listView.setOnItemClickListener((parent, view1, position, id) -> {
+//      String message = getString(R.string.confirm_delete) + current.getFriend(position);
+//      if(Dialogs.confirmDialog(message, getActivity())) {
+//        current.removeFriend(position);
+//      }
+//    });
+  }
+
+  public void deleteFriend(Users toDelete) {
+    realm = Realm.getDefaultInstance();
+    realm.executeTransaction(transactionRealm -> {
+      Users temp = realm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
+      temp.removeFriend(toDelete);
     });
+    realm.close();
   }
 }

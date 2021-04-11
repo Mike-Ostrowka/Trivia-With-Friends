@@ -69,6 +69,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="ok">OK</string>
   <string name="elo">ELO:</string>
   <string name="delete">Delete</string>
+  <string name="cancel">Cancel</string>
+  <string name="confirm_delete">Are you sure you want to delete friend: </string>
 
 
 

@@ -156,6 +156,10 @@ public class Users extends RealmObject {
         friends.remove(index);
     }
 
+    void removeFriend(Users user) {
+        friends.remove(user);
+    }
+
     int getSizeFriends() {
         return friends.size();
     }
