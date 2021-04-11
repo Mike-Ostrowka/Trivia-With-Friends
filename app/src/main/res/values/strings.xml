@@ -78,6 +78,9 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="main_menu">Return</string>
   <string name="refresh">Refresh</string>
   <string name="welcom">Welcome!</string>
+  <string name="chat_app_name">Trivia With Friends chat</string>
+  <string name="input_placeholder">Write a message</string>
+  <string name ="placeholder_message">Placeholder message</string>
 
 
 </resources>

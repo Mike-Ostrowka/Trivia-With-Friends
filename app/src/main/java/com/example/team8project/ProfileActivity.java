@@ -155,3 +155,16 @@ public class ProfileActivity extends AppCompatActivity {
         HXMusic.clear();
     }
 }
+
+// picture
+// vulgarity
+// elo tracxker
+//bio
+//    graph elo tracker stuff
+//    inbox stuff with firebase
+//
+//    warnings
+//    timer button
+//
+//    lifelines
+//    emoji system
