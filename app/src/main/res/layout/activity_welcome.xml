@@ -59,7 +59,7 @@
       android:layout_marginTop="100dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
-      android:text="@string/welcom"
+      android:text="@string/welcome"
       android:textColor="@color/colorPrimary"
       android:textSize="36sp" />
     <TextView
