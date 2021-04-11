@@ -11,14 +11,12 @@ tools:context=".LoginActivity">
 
     <TextView
       android:id="@+id/textView"
-      android:layout_width="match_parent"
+      android:layout_width="235dp"
       android:layout_height="wrap_content"
       android:layout_marginTop="200dp"
       android:layout_marginLeft="95dp"
       android:layout_marginRight="95dp"
-      android:text="@string/login_title"
-      />
-
+      android:text="@string/login_title" />
     <EditText
       android:id="@+id/loginUsername"
       android:layout_width="match_parent"
@@ -26,11 +24,14 @@ tools:context=".LoginActivity">
       android:layout_marginTop="50dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
+      android:padding="16dp"
       android:autofillHints="@string/account_name"
+      android:background="@drawable/round_border"
+      android:drawablePadding="16dp"
+      android:drawableStart="@drawable/ic_baseline_account"
       android:ems="10"
       android:hint="@string/account_name"
-      android:inputType="textPersonName"
-      />
+      android:inputType="textPersonName" />
 
     <EditText
       android:id="@+id/loginPassword"
@@ -39,22 +40,26 @@ tools:context=".LoginActivity">
       android:layout_marginTop="50dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
+      android:padding="16dp"
       android:autofillHints="@string/account_password"
+      android:background="@drawable/round_border"
+      android:drawablePadding="16dp"
+      android:drawableStart="@drawable/ic_baseline_lock_24"
       android:ems="10"
       android:hint="@string/account_password"
-      android:inputType="textPassword"
-      />
+      android:inputType="textPassword" />
 
     <Button
       android:id="@+id/login_button"
+      android:textStyle="bold"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_marginTop="30dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
+      android:background="@drawable/round_bg"
       android:text="@string/login"
-      android:textStyle="bold"
-      />
+      android:textColor="#FFFFFF" />
     <Button
       android:id="@+id/btn_forgot"
       android:layout_width="match_parent"
@@ -62,6 +67,8 @@ tools:context=".LoginActivity">
       android:layout_marginTop="90dp"
       android:layout_marginLeft="90dp"
       android:layout_marginRight="90dp"
-      android:text="@string/forgot_password" />
+      android:background="@drawable/round_bg"
+      android:text="@string/password_forgot"
+      android:textColor="#FFFFFF" />
 </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -24,25 +24,32 @@
       android:id="@+id/registerName"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:ems="10"
-      android:layout_gravity="center"
-        android:autofillHints="@string/account_name"
-        android:hint="@string/account_name"
-      android:inputType="textPersonName"
       android:layout_marginTop="50dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
-       />
+      android:layout_gravity="center"
+      android:padding="16dp"
+      android:autofillHints="@string/account_name"
+      android:background="@drawable/round_border"
+      android:drawablePadding="16dp"
+      android:drawableStart="@drawable/ic_baseline_account"
+      android:ems="10"
+      android:hint="@string/account_name"
+      android:inputType="textPersonName" />
     <EditText
       android:id="@+id/registerPassword"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:ems="10"
-        android:autofillHints="@string/account_password"
-        android:hint="@string/account_password"
       android:layout_marginTop="30dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
+      android:padding="16dp"
+      android:autofillHints="@string/account_password"
+      android:background="@drawable/round_border"
+      android:drawablePadding="16dp"
+      android:drawableStart="@drawable/ic_baseline_lock_24"
+      android:ems="10"
+      android:hint="@string/account_password"
       android:inputType="textPassword" />
     <Button
       android:id="@+id/registerButton"
@@ -51,7 +58,10 @@
       android:layout_marginTop="30dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
-      android:text="@string/new_account_register" />
+      android:background="@drawable/round_bg"
+      android:text="@string/new_account_register"
+      android:textColor="#FFFFFF"
+      android:textSize="14sp" />
 
 
   </LinearLayout>
