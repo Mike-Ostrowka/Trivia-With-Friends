@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 public class GameActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
 
     //declaring current game, handler for rounds, and player one and two
     Handler handler = new Handler();
+
     Game currentGame;
     Player playerOne;
     // Player playerTwo;
@@ -35,6 +37,9 @@ public class GameActivity extends AppCompatActivity {
 
         handler = new Handler();
         currentGame = new Game();
+
+        /*Todo: Update player one to include player ID and player name */
+
         playerOne = new Player(playerScore);
         currentGame.questionList.AnswersJumbled();
 
@@ -54,6 +59,10 @@ public class GameActivity extends AppCompatActivity {
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
             playerAnswered = true;
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
 
 
         });
@@ -65,7 +74,10 @@ public class GameActivity extends AppCompatActivity {
 
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
-            playerAnswered = true;
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
 
 
         });
@@ -78,6 +90,10 @@ public class GameActivity extends AppCompatActivity {
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
             playerAnswered = true;
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
 
 
         });
@@ -89,17 +105,33 @@ public class GameActivity extends AppCompatActivity {
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
             playerAnswered = true;
+            answerOneBtn.setClickable(false);
+            answerTwoBtn.setClickable(false);
+            answerThreeBtn.setClickable(false);
+            answerFourBtn.setClickable(false);
 
         });
 
         for (int i = 0; i < 10; i++) {
 
-            handler.postDelayed(() -> playGame(), 10000 * i);
-            playerAnswered = false;
-//            playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
+            handler.postDelayed(new Runnable() {
+
+                @Override
+                public void run() {
+                    playGame();
+                    answerOneBtn.setClickable(true);
+                    answerTwoBtn.setClickable(true);
+                    answerThreeBtn.setClickable(true);
+                    answerFourBtn.setClickable(true);
+
+                }
+            }, 10000 * i);
 
         }
 
+        if(questionCount == 9){
+            //ask player to play a new game and pass current win information to database
+        }
 
 
     }
