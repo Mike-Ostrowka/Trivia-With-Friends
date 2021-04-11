@@ -2,6 +2,7 @@ package com.example.team8project;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,49 +15,59 @@ import io.realm.Realm;
 import java.util.ArrayList;
 
 //code adapted from https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
-public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickListener{
+public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickListener {
 
   private ArrayList<Users> dataSet;
   Context mContext;
   Context mDialog;
   private Users current;
-  private String username;
-  private loginPreferences session;
+  private Realm realm;
 
   // View lookup cache
   private static class ViewHolder {
+
     TextView txtName;
     TextView txtElo;
     ImageView mDelete;
   }
 
-  public TableAdapter(ArrayList<Users> data, Context context, Context contextTwo) {
+  public TableAdapter(ArrayList<Users> data, Context context, Context contextTwo, Users cur) {
     super(context, R.layout.row_item, data);
     this.dataSet = data;
-    this.mContext=context;
+    this.mContext = context;
     this.mDialog = contextTwo;
+    this.current = cur;
+
 
   }
 
   @Override
   public void onClick(View v) {
 
-    int position=(Integer) v.getTag();
-    Users dataModel= getItem(position);
+    int position = (Integer) v.getTag();
+    Users dataModel = getItem(position);
     if (v.getId() == R.id.item_delete) {
-      String message = R.string.confirm_delete + dataModel.getUserName();
-//      if(Dialogs.confirmDialog(message, mDialog)) {
-        //open a realm and find logged in user
-        session = new loginPreferences(v.getContext());
-        username = session.getusername();
-        Realm realm = Realm.getDefaultInstance();
-        current = realm.where(Users.class).equalTo("_id", username).findFirst();
-        realm.executeTransaction(transactionRealm-> {
+      String message =
+          "Are you sure you want to remove : " + current.getFriend(position).getUserName()
+              + " as a friend?";
+      AlertDialog.Builder builder = new AlertDialog.Builder(mDialog);
+      builder.setMessage(message);
+
+      builder.setPositiveButton(R.string.delete, (dialogInterface, i) -> {
+        realm = Realm.getDefaultInstance();
+        realm.executeTransaction(transactionRealm -> {
           Users temp = realm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
-          temp.removeFriend(dataModel);
+          temp.removeFriend(current.getFriend(position));
         });
         realm.close();
-//      }
+      });
+
+      builder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
+
+      });
+
+      AlertDialog dialog = builder.create();
+      dialog.show();
     }
   }
 
@@ -76,20 +87,22 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
       viewHolder = new ViewHolder();
       LayoutInflater inflater = LayoutInflater.from(getContext());
       convertView = inflater.inflate(R.layout.row_item, parent, false);
-      viewHolder.txtName = (TextView) convertView.findViewById(R.id.table_username);
-      viewHolder.txtElo = (TextView) convertView.findViewById(R.id.table_elo);
-      viewHolder.mDelete = (ImageView) convertView.findViewById(R.id.item_delete);
+      viewHolder.txtName = convertView.findViewById(R.id.table_username);
+      viewHolder.txtElo = convertView.findViewById(R.id.table_elo);
+      viewHolder.mDelete = convertView.findViewById(R.id.item_delete);
 
-      result=convertView;
+      result = convertView;
 
       convertView.setTag(viewHolder);
     } else {
       viewHolder = (ViewHolder) convertView.getTag();
-      result=convertView;
+      result = convertView;
     }
 
+    //create scrolling animation
     Animation animation = AnimationUtils
-        .loadAnimation(mContext, (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
+        .loadAnimation(mContext,
+            (position > lastPosition) ? R.anim.up_from_bottom : R.anim.down_from_top);
     result.startAnimation(animation);
     lastPosition = position;
 
@@ -100,6 +113,7 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
     viewHolder.txtElo.setText(strElo);
     viewHolder.mDelete.setOnClickListener(this);
     viewHolder.mDelete.setTag(position);
+
     // Return the completed view to render on screen
     return convertView;
   }
