@@ -15,27 +15,27 @@
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
   <Button
     android:id="@+id/camera_button"
-    android:textStyle="bold"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="323dp"
-    android:layout_marginRight="323dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginLeft="8dp"
     android:text="@string/camera"
-    app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
   <ImageView
     android:id="@+id/profile_picture"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginEnd="283dp"
-    android:layout_marginRight="283dp"
+    android:layout_width="114dp"
+    android:layout_height="120dp"
+    android:layout_marginBottom="4dp"
+    android:layout_marginEnd="7dp"
+    android:layout_marginRight="7dp"
     android:contentDescription="@string/profile_picture"
     app:layout_constraintBottom_toTopOf="@+id/camera_button"
-    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/user_bio"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/toolbar_profile"
-    tools:srcCompat="@tools:sample/avatars" />
+    tools:srcCompat="@android:drawable/sym_def_app_icon" />
   <Button
     android:id="@+id/btn_friends"
     android:layout_width="wrap_content"
@@ -52,8 +52,10 @@
     app:layout_constraintTop_toBottomOf="@+id/camera_button" />
   <EditText
     android:id="@+id/user_bio"
-    android:layout_width="284dp"
-    android:layout_height="128dp"
+    android:layout_width="290dp"
+    android:layout_height="124dp"
+    android:layout_marginStart="7dp"
+    android:layout_marginLeft="7dp"
     android:ems="10"
     android:gravity="start|top"
     android:hint="@string/add_bio"
@@ -68,28 +70,35 @@
     android:id="@+id/updateBio_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginStart="221dp"
-    android:layout_marginLeft="221dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginRight="8dp"
     android:text="@string/update_bio"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toEndOf="@+id/camera_button"
     app:layout_constraintTop_toBottomOf="@+id/user_bio" />
   <TextView
     android:id="@+id/games_played"
-    android:layout_width="407dp"
-    android:layout_height="42dp"
+    android:layout_width="350dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
     android:text="@string/games_played"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/camera_button" />
   <TextView
     android:id="@+id/games_won"
-    android:layout_width="407dp"
-    android:layout_height="42dp"
-    android:layout_marginTop="40dp"
+    android:layout_width="350dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="1dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:text="@string/games_won"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/camera_button" />
+    app:layout_constraintTop_toBottomOf="@+id/games_played" />
 </android.support.constraint.ConstraintLayout>

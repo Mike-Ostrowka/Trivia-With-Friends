@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -79,9 +80,12 @@ public class QuestionList {
             list.add(this.wrongAnswers[i][2]);
             list.add(this.correctAnswers[i]);
 
-            Collections.shuffle(list, new Random(System.currentTimeMillis()));
+            Collections.shuffle(list, new Random());
 
             list.toArray(this.jumbledAnswers[i]);
+
+            System.out.println(Arrays.toString(this.jumbledAnswers[i]));
+            System.out.println(this.correctAnswers[i]);
         }
     }
 
