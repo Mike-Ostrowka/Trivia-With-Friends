@@ -2,13 +2,12 @@ package com.example.team8project;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import io.realm.Realm;
-import io.realm.mongodb.User;
 import java.util.ArrayList;
 
 
@@ -53,25 +52,25 @@ public class FriendsListFragment extends Fragment {
     super.onViewCreated(view, savedInstanceState);
     listView = mView.findViewById(R.id.list);
     dataModels = new ArrayList<>();
-    for(int i = 0; i < current.getSizeFriends(); i++) {
+    for (int i = 0; i < current.getSizeFriends(); i++) {
       dataModels.add(current.getFriend(i));
     }
-    adapter= new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity());
+    adapter = new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity(), current);
     listView.setAdapter(adapter);
-//    listView.setOnItemClickListener((parent, view1, position, id) -> {
-//      String message = getString(R.string.confirm_delete) + current.getFriend(position);
-//      if(Dialogs.confirmDialog(message, getActivity())) {
-//        current.removeFriend(position);
-//      }
-//    });
+    Button refresh = mView.findViewById(R.id.btn_refresh);
+    refresh.setOnClickListener(v -> updateTable());
   }
 
-  public void deleteFriend(Users toDelete) {
+  public void updateTable() {
+    adapter.clear();
     realm = Realm.getDefaultInstance();
-    realm.executeTransaction(transactionRealm -> {
-      Users temp = realm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
-      temp.removeFriend(toDelete);
-    });
+    current = realm.where(Users.class).equalTo("_id", username).findFirst();
     realm.close();
+    ArrayList<Users> temp = new ArrayList<>();
+    for (int i = 0; i < current.getSizeFriends(); i++) {
+      temp.add(current.getFriend(i));
+    }
+    adapter.addAll(temp);
+    adapter.notifyDataSetChanged();
   }
 }

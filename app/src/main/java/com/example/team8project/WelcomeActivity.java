@@ -71,7 +71,7 @@ public class WelcomeActivity extends AppCompatActivity {
             HXSound.sound().load(click_sound).play(this);
             session.setusername("");
 
-            Toast.makeText(getApplicationContext(), R.string.logout_message,
+            Toast.makeText(getApplicationContext(), getString(R.string.logout_message),
                     Toast.LENGTH_LONG).show();
             realm.close();
             Intent intent = new Intent();
