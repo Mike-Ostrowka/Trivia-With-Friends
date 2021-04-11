@@ -70,9 +70,17 @@ public class FriendsFragment extends Fragment implements View.OnClickListener {
       realm.close();
       return;
     }
+    if(current.friendExists(checkFriend)) {
+      Context context = getActivity();
+      Dialogs.buildDialog(getString(R.string.friend_exists), context);
+      realm.close();
+      return;
+    }
     realm.executeTransaction(transactionRealm -> {
       Users temp = realm.where(Users.class).equalTo("_id", username).findFirst();
       temp.addFriend(checkFriend);
+      Users tempOther = realm.where(Users.class).equalTo("_id", checkFriend.getUserName()).findFirst();
+      tempOther.addFriend(current);
     });
     realm.close();
     friendField.setText("");

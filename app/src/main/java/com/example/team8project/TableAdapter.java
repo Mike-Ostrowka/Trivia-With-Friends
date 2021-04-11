@@ -56,6 +56,8 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
       builder.setPositiveButton(R.string.delete, (dialogInterface, i) -> {
         realm = Realm.getDefaultInstance();
         realm.executeTransaction(transactionRealm -> {
+          Users tempOther = realm.where(Users.class).equalTo("_id", current.getFriend(position).getUserName()).findFirst();
+          tempOther.removeFriend(current);
           Users temp = realm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
           temp.removeFriend(current.getFriend(position));
         });

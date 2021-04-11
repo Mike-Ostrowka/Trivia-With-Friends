@@ -152,6 +152,10 @@ public class Users extends RealmObject {
         friends.add(user);
     }
 
+    boolean friendExists(Users user) {
+        return friends.contains(user);
+    }
+
     void removeFriend(int index) {
         friends.remove(index);
     }

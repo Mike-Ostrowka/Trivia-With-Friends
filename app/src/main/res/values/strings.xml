@@ -81,6 +81,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="chat_app_name">Trivia With Friends chat</string>
   <string name="input_placeholder">Write a message</string>
   <string name ="placeholder_message">Placeholder message</string>
+  <string name="friend_exists">Already added this user as a friend</string>
 
 
 </resources>
