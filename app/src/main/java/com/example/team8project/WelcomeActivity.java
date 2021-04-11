@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 
 import io.realm.Realm;
+import java.util.Objects;
 
 //todo fix java.lang.IllegalStateException: Cannot modify managed objects outside of a write transaction. at line 34 of this activity
 
@@ -34,6 +36,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private int click_sound;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
+    private long mExitTime;
 
 
     @SuppressLint("NonConstantResourceId")
@@ -65,35 +68,6 @@ public class WelcomeActivity extends AppCompatActivity {
         String greetingText = current.getUserName();
         greeting.setText(greetingText);
 
-        Button mButtonLogout = findViewById(R.id.logout_button);
-        mButtonLogout.setOnClickListener(v -> {
-
-            HXSound.sound().load(click_sound).play(this);
-            session.setusername("");
-
-            Toast.makeText(getApplicationContext(), getString(R.string.logout_message),
-                    Toast.LENGTH_LONG).show();
-            realm.close();
-            Intent intent = new Intent();
-            intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
-            startActivity(intent);
-        });
-        Button mButtonFAQ = findViewById(R.id.btn_settings);
-        mButtonFAQ.setOnClickListener(v -> {
-            HXSound.sound().load(click_sound).play(this);
-            Intent intent = new Intent();
-            intent.setClass(WelcomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        });
-//todo delete the profile, setting, faq, logout button from the welcome activity
-        // todo add profile to navigation bar
-        Button mButtonSettings = findViewById(R.id.btn_faq);
-        mButtonSettings.setOnClickListener(v -> {
-            HXSound.sound().load(click_sound).play(this);
-            Intent intent = new Intent();
-            intent.setClass(WelcomeActivity.this, FaqActivity.class);
-            startActivity(intent);
-        });
 
         Button mButtonProfile = findViewById(R.id.profile_button);
         mButtonProfile.setOnClickListener(v -> {
@@ -114,7 +88,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_WA);
         setSupportActionBar(toolbar);
-
+        Objects.requireNonNull(getSupportActionBar()).setTitle(null);
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -199,7 +173,6 @@ public class WelcomeActivity extends AppCompatActivity {
         HXMusic.stop();
         HXMusic.clear();
     }
-
 
 }
 

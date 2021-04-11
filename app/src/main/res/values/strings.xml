@@ -77,7 +77,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="play_again">Would you like to play again or return to main menu?</string>
   <string name="main_menu">Return</string>
   <string name="refresh">Refresh</string>
-
+  <string name="welcom">Welcome!</string>
 
 
 </resources>
