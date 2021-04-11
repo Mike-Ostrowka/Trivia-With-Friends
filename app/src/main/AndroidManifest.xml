@@ -30,6 +30,10 @@
       android:name=".ProfileActivity"
       android:parentActivityName=".WelcomeActivity" />
     <activity
+      android:name=".ChatActivity"
+      android:parentActivityName=".ProfileActivity" />
+<!--    todo make parent proper one-->
+    <activity
       android:label="@string/settings"
       android:name=".SettingsActivity"
       android:parentActivityName=".WelcomeActivity">

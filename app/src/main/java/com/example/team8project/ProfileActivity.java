@@ -92,6 +92,8 @@ public class ProfileActivity extends AppCompatActivity {
         //todo make button update realm bio with whatever user typed into the textbox
         updateBio.setOnClickListener(view -> {
             HXSound.sound().load(click_sound).play(this);
+            Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+            startActivity(intent);
 
         });
 
