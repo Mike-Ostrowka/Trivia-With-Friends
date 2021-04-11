@@ -78,6 +78,7 @@ public class NewAccountActivity extends AppCompatActivity {
             Intent intent = new Intent();
             intent.setClass(NewAccountActivity.this, LoginActivity.class);
             startActivity(intent);
+            finish();
         });
 
     }
