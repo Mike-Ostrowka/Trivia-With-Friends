@@ -68,11 +68,6 @@ public class FriendsActivity extends AppCompatActivity {
         secondTab.setIcon(R.drawable.ic_friends_tab);
         tabLayout.addTab(secondTab);
 
-        Tab thirdTab = tabLayout.newTab();
-        thirdTab.setText("Inbox");
-        thirdTab.setIcon(R.drawable.ic_inbox_tab);
-        tabLayout.addTab(thirdTab);
-
         PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         simpleViewPager.setAdapter(adapter);
