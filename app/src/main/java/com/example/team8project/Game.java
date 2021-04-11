@@ -6,13 +6,59 @@ import android.util.Log;
 
 public class Game extends AppCompatActivity {
 
-    public String playerOneSelection, /* playerTwoSelection, */
+    public String playerOneSelection, playerTwoSelection,
             firstAnswer, secondAnswer, thirdAnswer, fourthAnswer, currentQuestion;
     QuestionList questionList = new QuestionList();
     String getCorrect;
 
-    public Game() {
+    private String playerOne, playerTwo;
+    private String playerOneScore, playerTwoScore;
+    private String[] players;
+    private boolean gameCompleted;
+
+    public Game(String playerOne, String playerTwo, String[] players, boolean gameCompleted) {
+        this.playerOne = playerOne;
+        this.playerTwo = playerTwo;
+        this.players = players;
+        this.gameCompleted = gameCompleted;
     }
+
+    public Game() {
+        //empty constructor
+    }
+
+    public String getPlayerOne() {
+        return playerOne;
+    }
+
+    public void setPlayerOne(String playerOne) {
+        this.playerOne = playerOne;
+    }
+
+    public String getPlayerTwo() {
+        return playerTwo;
+    }
+
+    public void setPlayerTwo(String playerTwo) {
+        this.playerTwo = playerTwo;
+    }
+
+    public String[] getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(String[] players) {
+        this.players = players;
+    }
+
+    public boolean isGameCompleted() {
+        return gameCompleted;
+    }
+
+    public void setGameCompleted(boolean gameCompleted) {
+        this.gameCompleted = gameCompleted;
+    }
+
 
 
 

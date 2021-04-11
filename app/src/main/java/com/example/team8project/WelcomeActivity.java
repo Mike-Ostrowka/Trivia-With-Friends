@@ -11,7 +11,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.Toolbar.OnMenuItemClickListener;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
@@ -88,6 +93,26 @@ public class WelcomeActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar_WA);
         setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        toolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.ic_friends_wa:
+                        Intent intent = new Intent();
+                        intent.setClass(WelcomeActivity.this, FriendsActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return true;
+            }
+        });
         Objects.requireNonNull(getSupportActionBar()).setTitle(null);
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -122,12 +147,23 @@ public class WelcomeActivity extends AppCompatActivity {
                     intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
                     startActivity(intent);
                     break;
+                case R.id.nm_friends:
+                    intent = new Intent();
+                    intent.setClass(WelcomeActivity.this, FriendsActivity.class);
+                    startActivity(intent);
+                    break;
             }
             drawerLayout.closeDrawers();
             return false;
         });
         drawerLayout = findViewById(R.id.drawer_layout);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_wa,menu);
+        return true;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.team8project;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -20,7 +21,22 @@ public class GameActivity extends AppCompatActivity {
     TextView questionTextView, playerScoreText;
 
     //declaring current game, handler for rounds, and player one and two
+    Dialogs dialog = new Dialogs();
     Handler handler = new Handler();
+    Runnable gameRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+                playGame();
+                System.out.println(questionCount);
+                answerOneBtn.setClickable(true);
+                answerTwoBtn.setClickable(true);
+                answerThreeBtn.setClickable(true);
+                answerFourBtn.setClickable(true);
+            }
+
+    };
+
 
     Game currentGame;
     Player playerOne;
@@ -38,7 +54,6 @@ public class GameActivity extends AppCompatActivity {
         handler = new Handler();
         currentGame = new Game();
 
-        /*Todo: Update player one to include player ID and player name */
 
         playerOne = new Player(playerScore);
         currentGame.questionList.AnswersJumbled();
@@ -58,7 +73,6 @@ public class GameActivity extends AppCompatActivity {
             currentGame.playerOneSelection = answerOneBtn.getText().toString();
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
-            playerAnswered = true;
             answerOneBtn.setClickable(false);
             answerTwoBtn.setClickable(false);
             answerThreeBtn.setClickable(false);
@@ -89,7 +103,6 @@ public class GameActivity extends AppCompatActivity {
 
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
-            playerAnswered = true;
             answerOneBtn.setClickable(false);
             answerTwoBtn.setClickable(false);
             answerThreeBtn.setClickable(false);
@@ -104,7 +117,6 @@ public class GameActivity extends AppCompatActivity {
             currentGame.playerOneSelection = answerFourBtn.getText().toString();
             playerScore += currentGame.checkPlayerAnswer(currentGame.playerOneSelection);
             playerOne.setPlayerScore(playerScore);
-            playerAnswered = true;
             answerOneBtn.setClickable(false);
             answerTwoBtn.setClickable(false);
             answerThreeBtn.setClickable(false);
@@ -112,30 +124,24 @@ public class GameActivity extends AppCompatActivity {
 
         });
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i <= 9; i++) {
 
-            handler.postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    playGame();
-                    answerOneBtn.setClickable(true);
-                    answerTwoBtn.setClickable(true);
-                    answerThreeBtn.setClickable(true);
-                    answerFourBtn.setClickable(true);
-
-                }
-            }, 10000 * i);
+                handler.postDelayed(gameRunnable, 5000 * i);
 
         }
 
-        if(questionCount == 9){
+
             //ask player to play a new game and pass current win information to database
-        }
 
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        handler.removeCallbacks(gameRunnable);
+
+    }
 
     public void playGame() {
 
