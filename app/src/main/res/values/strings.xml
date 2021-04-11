@@ -38,7 +38,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="password_success">Password changed successfully</string>
   <string name="different_password">You entered two different passwords, please try again</string>
   <string name="credentials_incorrect">Credentials are incorrect, please try again</string>
-  <string name="save_settings">Save Settings</string>
+  <string name="save_settings">Save and Exit</string>
   <string name="security">Security Question</string>
   <string name="security_prompt">Please enter an answer to the following question:</string>
   <string name="security_question">What is your mother\'s maiden name?</string>
