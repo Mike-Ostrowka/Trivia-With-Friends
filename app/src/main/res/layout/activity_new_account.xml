@@ -1,30 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".NewAccountActivity">
+  <View
+    android:id="@+id/topView_NA"
+    android:layout_width="0dp"
+    android:layout_height="150dp"
+    android:background="@color/colorPrimary" />
+  <View
+    android:id="@+id/waveView_NA"
+    android:layout_width="0dp"
+    android:layout_height="100dp"
+    android:background="@drawable/wave"
+    app:layout_constraintTop_toBottomOf="@+id/topView_NA" />
+
+  <ImageView
+    android:id="@+id/Account_image_NA"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="32dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/topView_NA"
+    app:srcCompat="@drawable/ic_baseline_person_24" />
+  <TextView
+    android:id="@+id/newAccountTitle"
+    android:layout_width="219dp"
+    android:layout_height="139dp"
+    android:layout_marginTop="32dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_gravity="center"
+    android:padding="5dp"
+    android:text="@string/new_account_title"
+    android:textColor="#FFFFFF"
+    android:textSize="36sp"
+    app:layout_constraintEnd_toStartOf="@+id/Account_image_NA"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
   <LinearLayout
+    android:id="@+id/linearLayout3"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:layout_constraintStart_toEndOf="@+id/topView_NA"
+    app:layout_constraintTop_toBottomOf="@+id/topView_NA">
 
-    <TextView
-      android:id="@+id/newAccountTitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="200dp"
-      android:layout_gravity="center"
-      android:padding="5dp"
-      android:background="#333"
-      android:text="@string/new_account_title"
-      android:textColor="#fff" />
     <EditText
       android:id="@+id/registerName"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="50dp"
+      android:layout_marginTop="300dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
       android:layout_gravity="center"
@@ -53,15 +85,27 @@
       android:inputType="textPassword" />
     <Button
       android:id="@+id/registerButton"
+      android:textStyle="bold"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginTop="30dp"
+      android:layout_marginTop="50dp"
       android:layout_marginLeft="50dp"
       android:layout_marginRight="50dp"
       android:background="@drawable/round_bg"
       android:text="@string/new_account_register"
       android:textColor="#FFFFFF"
-      android:textSize="14sp" />
+      android:textSize="18sp" />
+    <TextView
+      android:id="@+id/tv_have_account"
+      android:textStyle="bold"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="15dp"
+      android:layout_marginLeft="70dp"
+      android:layout_marginRight="70dp"
+      android:text="@string/already_have_a_account"
+      android:textColor="@color/colorPrimary"
+      android:textSize="18sp" />
 
 
   </LinearLayout>

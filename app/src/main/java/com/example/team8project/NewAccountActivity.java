@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huhx0015.hxaudio.audio.HXSound;
@@ -70,6 +71,14 @@ public class NewAccountActivity extends AppCompatActivity {
             startActivity(intent);
         });
 
+        //Set the event for Text View Already have an account
+        TextView mTextview = findViewById(R.id.tv_have_account);
+        mTextview.setOnClickListener(v -> {
+            HXSound.sound().load(click_sound).play(this);
+            Intent intent = new Intent();
+            intent.setClass(NewAccountActivity.this, LoginActivity.class);
+            startActivity(intent);
+        });
 
     }
 

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.huhx0015.hxaudio.audio.HXSound;
@@ -71,11 +72,21 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        Button forgot = findViewById(R.id.btn_forgot);
-        forgot.setOnClickListener(view -> {
+        //Set event for Text View Forgot password
+        TextView tv_forgot_password = findViewById(R.id.tv_Forgot_Password);
+        tv_forgot_password.setOnClickListener(view -> {
             HXSound.sound().load(click_sound).play(this);
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this, ResetActivity.class);
+            startActivity(intent);
+        });
+
+        //Set event for Text View New user
+        TextView tv_new_user = findViewById(R.id.tv_No_Account);
+        tv_new_user.setOnClickListener(view -> {
+            HXSound.sound().load(click_sound).play(this);
+            Intent intent = new Intent();
+            intent.setClass(LoginActivity.this, NewAccountActivity.class);
             startActivity(intent);
         });
     }

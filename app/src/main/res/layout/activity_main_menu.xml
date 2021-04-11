@@ -6,7 +6,18 @@ android:layout_width="match_parent"
 android:layout_height="match_parent"
   android:background="@color/white"
 tools:context=".MainMenuActivity">
-<LinearLayout
+  <View
+    android:id="@+id/topView_main"
+    android:layout_width="0dp"
+    android:layout_height="150dp"
+    android:background="@color/colorPrimary" />
+  <View
+    android:id="@+id/waveView_main"
+    android:layout_width="0dp"
+    android:layout_height="100dp"
+    android:background="@drawable/wave"
+    app:layout_constraintTop_toBottomOf="@+id/topView_main" />
+  <LinearLayout
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical">
@@ -15,45 +26,47 @@ tools:context=".MainMenuActivity">
     android:id="@+id/imageView2"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
+    android:layout_marginTop="40dp"
     android:contentDescription="@string/app_name"
     app:srcCompat="@drawable/title_image" />
 
-  <TextView
-    android:id="@+id/tv_AppTiltle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
-    android:text="@string/app_title"
-    android:layout_gravity="center"
-    android:textSize="25sp"
-    android:textStyle="italic"
-    />
+    <TextView
+      android:id="@+id/tv_AppTiltle"
+      android:textStyle="italic"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="5dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:layout_gravity="center"
+      android:text="@string/app_title"
+      android:textColor="#FFFFFF"
+      android:textSize="25sp" />
 
-  <Button
-    android:id="@+id/btn_register"
-    android:textStyle="bold"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="85dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
-    android:background="@drawable/round_bg"
-    android:text="@string/register"
-    android:textColor="#FFFFFF" />
+    <Button
+      android:id="@+id/btn_register"
+      android:textStyle="bold"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="200dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:background="@drawable/round_bg"
+      android:text="@string/register"
+      android:textColor="#FFFFFF"
+      android:textSize="18sp" />
 
-  <Button
-    android:id="@+id/btn_login"
-    android:textStyle="bold"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
-    android:background="@drawable/round_bg"
-    android:text="@string/login"
-    android:textColor="#FFFFFF" />
+    <Button
+      android:id="@+id/btn_login"
+      android:textStyle="bold"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="50dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:background="@drawable/round_bg"
+      android:text="@string/login"
+      android:textColor="#FFFFFF"
+      android:textSize="18sp" />
 </LinearLayout>
 </android.support.constraint.ConstraintLayout>
