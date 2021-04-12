@@ -8,7 +8,6 @@
   android:clipToPadding="false"
   android:focusableInTouchMode="true"
   tools:context=".ChatActivity">
-
   <android.support.v7.widget.Toolbar
     android:id="@+id/toolbar_profile"
     android:layout_width="match_parent"
@@ -17,21 +16,25 @@
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
     app:layout_constraintTop_toTopOf="parent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
-
+  <TextView
+    android:id="@+id/Warning"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:text="@string/chat_warning"
+    android:textSize="18sp" />
   <ListView
     android:layout_width="match_parent"
     android:id="@+id/messages_view"
     android:layout_weight="2"
     android:divider="#fff"
-    android:layout_height="wrap_content"
-    />
-
+    android:layout_height="wrap_content" />
   <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff"
     android:orientation="horizontal">
-
     <EditText
       android:id="@+id/editText"
       android:layout_width="match_parent"
@@ -42,7 +45,6 @@
       android:inputType="text"
       android:paddingHorizontal="10dp"
       android:text="" />
-
     <ImageButton
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
