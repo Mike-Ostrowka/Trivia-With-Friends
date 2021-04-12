@@ -1,10 +1,14 @@
 package com.example.team8project;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.huhx0015.hxaudio.audio.HXMusic;
 
 import java.util.UUID;
 
@@ -21,6 +25,8 @@ public class GameActivity extends AppCompatActivity {
     //declaring all of the layout objects
     Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
     TextView questionTextView, playerScoreText;
+    private int song;
+
     // Player playerTwo;
 
     //declaring current game, handler for rounds, and player one and two
@@ -80,6 +86,12 @@ public class GameActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+        //if switch value is false, disable music
+        if (soundSwitch) {
+            playMusic();
+        }
 
         //load realm
         loadRealm();
@@ -164,10 +176,17 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    private void playMusic() {
+        song = R.raw.menu;
+        HXMusic.music().load(song).gapless(true).looped(true).play(this);
+    }
+
+
     private void loadRealm() {
         //open a realm and find logged in user
         session = new loginPreferences(getApplicationContext());
         username = session.getusername();
+
         if (realm == null) {
             realm = Realm.getDefaultInstance();
         }
