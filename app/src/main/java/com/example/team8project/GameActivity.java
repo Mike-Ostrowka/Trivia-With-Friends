@@ -176,7 +176,7 @@ public class GameActivity extends AppCompatActivity {
         //check for game or create game
         if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null) {
             currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
-//            currentGame.setPlayerCount(2);
+          //  currentGame.setPlayerCount(2);
         }
         else{
             currentGame = new Game(username, _ID, 1);
@@ -188,8 +188,8 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-//        currentGame.setGameCompleted(true);
-      realm.executeTransaction(transactionRealm -> transactionRealm.insert(currentGame));
+        currentGame.setGameCompleted(true);
+        realm.executeTransaction(transactionRealm -> transactionRealm.insert(currentGame));
 
         if (realm != null) {
             realm.close();
@@ -209,7 +209,7 @@ public class GameActivity extends AppCompatActivity {
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         questionTextView = findViewById(R.id.questionText);
         playerScoreText.setText(username + " " + playerScore);
-//        currentGame.setPlayerOneScore(playerScore);
+        currentGame.setPlayerOneScore(playerScore);
 
         loadQuestions.loadQuestion(questionCount);
         questionTextView.setText(loadQuestions.currentQuestion);
