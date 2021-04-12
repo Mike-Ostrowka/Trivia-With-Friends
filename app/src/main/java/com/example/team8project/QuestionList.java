@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import io.realm.RealmObject;
+
 public class QuestionList {
     private final QuestionXMLParser allQuestions;
     private final Question[] list;
