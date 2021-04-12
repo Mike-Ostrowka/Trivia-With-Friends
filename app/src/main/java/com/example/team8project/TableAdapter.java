@@ -17,10 +17,10 @@ import java.util.ArrayList;
 //code adapted from https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
 public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickListener {
 
-  private ArrayList<Users> dataSet;
+  private final ArrayList<Users> dataSet;
   Context mContext;
   Context mDialog;
-  private Users current;
+  private final Users current;
   private Realm realm;
 
   // View lookup cache

@@ -26,8 +26,8 @@ import java.util.Random;
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private String channelID = "m5hujbRaUXtIVzj4";
-  private String roomName = "observable-room";
+  private final String channelID = "m5hujbRaUXtIVzj4";
+  private final String roomName = "observable-room";
   private EditText editText;
   private Scaledrone scaledrone;
   private MessageAdapter messageAdapter;

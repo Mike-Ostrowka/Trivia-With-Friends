@@ -55,6 +55,7 @@ public class StartupActivity extends AppCompatActivity {
         });
     }
 
+
     //  //change listener on local realm
 //  private void addChangeListenerToRealm(Realm realm) {
 //    // all tasks in the realm

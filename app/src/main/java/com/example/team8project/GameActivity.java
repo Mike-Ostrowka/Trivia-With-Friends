@@ -15,7 +15,7 @@ public class GameActivity extends AppCompatActivity {
 
     int questionCount = 0;
     int playerScore = 0;
-    private boolean gameFinished = false;
+    private final boolean gameFinished = false;
     long _ID = UUID.randomUUID().getMostSignificantBits();
 
     //declaring all of the layout objects
@@ -53,13 +53,13 @@ public class GameActivity extends AppCompatActivity {
         }
     };
 
-        Runnable postGameRunnable = new Runnable() {
-            @Override
-            public void run() {
+    Runnable postGameRunnable = new Runnable() {
+        @Override
+        public void run() {
 
-                System.out.println("Gets here");
+            System.out.println("Gets here");
 
-            }
+        }
 
     };
 
@@ -67,11 +67,11 @@ public class GameActivity extends AppCompatActivity {
         @Override
         public void run() {
 
-                for (int i = 0; i <= 9; i++) {
-                    gameHandler.postDelayed(gameRunnable, 5000 * i);
-                }
-
+            for (int i = 0; i <= 9; i++) {
+                gameHandler.postDelayed(gameRunnable, 5000 * i);
             }
+
+        }
     };
 
 
@@ -208,7 +208,7 @@ public class GameActivity extends AppCompatActivity {
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         questionTextView = findViewById(R.id.questionText);
-        playerScoreText.setText(username + " " + String.valueOf(playerScore));
+        playerScoreText.setText(username + " " + playerScore);
         currentGame.setPlayerOneScore(playerScore);
 
         loadQuestions.loadQuestion(questionCount);
