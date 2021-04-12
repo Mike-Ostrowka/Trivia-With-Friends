@@ -93,6 +93,7 @@ public class ProfileActivity extends AppCompatActivity {
       }
     });
 
+    // Display bio saved in database, if any
     bio = current.getBio();
     if (!(bio == null)) {
       userBio.setText(bio);
@@ -100,6 +101,7 @@ public class ProfileActivity extends AppCompatActivity {
       getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
+    // update database with new bio, censor if needed
     userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
     updateBio.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
@@ -108,8 +110,8 @@ public class ProfileActivity extends AppCompatActivity {
       if (text.equals("")) {
         return;
       }
-      
-      text = BadWordFilter.getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
+      text = BadWordFilter
+          .getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
 
       String finalText = text;
       realm.executeTransaction(transactionRealm -> {
@@ -120,12 +122,10 @@ public class ProfileActivity extends AppCompatActivity {
           Toast.LENGTH_SHORT).show();
     });
 
-
     chat.setOnClickListener(view -> {
       Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
-
 
     TextView gamesPlayed = findViewById(R.id.games_played);
     String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();

@@ -19,7 +19,5 @@
     android:text="@string/placeholder_message"
 
     />
-<!--   todo maybe get rid of placeholder message
-       took this out of textview not supported in sdk 16 android:elevation="2dp"-->
 
 </RelativeLayout>
