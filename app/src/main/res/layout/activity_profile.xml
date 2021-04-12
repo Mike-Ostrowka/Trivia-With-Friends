@@ -35,7 +35,7 @@
     app:layout_constraintEnd_toStartOf="@+id/user_bio"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/toolbar_profile"
-    tools:srcCompat="@android:drawable/sym_def_app_icon" />
+    tools:srcCompat="@drawable/ic_baseline_account" />
   <Button
     android:id="@+id/btn_friends"
     android:layout_width="wrap_content"

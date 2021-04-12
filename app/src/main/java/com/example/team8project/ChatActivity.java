@@ -163,6 +163,10 @@ public class ChatActivity extends AppCompatActivity implements
 
   public void sendMessage(View view) {
     String message = editText.getText().toString();
+    message = BadWordFilter.getCensoredText(message,
+        getApplicationContext(),
+        getString(R.string.censored_bio));
+
     if (message.length() > 0) {
       scaledrone.publish("observable-room", message);
       editText.getText().clear();
@@ -184,7 +188,7 @@ public class ChatActivity extends AppCompatActivity implements
 }
 
 
-// todo use users class as member data instead, set into own file
+// todo use users class as member data instead
 class MemberData {
 
   private String name;

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 
@@ -100,7 +101,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
-    // todo add toast saying bio is updated
     updateBio.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
 
@@ -108,13 +108,24 @@ public class ProfileActivity extends AppCompatActivity {
       if (text.equals("")) {
         return;
       }
-      realm.executeTransaction(transactionRealm -> current.setBio(text));
+      
+      text = BadWordFilter.getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
+
+      String finalText = text;
+      realm.executeTransaction(transactionRealm -> {
+        current.setBio(finalText);
+      });
+      userBio.setText(finalText);
+      Toast.makeText(getApplicationContext(), getString(R.string.bio_updated),
+          Toast.LENGTH_SHORT).show();
     });
+
 
     chat.setOnClickListener(view -> {
       Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
+
 
     TextView gamesPlayed = findViewById(R.id.games_played);
     String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
