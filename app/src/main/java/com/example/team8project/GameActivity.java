@@ -15,17 +15,17 @@ public class GameActivity extends AppCompatActivity {
 
     int questionCount = 0;
     int playerScore = 0;
-    int count = 0;
-    boolean playerAnswered = false;
+    private boolean gameFinished = false;
     long _ID = UUID.randomUUID().getMostSignificantBits();
 
     //declaring all of the layout objects
     Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
     TextView questionTextView, playerScoreText;
+    // Player playerTwo;
 
     //declaring current game, handler for rounds, and player one and two
-    Dialogs dialog = new Dialogs();
-    Handler mainHandler = new Handler();
+
+
     Handler gameHandler = new Handler();
     Handler postGameHandler = new Handler();
     Handler mainGameHandler = new Handler();
@@ -35,7 +35,6 @@ public class GameActivity extends AppCompatActivity {
     Realm realm;
     Game currentGame;
     LoadQuestions loadQuestions;
-    Player playerOne;
     private Users current;
     private loginPreferences session;
     private String username;
@@ -75,9 +74,6 @@ public class GameActivity extends AppCompatActivity {
             }
     };
 
-    private boolean gameFinished = false;
-    // Player playerTwo;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,17 +86,7 @@ public class GameActivity extends AppCompatActivity {
 
         //INSTANTIATE OBJECTS FOR USE
         gameHandler = new Handler();
-
-        if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null) {
-            currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
-            currentGame.setPlayerCount(2);
-        }
-        else{
-            currentGame = new Game(username, _ID, 1);
-        }
-        currentGame = new Game(username, playerScore, _ID);
         loadQuestions = new LoadQuestions();
-
         loadQuestions.questionList.AnswersJumbled();
 
         //INSTANTIATE BUTTONS AND TEXT VIEWS
@@ -173,8 +159,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
-        //ask player to play a new game and pass current win information to database
         mainGameHandler.postDelayed(mainGameRunnable, 0);
         gameHandler.postDelayed(postGameRunnable, 0);
 
@@ -187,14 +171,24 @@ public class GameActivity extends AppCompatActivity {
         if (realm == null) {
             realm = Realm.getDefaultInstance();
         }
-
         current = realm.where(Users.class).equalTo("_id", username).findFirst();
+
+        //check for game or create game
+        if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null) {
+            currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
+            currentGame.setPlayerCount(2);
+        }
+        else{
+            currentGame = new Game(username, _ID, 1);
+        }
+
 
     }
 
     @Override
     protected void onPause() {
         super.onPause();
+        currentGame.setGameCompleted(true);
         realm.executeTransaction(transactionRealm -> transactionRealm.insert(currentGame));
 
         if (realm != null) {
