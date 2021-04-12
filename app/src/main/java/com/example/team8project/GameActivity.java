@@ -174,13 +174,14 @@ public class GameActivity extends AppCompatActivity {
         current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
         //check for game or create game
-        if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null) {
+        if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null && realm.where(Game.class).equalTo("gameCompleted", false).findFirst() != null) {
             currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
-          //  currentGame.setPlayerCount(2);
+            currentGame.setPlayerCount(2);
         }
         else{
             currentGame = new Game(username, _ID, 1);
         }
+        currentGame = new Game(username, _ID, 1);
 
 
     }
