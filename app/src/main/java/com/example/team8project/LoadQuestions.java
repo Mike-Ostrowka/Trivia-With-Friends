@@ -1,7 +1,5 @@
 package com.example.team8project;
 
-import io.realm.RealmList;
-
 public class LoadQuestions {
 
     public String playerOneSelection, playerTwoSelection,

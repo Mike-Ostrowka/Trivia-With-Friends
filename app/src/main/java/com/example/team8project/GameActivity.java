@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.UUID;
 
@@ -13,32 +14,48 @@ import io.realm.Realm;
 
 public class GameActivity extends AppCompatActivity {
 
+    private final boolean gameFinished = false;
     int questionCount = 0;
     int playerScore = 0;
-    private final boolean gameFinished = false;
     long _ID = UUID.randomUUID().getMostSignificantBits();
 
     //declaring all of the layout objects
     Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
-    TextView questionTextView, playerScoreText;
+    TextView questionTextView, playerScoreText, playerTwoText;
     // Player playerTwo;
 
     //declaring current game, handler for rounds, and player one and two
 
 
     Handler gameHandler = new Handler();
-    Handler postGameHandler = new Handler();
     Handler mainGameHandler = new Handler();
-
 
 
     Realm realm;
     Game currentGame;
     LoadQuestions loadQuestions;
+    Runnable postGameRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            Toast.makeText(GameActivity.this, "The Game Has Completed", Toast.LENGTH_LONG).show();
+
+        }
+
+    };
+    Runnable mainGameRunnable = new Runnable() {
+        @Override
+        public void run() {
+
+            for (int i = 0; i <= 9; i++) {
+                gameHandler.postDelayed(gameRunnable, 5000 * i);
+            }
+            gameHandler.postDelayed(postGameRunnable, 50000);
+        }
+    };
     private Users current;
     private loginPreferences session;
     private String username;
-
     Runnable gameRunnable = new Runnable() {
         @Override
         public void run() {
@@ -52,28 +69,6 @@ public class GameActivity extends AppCompatActivity {
 
         }
     };
-
-    Runnable postGameRunnable = new Runnable() {
-        @Override
-        public void run() {
-
-            System.out.println("Gets here");
-
-        }
-
-    };
-
-    Runnable mainGameRunnable = new Runnable() {
-        @Override
-        public void run() {
-
-            for (int i = 0; i <= 9; i++) {
-                gameHandler.postDelayed(gameRunnable, 5000 * i);
-            }
-
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +91,7 @@ public class GameActivity extends AppCompatActivity {
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         questionTextView = findViewById(R.id.questionText);
         playerScoreText = findViewById(R.id.playerScore);
+        playerTwoText = findViewById(R.id.playerTwoScore);
 
 
         answerOneBtn.setOnClickListener(v -> {
@@ -160,7 +156,6 @@ public class GameActivity extends AppCompatActivity {
         super.onStart();
 
         mainGameHandler.postDelayed(mainGameRunnable, 0);
-        gameHandler.postDelayed(postGameRunnable, 0);
 
     }
 
@@ -174,14 +169,29 @@ public class GameActivity extends AppCompatActivity {
         current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
         //check for game or create game
-        if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null && realm.where(Game.class).equalTo("gameCompleted", false).findFirst() != null) {
+        if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null) {
+            
+            /* 
+            * On Game Load we need player one info, game id, question count
+            * Must update player count to 2
+            * Game should start only once player count == 2
+            * */
             currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
-            currentGame.setPlayerCount(2);
-        }
-        else{
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    currentGame.setPlayerTwo(username);
+                    questionCount = currentGame.getQuestionCount();
+                    currentGame.setPlayerCount(2);
+                    realm.copyToRealmOrUpdate(currentGame);
+                }
+            });
+
+
+
+        } else {
             currentGame = new Game(username, _ID, 1);
         }
-        currentGame = new Game(username, _ID, 1);
 
 
     }
@@ -189,15 +199,21 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        currentGame.setGameCompleted(true);
-        realm.executeTransaction(transactionRealm -> transactionRealm.insert(currentGame));
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                currentGame.setGameCompleted(true);
+                realm.insertOrUpdate(currentGame);
+            }
+        });
+
 
         if (realm != null) {
             realm.close();
         }
 
         gameHandler.removeCallbacks(gameRunnable);
-        postGameHandler.removeCallbacks(postGameRunnable);
+        gameHandler.removeCallbacks(postGameRunnable);
 
 
     }
@@ -209,8 +225,16 @@ public class GameActivity extends AppCompatActivity {
         answerThreeBtn = findViewById(R.id.AnswerThreeButton);
         answerFourBtn = findViewById(R.id.AnswerFourButton);
         questionTextView = findViewById(R.id.questionText);
-        playerScoreText.setText(username + " " + playerScore);
-        currentGame.setPlayerOneScore(playerScore);
+        playerScoreText.setText(currentGame.getPlayerOne() + " " + currentGame.getPlayerOneScore());
+        playerTwoText.setText(currentGame.getPlayerTwo() + " " + currentGame.getPlayerTwoScore());
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                currentGame.setPlayerOneScore(playerScore);
+                realm.insertOrUpdate(currentGame);
+            }
+        });
 
         loadQuestions.loadQuestion(questionCount);
         questionTextView.setText(loadQuestions.currentQuestion);

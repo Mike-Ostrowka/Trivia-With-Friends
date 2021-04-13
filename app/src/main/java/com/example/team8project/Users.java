@@ -24,12 +24,12 @@ public class Users extends RealmObject {
     protected int eloThree = 1000;
     protected int eloFour = 1000;
     protected int eloFive = 1000;
-    private byte[] profilePictureByteArray;
     protected int eloSix = 1000;
     protected int eloSeven = 1000;
     protected int eloEight = 1000;
     protected int eloNine = 1000;
     protected int eloTen = 1000;
+    private byte[] profilePictureByteArray;
     @PrimaryKey
     private String _id; //username
     private int elo = 1000; //default value is 1000
@@ -117,12 +117,6 @@ public class Users extends RealmObject {
         return paddingLength > 0 ? String.format("%0" + paddingLength + "d", 0) + hex : hex;
     }
 
-  byte[] getProfilePictureByteArray() {return profilePictureByteArray; }
-
-  void setProfilePictureByteArray(byte[] newByteArray){
-    profilePictureByteArray = newByteArray;
-  }
-
     // generates byte array from hex
     private static byte[] fromHex(String hex) {
         byte[] bytes = new byte[hex.length() / 2];
@@ -130,6 +124,14 @@ public class Users extends RealmObject {
             bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
         }
         return bytes;
+    }
+
+    byte[] getProfilePictureByteArray() {
+        return profilePictureByteArray;
+    }
+
+    void setProfilePictureByteArray(byte[] newByteArray) {
+        profilePictureByteArray = newByteArray;
     }
 
     String getUserName() {
