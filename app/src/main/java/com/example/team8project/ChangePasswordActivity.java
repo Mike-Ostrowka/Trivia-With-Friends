@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import io.realm.Realm;
 
 public class ChangePasswordActivity extends AppCompatActivity {

@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.Realm;
@@ -67,7 +66,8 @@ public class FriendsListFragment extends Fragment {
     for (int i = 0; i < current.getSizeFriends(); i++) {
       dataModels.add(current.getFriend(i));
     }
-    adapter = new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity(), current);
+    adapter = new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity(),
+        current);
     listView.setAdapter(adapter);
   }
 
