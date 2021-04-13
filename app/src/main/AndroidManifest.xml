@@ -14,7 +14,7 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.AppCompat.Light.NoActionBar">
     <activity android:name=".FriendsActivity"
-      android:parentActivityName=".ProfileActivity" />
+      android:parentActivityName=".WelcomeActivity"/>
     <activity
       android:name=".ResetActivity"
       android:parentActivityName=".LoginActivity" />
@@ -34,6 +34,9 @@
       android:name=".ChatActivity"
       android:parentActivityName=".ProfileActivity" />
 <!--    todo make parent proper one-->
+    <activity
+      android:name=".GraphActivity"
+      android:parentActivityName=".ProfileActivity" />
     <activity
       android:label="@string/settings"
       android:name=".SettingsActivity"

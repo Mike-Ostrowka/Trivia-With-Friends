@@ -18,7 +18,9 @@ public class GraphActivity extends AppCompatActivity {
   private Users current;
   private loginPreferences session;
   private String username;
+//  private ArrayList lineEntries;
 
+  @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_graph);
