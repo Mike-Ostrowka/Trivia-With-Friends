@@ -31,7 +31,7 @@ public class FriendsProfileActivity extends AppCompatActivity {
     setContentView(R.layout.activity_friends_profile);
 
     //load toolbar
-    Toolbar myToolbar = findViewById(R.id.toolbar_profile);
+    Toolbar myToolbar = findViewById(R.id.toolbar_friend_profile);
     setSupportActionBar(myToolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
@@ -50,6 +50,8 @@ public class FriendsProfileActivity extends AppCompatActivity {
     String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
     if (!(sessionId == null)) {
       username = sessionId;
+    } else {
+      Dialogs.intentDialog(getString(R.string.user_failed), this, FriendsActivity.class);
     }
     Realm realm = Realm.getDefaultInstance();
     friend = realm.where(Users.class).equalTo("_id", username).findFirst();

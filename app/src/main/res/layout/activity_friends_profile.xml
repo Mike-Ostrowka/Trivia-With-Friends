@@ -6,7 +6,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
   <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar_profile"
+    android:id="@+id/toolbar_friend_profile"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
@@ -19,7 +19,7 @@
     android:layout_height="120dp"
     android:contentDescription="@string/profile_picture"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar_profile"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile"
     tools:srcCompat="@drawable/ic_baseline_account" />
   <TextView
     android:id="@+id/friends_bio"
@@ -40,7 +40,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toEndOf="@+id/friends_profile_picture"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar_profile" />
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile" />
   <TextView
     android:id="@+id/friends_games_played"
     android:layout_width="350dp"
