@@ -1,12 +1,16 @@
 package com.example.team8project;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
@@ -69,6 +73,15 @@ public class FriendsListFragment extends Fragment {
     adapter = new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity(),
         current);
     listView.setAdapter(adapter);
+    listView.setOnItemClickListener((adapterView, view1, i, l) -> {
+      Users friend = dataModels.get(i);
+
+      HXSound.sound().load(R.raw.click).play(view1.getContext());
+      Intent intent = new Intent(getActivity(), FriendsProfileActivity.class);
+      String sessionId = friend.getUserName();
+      intent.putExtra("EXTRA_SESSION_ID", sessionId);
+      startActivity(intent);
+    });
   }
 
   public void updateTable() {
