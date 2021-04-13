@@ -8,22 +8,30 @@
   <View
     android:id="@+id/topView_NA"
     android:layout_width="0dp"
-    android:layout_height="150dp"
-    android:background="@color/colorPrimary" />
+    android:layout_height="0dp"
+    android:background="@color/colorPrimary"
+    app:layout_constraintBottom_toTopOf="@id/waveView_NA"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
   <View
     android:id="@+id/waveView_NA"
     android:layout_width="0dp"
-    android:layout_height="100dp"
+    android:layout_height="0dp"
     android:background="@drawable/wave"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_30"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/topView_NA" />
-
   <ImageView
     android:id="@+id/Account_image_NA"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginTop="32dp"
+    android:layout_marginBottom="103dp"
     android:layout_marginEnd="16dp"
     android:layout_marginRight="16dp"
+    app:layout_constraintBottom_toBottomOf="@+id/waveView_NA"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="@+id/topView_NA"
     app:srcCompat="@drawable/ic_baseline_person_24" />
@@ -32,6 +40,7 @@
     android:layout_width="219dp"
     android:layout_height="139dp"
     android:layout_marginTop="32dp"
+    android:layout_marginBottom="64dp"
     android:layout_marginStart="16dp"
     android:layout_marginLeft="16dp"
     android:layout_gravity="center"
@@ -39,74 +48,91 @@
     android:text="@string/new_account_title"
     android:textColor="#FFFFFF"
     android:textSize="36sp"
+    app:layout_constraintBottom_toBottomOf="@+id/waveView_NA"
     app:layout_constraintEnd_toStartOf="@+id/Account_image_NA"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_30"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.3" />
 
-  <LinearLayout
-    android:id="@+id/linearLayout3"
+  <EditText
+    android:id="@+id/registerName"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="10dp"
-    android:orientation="vertical"
-    app:layout_constraintStart_toEndOf="@+id/topView_NA"
-    app:layout_constraintTop_toBottomOf="@+id/topView_NA">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="24dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:layout_gravity="center"
+    android:padding="16dp"
+    android:autofillHints="@string/account_name"
+    android:background="@drawable/round_border"
+    android:drawablePadding="16dp"
+    android:drawableStart="@drawable/ic_baseline_account"
+    android:ems="10"
+    android:hint="@string/account_name"
+    android:inputType="textPersonName"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/guideline_30" />
 
-    <EditText
-      android:id="@+id/registerName"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="300dp"
-      android:layout_marginLeft="50dp"
-      android:layout_marginRight="50dp"
-      android:layout_gravity="center"
-      android:padding="16dp"
-      android:autofillHints="@string/account_name"
-      android:background="@drawable/round_border"
-      android:drawablePadding="16dp"
-      android:drawableStart="@drawable/ic_baseline_account"
-      android:ems="10"
-      android:hint="@string/account_name"
-      android:inputType="textPersonName" />
-    <EditText
-      android:id="@+id/registerPassword"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="30dp"
-      android:layout_marginLeft="50dp"
-      android:layout_marginRight="50dp"
-      android:padding="16dp"
-      android:autofillHints="@string/account_password"
-      android:background="@drawable/round_border"
-      android:drawablePadding="16dp"
-      android:drawableStart="@drawable/ic_baseline_lock_24"
-      android:ems="10"
-      android:hint="@string/account_password"
-      android:inputType="textPassword" />
-    <Button
-      android:id="@+id/registerButton"
-      android:textStyle="bold"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="50dp"
-      android:layout_marginLeft="50dp"
-      android:layout_marginRight="50dp"
-      android:background="@drawable/round_bg"
-      android:text="@string/new_account_register"
-      android:textColor="#FFFFFF"
-      android:textSize="18sp" />
-    <TextView
-      android:id="@+id/tv_have_account"
-      android:textStyle="bold"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="15dp"
-      android:layout_marginLeft="70dp"
-      android:layout_marginRight="70dp"
-      android:text="@string/already_have_a_account"
-      android:textColor="@color/colorPrimary"
-      android:textSize="18sp" />
+  <EditText
+    android:id="@+id/registerPassword"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:padding="16dp"
+    android:autofillHints="@string/account_password"
+    android:background="@drawable/round_border"
+    android:drawablePadding="16dp"
+    android:drawableStart="@drawable/ic_baseline_lock_24"
+    android:ems="10"
+    android:hint="@string/account_password"
+    android:inputType="textPassword"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/registerName" />
+
+  <Button
+    android:id="@+id/registerButton"
+    android:textStyle="bold"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="18dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:background="@drawable/round_bg"
+    android:text="@string/new_account_register"
+    android:textColor="#FFFFFF"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/registerPassword" />
+  <TextView
+    android:id="@+id/tv_have_account"
+    android:textStyle="bold"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="18dp"
+    android:layout_marginBottom="24dp"
+    android:text="@string/already_have_a_account"
+    android:textColor="@color/colorPrimary"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/registerButton" />
 
 
-  </LinearLayout>
 </android.support.constraint.ConstraintLayout>
