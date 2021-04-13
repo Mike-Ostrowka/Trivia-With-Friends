@@ -58,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
     username = session.getusername();
     Realm realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
+    realm.close();
 
     click_sound = R.raw.click;
 
@@ -98,23 +99,27 @@ public class ProfileActivity extends AppCompatActivity {
       getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
-    // update database with new bio, censor if needed
     userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
+    // update database with new bio, censor if needed
     updateBio.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
 
       String text = userBio.getText().toString();
-      if (text.equals("")) {
+      if (text.equals("") || text.equals(current.getBio())) {
         return;
       }
       text = BadWordFilter
           .getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
 
       String finalText = text;
-      realm.executeTransaction(transactionRealm -> current.setBio(finalText));
+      Realm realmBio = Realm.getDefaultInstance();
+      realmBio.executeTransaction(transactionRealm -> {
+        current.setBio(finalText);
+      });
       userBio.setText(finalText);
       Toast.makeText(getApplicationContext(), getString(R.string.bio_updated),
           Toast.LENGTH_SHORT).show();
+      realmBio.close();
     });
 
     chat.setOnClickListener(view -> {

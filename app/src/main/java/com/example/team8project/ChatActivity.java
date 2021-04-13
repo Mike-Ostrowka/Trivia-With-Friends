@@ -164,7 +164,6 @@ public class ChatActivity extends AppCompatActivity implements
 }
 
 
-// todo use users class as member data instead
 class MemberData {
 
   private String name;
