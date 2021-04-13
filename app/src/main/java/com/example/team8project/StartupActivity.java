@@ -43,6 +43,7 @@ public class StartupActivity extends AppCompatActivity {
                 Realm.setDefaultConfiguration(config);
                 uiThreadRealm = Realm.getDefaultInstance();
 //        addChangeListenerToRealm(uiThreadRealm);
+                uiThreadRealm.close();
                 Intent intent = new Intent();
                 intent.setClass(StartupActivity.this, MainMenuActivity.class);
                 startActivity(intent);
