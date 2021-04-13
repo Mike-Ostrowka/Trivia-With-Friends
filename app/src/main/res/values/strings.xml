@@ -82,7 +82,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="input_placeholder">Write a message</string>
   <string name ="placeholder_message">Placeholder message</string>
   <string name="friend_exists">Already added this user as a friend</string>
-  <string name="chat_button">Chat With Friends!</string>
+  <string name="chat_button">Global Chatroom</string>
   <string name="bio_updated">Your Bio has been updated!</string>
   <string name="censored_bio">Your Bio contains banned words and was censored!</string>
   <string name="user_placeholder">Goku</string>

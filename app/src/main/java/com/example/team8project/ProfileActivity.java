@@ -73,7 +73,6 @@ public class ProfileActivity extends AppCompatActivity {
     profilePicture = findViewById(R.id.profile_picture);
     TextView userBio = findViewById(R.id.user_bio);
 
-    // TODO need to take profile pic byte[] from realm, and use as profile pic
     byte[] bitmapData = current.getProfilePictureByteArray();
     if (bitmapData != null) {
       Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
@@ -128,6 +127,12 @@ public class ProfileActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
+    viewProgress.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
+      startActivity(intent);
+    });
+
     TextView gamesPlayed = findViewById(R.id.games_played);
     String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
     gamesPlayed.setText(gamesPlayedString);
@@ -136,13 +141,8 @@ public class ProfileActivity extends AppCompatActivity {
     String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
     gamesWon.setText(gamesWonString);
 
-    //todo present elo tracker graph
 
-    viewProgress.setOnClickListener(view -> {
-      HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
-      startActivity(intent);
-    });
+
 
   }
 
@@ -171,19 +171,6 @@ public class ProfileActivity extends AppCompatActivity {
     }
   }
 
-//  private File createImageFile() throws IOException {
-//    // create an image file name
-//    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//    String imageFileName = "JPEG_" + timeStamp + "_";
-//    File storageDir = getExternalFilesDir((Environment.DIRECTORY_PICTURES));
-//    File image = File.createTempFile(
-//        imageFileName,
-//        ".jpg",
-//        storageDir
-//    );
-//    currentPhotoPath = image.getAbsolutePath();
-//    return image;
-//  }
 
   private void playMusic() {
     song = R.raw.smooth_jazz;
