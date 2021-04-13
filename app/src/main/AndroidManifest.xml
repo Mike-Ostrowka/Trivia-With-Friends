@@ -36,7 +36,8 @@
 <!--    todo make parent proper one-->
     <activity
       android:name=".GraphActivity"
-      android:parentActivityName=".ProfileActivity" />
+      android:parentActivityName=".ProfileActivity"
+      android:configChanges="orientation|keyboardHidden"/>
     <activity
       android:label="@string/settings"
       android:name=".SettingsActivity"

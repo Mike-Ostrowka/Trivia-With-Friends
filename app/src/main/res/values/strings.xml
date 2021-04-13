@@ -91,6 +91,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="no_camera">This device does not have a camera!</string>
   <string name="view_progress">View Progress</string>
   <string name="censored_chat">Your message contains banned words and was censored!</string>
+  <string name="xaxis">Elo change over the last 10 games</string>
 
 
 

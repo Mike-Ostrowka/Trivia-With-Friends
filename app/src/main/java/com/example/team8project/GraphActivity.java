@@ -2,8 +2,10 @@ package com.example.team8project;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
@@ -13,6 +15,7 @@ import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
@@ -25,6 +28,8 @@ import lecho.lib.hellocharts.view.LineChartView;
 import io.realm.Realm;
 
 public class GraphActivity extends AppCompatActivity {
+
+  Realm realm;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +54,11 @@ public class GraphActivity extends AppCompatActivity {
     //open a realm and find logged in user
     loginPreferences session = new loginPreferences(getApplicationContext());
     String username = session.getusername();
-    Realm realm = Realm.getDefaultInstance();
+    realm = Realm.getDefaultInstance();
     Users current = realm.where(Users.class).equalTo("_id", username).findFirst();
     realm.close();
 
-    // todo mike comment out the int[] and uncomment arraylist to test my problem
-    int[] yAxisData = {50, 20, 15, 30, 20, 60, 15, 40, 45, 10, 90, 18};
-//    ArrayList<Integer> graphData = current.eloList();
+    ArrayList<Integer> graphData = current.eloList();
 
     LineChartView lineChartView = findViewById(R.id.chart);
     String[] axisData = {"10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
@@ -63,23 +66,15 @@ public class GraphActivity extends AppCompatActivity {
     List yAxisValues = new ArrayList();
     List axisValues = new ArrayList();
 
-    Line line = new Line(yAxisValues).setColor(Color.parseColor("#9C27B0"));
+    Line line = new Line(yAxisValues).setColor(getResources().getColor(R.color.colorPrimary));
 
     for (int i = 0; i < axisData.length; i++) {
       axisValues.add(i, new AxisValue(i).setLabel(axisData[i]));
     }
-
-
-    // todo mike do the same here comment out the yAxisValues for loop and uncomment the second one for
-    for (int i = 0; i < yAxisData.length; i++) {
-      yAxisValues.add(new PointValue(i, yAxisData[i]));
+    for (int i = 0; i < graphData.size(); i++) {
+      int j = graphData.get(i);
+      yAxisValues.add(new PointValue(i, (j)));
     }
-//    for (int i = 0; i < graphData.size(); i++) {
-//      yAxisValues.add(new PointValue(i, graphData.get(i)));
-//    }
-
-
-
 
     List lines = new ArrayList();
     lines.add(line);
@@ -94,18 +89,17 @@ public class GraphActivity extends AppCompatActivity {
     Axis yAxis = new Axis();
     data.setAxisYLeft(yAxis);
 
-    axis.setTextColor(Color.parseColor("#9C27B0"));
-    yAxis.setTextColor(Color.parseColor("#9C27B0"));
-    yAxis.setName("Elo");
-    axis.setName("Progress over the last 10 games");
+    axis.setTextColor(getResources().getColor(R.color.colorPrimary));
+    yAxis.setTextColor(getResources().getColor(R.color.colorPrimary));
+    axis.setName(getResources().getString(R.string.xaxis));
+    yAxis.setName(" ");
     axis.setTextSize(16);
     yAxis.setTextSize(16);
-//    Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-//    viewport.top =110;
-//    lineChartView.setMaximumViewport(viewport);
-//    lineChartView.setCurrentViewport(viewport);
+    Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
+    viewport.top = Collections.max(graphData)+50;
+    lineChartView.setMaximumViewport(viewport);
+    lineChartView.setCurrentViewport(viewport);
 
-    realm.close();
   }
 
   private void playMusic() {
@@ -116,8 +110,16 @@ public class GraphActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
+    if (realm != null) {
+      realm.close();
+    }
     HXSound.clear();
     HXMusic.stop();
     HXMusic.clear();
+  }
+
+  @Override
+  public void onConfigurationChanged(Configuration newConfig) {
+    super.onConfigurationChanged(newConfig);
   }
 }

@@ -120,6 +120,7 @@ public class ProfileActivity extends AppCompatActivity {
     });
 
     chat.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
