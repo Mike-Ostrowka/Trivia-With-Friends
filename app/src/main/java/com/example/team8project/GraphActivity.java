@@ -96,7 +96,7 @@ public class GraphActivity extends AppCompatActivity {
     axis.setTextSize(16);
     yAxis.setTextSize(16);
     Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-    viewport.top = Collections.max(graphData)+50;
+    viewport.top = Collections.max(graphData) + 50;
     lineChartView.setMaximumViewport(viewport);
     lineChartView.setCurrentViewport(viewport);
 

@@ -37,6 +37,7 @@ public class Users extends RealmObject {
   private String securityAnswer;
   private int gamesPlayed = 0;
   private int gamesWon = 0;
+  private String channelKey;
 
   public Users(String name) {
     _id = name;
@@ -170,6 +171,14 @@ public class Users extends RealmObject {
 
   Users getFriend(int index) {
     return friends.get(index);
+  }
+
+  String getChannelKey() {
+    return channelKey;
+  }
+
+  void setChannelKey(String newKey) {
+    channelKey = newKey;
   }
 
   //takes parameter of other players elo and updates users elo and stats on win

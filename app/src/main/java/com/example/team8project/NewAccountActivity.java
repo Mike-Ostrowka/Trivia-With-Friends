@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
+import java.util.ArrayList;
+import java.util.Random;
 
 public class NewAccountActivity extends AppCompatActivity {
 
@@ -56,8 +58,35 @@ public class NewAccountActivity extends AppCompatActivity {
             Toast.LENGTH_SHORT).show();
         return;
       }
-      //save temp to realm
 
+      ArrayList<String> channelKeys = new ArrayList<String>(){{
+        add("J7Ws0kKbptiDV3NH");
+        add("HWAaPjyiYzRc1g1o");
+        add("vitEgpZ301qBAzZS");
+        add("cIIbNj2NtmhYLh1V");
+        add("pu9hSudeD0Lar5NF");
+        add("6YCDMRfk7Lh4hAgQ");
+        add("jfN3f6BA4wtajEmf");
+        add("0pps9KPD9hfU6fwH");
+        add("hEzXoOyPIUek28it");
+        add("Q8HhAkYQT6pijYDe");
+        add("SOipt35X1ytKfgd2");
+        add("zaeSZnD7swcBn2Mi");
+        add("2QY63czNUgstrQkz");
+        add("HbGUWLxCKTcIZBuI");
+        add("97HQx9IpcFJ4b8Hz");
+        add("ffPc9lcFVxzibdnN");
+        add("pIGzbQKFtNumFP3W");
+        add("hbOQsIYf35BmD9RY");
+        add("dDZd7lhPWuRcxntI");
+        add("iLTsCTpWUEcNpMwy");
+      }};
+
+      Random random = new Random();
+      int randomKey = random.nextInt(20);
+      temp.setChannelKey(channelKeys.get(randomKey));
+
+      //save temp to realm
       realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
       if (realm != null) {
         realm.close();
