@@ -93,6 +93,8 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="censored_chat">Your message contains banned words and was censored!</string>
   <string name="xaxis">Elo change over the last 10 games</string>
   <string name="my_chat_room">My Chat Room</string>
+  <string name="friends_bio">Your friend has not entered a bio.</string>
+
 
 
 

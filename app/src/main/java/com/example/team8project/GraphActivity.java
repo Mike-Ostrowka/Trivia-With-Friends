@@ -51,14 +51,8 @@ public class GraphActivity extends AppCompatActivity {
       playMusic();
     }
 
-    //open a realm and find logged in user
-    loginPreferences session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
-    realm = Realm.getDefaultInstance();
-    Users current = realm.where(Users.class).equalTo("_id", username).findFirst();
-    realm.close();
-
-    ArrayList<Integer> graphData = current.eloList();
+    // get eloList from the calling activity
+    ArrayList<Integer> myList = (ArrayList<Integer>) getIntent().getSerializableExtra("EXTRA_SESSION_ID");
 
     LineChartView lineChartView = findViewById(R.id.chart);
     String[] axisData = {"10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
@@ -71,8 +65,8 @@ public class GraphActivity extends AppCompatActivity {
     for (int i = 0; i < axisData.length; i++) {
       axisValues.add(i, new AxisValue(i).setLabel(axisData[i]));
     }
-    for (int i = 0; i < graphData.size(); i++) {
-      int j = graphData.get(i);
+    for (int i = 0; i < myList.size(); i++) {
+      int j = myList.get(i);
       yAxisValues.add(new PointValue(i, (j)));
     }
 
@@ -96,7 +90,7 @@ public class GraphActivity extends AppCompatActivity {
     axis.setTextSize(16);
     yAxis.setTextSize(16);
     Viewport viewport = new Viewport(lineChartView.getMaximumViewport());
-    viewport.top = Collections.max(graphData) + 50;
+    viewport.top = Collections.max(myList) + 50;
     lineChartView.setMaximumViewport(viewport);
     lineChartView.setCurrentViewport(viewport);
 

@@ -20,6 +20,7 @@ import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -31,7 +32,6 @@ public class ProfileActivity extends AppCompatActivity {
   private Users current;
   private loginPreferences session;
   private String username;
-  private String currentPhotoPath;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +62,14 @@ public class ProfileActivity extends AppCompatActivity {
     click_sound = R.raw.click;
 
     Button cameraButton = findViewById(R.id.camera_button);
-    Button viewProgress = findViewById(R.id.view_progress);
+    Button viewProgress = findViewById(R.id.friends_view_progress);
     Button updateBio = findViewById(R.id.updateBio_button);
     Button globalChat = findViewById(R.id.global_chatroom);
-    Button myChat = findViewById(R.id.my_chat_room);
-    profilePicture = findViewById(R.id.profile_picture);
-    TextView userBio = findViewById(R.id.user_bio);
+    Button myChat = findViewById(R.id.friends_chat_room);
+    profilePicture = findViewById(R.id.friends_profile_picture);
+    TextView userBio = findViewById(R.id.friends_bio);
+    TextView gamesWon = findViewById(R.id.friends_games_won);
+    TextView gamesPlayed = findViewById(R.id.friends_games_played);
 
 //    if(!(current.getChannelKey()==null)){
 //      System.out.println("users channel key is: " + current.getChannelKey());
@@ -81,10 +83,25 @@ public class ProfileActivity extends AppCompatActivity {
 //      System.out.println("users channel key is null");
 //    }
 
+    // set text of users stats
+    String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
+    gamesPlayed.setText(gamesPlayedString);
+    String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
+    gamesWon.setText(gamesWonString);
+
+    // retrieve profile picture from database, if present
     byte[] bitmapData = current.getProfilePictureByteArray();
     if (bitmapData != null) {
       Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
       profilePicture.setImageBitmap(bitmap);
+    }
+
+    // Display bio saved in database, if present
+    bio = current.getBio();
+    if (!(bio == null)) {
+      userBio.setText(bio);
+      userBio.setCursorVisible(false);
+      getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
     }
 
     // camera button will update profile picture and what is stored in realm database
@@ -103,14 +120,6 @@ public class ProfileActivity extends AppCompatActivity {
       }
     });
 
-    // Display bio saved in database, if any
-    bio = current.getBio();
-    if (!(bio == null)) {
-      userBio.setText(bio);
-      userBio.setCursorVisible(false);
-      getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-    }
-
     userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
 
     // update database with new bio, censor if needed
@@ -123,8 +132,8 @@ public class ProfileActivity extends AppCompatActivity {
       }
       text = BadWordFilter
           .getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
-
       String finalText = text;
+
       Realm realmBio = Realm.getDefaultInstance();
       realmBio.executeTransaction(transactionRealm -> current.setBio(finalText));
       userBio.setText(finalText);
@@ -133,10 +142,12 @@ public class ProfileActivity extends AppCompatActivity {
       realmBio.close();
     });
 
-    // will allow users to send messages to entire playerbase in a global chat room
-    globalChat.setOnClickListener(view -> {
+    // allows users to track their elo progress across their last 10 games
+    viewProgress.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+      Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
+      ArrayList<Integer> sessionEloId = current.eloList();
+      intent.putExtra("EXTRA_SESSION_ID", sessionEloId);
       startActivity(intent);
     });
 
@@ -150,21 +161,20 @@ public class ProfileActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
-    // allows users to track their elo progress across their last 10 games
-    viewProgress.setOnClickListener(view -> {
+    // will allow users to send messages to entire playerbase in a global chat room
+    globalChat.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
+      Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
 
-    TextView gamesPlayed = findViewById(R.id.games_played);
-    String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
-    gamesPlayed.setText(gamesPlayedString);
-
-    TextView gamesWon = findViewById(R.id.games_won);
-    String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
-    gamesWon.setText(gamesWonString);
-
+//    friendbtn.setOnClickListener(view -> {
+//      HXSound.sound().load(click_sound).play(this);
+//      Intent intent = new Intent(thisActibvity.this, FriendsProfileActivity.class);
+//      String sessionId = friend.username;
+//      intent.putExtra("EXTRA_SESSION_ID", sessionId);
+//      startActivity(intent);
+//    });
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
