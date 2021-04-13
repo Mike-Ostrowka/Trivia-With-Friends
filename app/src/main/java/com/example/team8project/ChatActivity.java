@@ -13,10 +13,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
+import com.scaledrone.lib.HistoryRoomListener;
 import com.scaledrone.lib.Listener;
 import com.scaledrone.lib.Room;
 import com.scaledrone.lib.RoomListener;
 import com.scaledrone.lib.Scaledrone;
+import com.scaledrone.lib.SubscribeOptions;
 import java.util.Random;
 
 public class ChatActivity extends AppCompatActivity implements
@@ -70,39 +72,74 @@ public class ChatActivity extends AppCompatActivity implements
     scaledrone.connect(new Listener() {
       @Override
       public void onOpen() {
-        System.out.println("Scaledrone connection open");
+//        System.out.println("Scaledrone connection open");
         // Since the ChatActivity itself already implement RoomListener we can pass it as a target
-        scaledrone.subscribe(roomName, ChatActivity.this);
+        Room room = scaledrone.subscribe(roomName, ChatActivity.this, new SubscribeOptions(25));
+
+        room.listenToHistoryEvents(new HistoryRoomListener() {
+          @Override
+          public void onHistoryMessage(Room room, com.scaledrone.lib.Message message) {
+            System.out.println(message.getClientID());
+//            final ObjectMapper mapper = new ObjectMapper();
+//            try {
+//              System.out.println("before data1 " + message);
+//              System.out.println("before data1 " + message.getMember());
+//              final MemberData data1 = mapper
+//                  .treeToValue(message.getMember().getClientData(), MemberData.class);
+//              System.out.println("we here");
+
+              final Message messageSent = new Message(message.getData().asText(), data,
+                  message.getClientID().equals(scaledrone.getClientID()));
+              runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  messageAdapter.add(messageSent);
+                  // scroll the ListView to the last added element
+                  messagesView.setSelection(messagesView.getCount() - 1);
+                }
+              });
+//            } catch (JsonProcessingException e) {
+//              e.printStackTrace();
+//              System.out.println("Failed in new function");
+//            }
+          }
+        });
       }
 
       @Override
       public void onOpenFailure(Exception ex) {
         System.err.println(ex);
+//        System.out.println("Failed inside onopenfailure");
       }
 
       @Override
       public void onFailure(Exception ex) {
         System.err.println(ex);
+//        System.out.println("Failed inside onfailure");
+
       }
 
       @Override
       public void onClosed(String reason) {
         System.err.println(reason);
+//        System.out.println("Failed inside onClosed");
+
       }
     });
-
   }
 
   // Successfully connected to Scaledrone room
   @Override
   public void onOpen(Room room) {
-    System.out.println("Connected to room");
+//    System.out.println("Connected to room");
   }
 
   // Connecting to Scaledrone room failed
   @Override
   public void onOpenFailure(Room room, Exception ex) {
     System.err.println(ex);
+//    System.out.println("Failed outside onopenfailure");
+
   }
 
   // Received a message from Scaledrone room
@@ -133,15 +170,6 @@ public class ChatActivity extends AppCompatActivity implements
     }
   }
 
-  private String getRandomColor() {
-    Random r = new Random();
-    StringBuffer sb = new StringBuffer("#");
-    while (sb.length() < 7) {
-      sb.append(Integer.toHexString(r.nextInt()));
-    }
-    return sb.toString().substring(0, 7);
-  }
-
   public void sendMessage(View view) {
     String message = editText.getText().toString();
     message = BadWordFilter.getCensoredText(message,
@@ -152,6 +180,15 @@ public class ChatActivity extends AppCompatActivity implements
       scaledrone.publish("observable-room", message);
       editText.getText().clear();
     }
+  }
+
+  private String getRandomColor() {
+    Random r = new Random();
+    StringBuffer sb = new StringBuffer("#");
+    while (sb.length() < 7) {
+      sb.append(Integer.toHexString(r.nextInt()));
+    }
+    return sb.toString().substring(0, 7);
   }
 
   private void playMusic() {
@@ -191,4 +228,9 @@ class MemberData {
     return color;
   }
 }
+
+// Citation for reference used:
+//Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
+//    Scaledrone Blog, 05-Feb-2019. [Online]. Available:
+//    https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].
 
