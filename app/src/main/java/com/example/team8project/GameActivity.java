@@ -14,7 +14,7 @@ public class GameActivity extends AppCompatActivity {
 
   private final boolean gameFinished = false;
   int questionCount = 0;
-  int playerScore = 0;
+  int playerScore = 0, playerTwoScore = 0;
   long _ID = UUID.randomUUID().getMostSignificantBits();
 
   //declaring all of the layout objects
@@ -224,6 +224,7 @@ public class GameActivity extends AppCompatActivity {
       @Override
       public void execute(Realm realm) {
         currentGame.setPlayerOneScore(playerScore);
+        currentGame.setPlayerTwoScore(playerTwoScore);
         realm.insertOrUpdate(currentGame);
       }
     });
