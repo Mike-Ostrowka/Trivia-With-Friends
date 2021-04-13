@@ -88,6 +88,7 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="user_placeholder">Goku</string>
   <string name="user_message_placeholder">How are you doing? This is a long message that should probably wrap.</string>
   <string name="chat_warning">Please be aware of potential scams, do not share personal information through the app.</string>
+  <string name="no_camera">This device does not have a camera!</string>
 
 
 

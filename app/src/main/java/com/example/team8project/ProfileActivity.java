@@ -1,8 +1,11 @@
 package com.example.team8project;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
@@ -33,7 +36,7 @@ public class ProfileActivity extends AppCompatActivity {
   private Users current;
   private loginPreferences session;
   private String username;
-//  private String currentPhotoPath;
+  private String currentPhotoPath;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -77,19 +80,25 @@ public class ProfileActivity extends AppCompatActivity {
     });
 
     // TODO need to take profile pic byte[] from realm, and use as profile pic
-//    byte[] bitmapData = users.getProfilePictureByteArray;
-//    if (bitmapData != null) {
-//      Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
-//      profilePicture.setImageBitmap(bitmap);
-//    }
+    byte[] bitmapData = current.getProfilePictureByteArray();
+    if (bitmapData != null) {
+      Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
+      profilePicture.setImageBitmap(bitmap);
+    }
 
     // camera button will update profile picture and what is stored in realm database
     cameraButton.setOnClickListener(view -> {
-      HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+      if (getApplicationContext().getPackageManager()
+          .hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+        HXSound.sound().load(click_sound).play(this);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-      if (intent.resolveActivity(getPackageManager()) != null) {
-        startActivityForResult(intent, 0);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+          startActivityForResult(intent, 0);
+        }
+      } else {
+        // no camera on this device
+        Dialogs.buildDialog(getString(R.string.no_camera), this);
       }
     });
 
@@ -114,9 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
           .getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
 
       String finalText = text;
-      realm.executeTransaction(transactionRealm -> {
-        current.setBio(finalText);
-      });
+      realm.executeTransaction(transactionRealm -> current.setBio(finalText));
       userBio.setText(finalText);
       Toast.makeText(getApplicationContext(), getString(R.string.bio_updated),
           Toast.LENGTH_SHORT).show();
@@ -137,7 +144,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     //todo present elo tracker graph
 
-    realm.close();
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -148,9 +154,15 @@ public class ProfileActivity extends AppCompatActivity {
     ByteArrayOutputStream stream = new ByteArrayOutputStream();
     bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
     byte[] byteArray = stream.toByteArray();
-    //TODO save byte[] byteArray to Realm
-    // something like:
-    // users.setProfilePictureByteArray(byteArray);
+    if(realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
+    realm.executeTransaction(transactionRealm -> {
+      Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName())
+          .findFirst();
+      temp.setProfilePictureByteArray(byteArray);
+    });
+    realm.close();
   }
 
 //  private File createImageFile() throws IOException {
@@ -176,6 +188,9 @@ public class ProfileActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
+    if (realm != null) {
+      realm.close();
+    }
     HXSound.clear();
     HXMusic.stop();
     HXMusic.clear();

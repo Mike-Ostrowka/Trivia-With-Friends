@@ -24,7 +24,7 @@ public class Users extends RealmObject {
     protected int eloThree = 1000;
     protected int eloFour = 1000;
     protected int eloFive = 1000;
-    //  private Byte[] profilePictureByteArray;
+    private byte[] profilePictureByteArray;
     protected int eloSix = 1000;
     protected int eloSeven = 1000;
     protected int eloEight = 1000;
@@ -117,11 +117,11 @@ public class Users extends RealmObject {
         return paddingLength > 0 ? String.format("%0" + paddingLength + "d", 0) + hex : hex;
     }
 
-//  Byte[] getProfilePictureByteArray() {return profilePictureByteArray; }
-//
-//  void setProfilePictureByteArray(Byte[] newByteArray){
-//    profilePictureByteArray = newByteArray;
-//  }
+  byte[] getProfilePictureByteArray() {return profilePictureByteArray; }
+
+  void setProfilePictureByteArray(byte[] newByteArray){
+    profilePictureByteArray = newByteArray;
+  }
 
     // generates byte array from hex
     private static byte[] fromHex(String hex) {
