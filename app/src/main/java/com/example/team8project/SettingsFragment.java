@@ -5,14 +5,14 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-    @Override
-    public void onCreatePreferences(Bundle savedInstanceState,
-                                    String rootKey) {
-        setPreferencesFromResource(R.xml.preferences, rootKey);
-    }
+  @Override
+  public void onCreatePreferences(Bundle savedInstanceState,
+      String rootKey) {
+    setPreferencesFromResource(R.xml.preferences, rootKey);
+  }
 
-    @Override
-    public void onCreate(Bundle saveInstanceState) {
-        super.onCreate(saveInstanceState);
-    }
+  @Override
+  public void onCreate(Bundle saveInstanceState) {
+    super.onCreate(saveInstanceState);
+  }
 }
