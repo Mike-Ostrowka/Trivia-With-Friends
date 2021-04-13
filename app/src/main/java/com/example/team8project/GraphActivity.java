@@ -53,22 +53,33 @@ public class GraphActivity extends AppCompatActivity {
     Users current = realm.where(Users.class).equalTo("_id", username).findFirst();
     realm.close();
 
-    ArrayList<Integer> graphData = current.eloList();
+    // todo mike comment out the int[] and uncomment arraylist to test my problem
+    int[] yAxisData = {50, 20, 15, 30, 20, 60, 15, 40, 45, 10, 90, 18};
+//    ArrayList<Integer> graphData = current.eloList();
 
     LineChartView lineChartView = findViewById(R.id.chart);
     String[] axisData = {"10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
-//    int[] yAxisData = {50, 20, 15, 30, 20, 60, 15, 40, 45, 10, 90, 18};
+
     List yAxisValues = new ArrayList();
     List axisValues = new ArrayList();
 
-    Line line = new Line(yAxisValues).setColor(Color.parseColor("@color/colorPrimary"));
+    Line line = new Line(yAxisValues).setColor(Color.parseColor("#9C27B0"));
 
     for (int i = 0; i < axisData.length; i++) {
       axisValues.add(i, new AxisValue(i).setLabel(axisData[i]));
     }
-    for (int i = 0; i < graphData.size(); i++) {
-      yAxisValues.add(new PointValue(i, graphData.get(i)));
+
+
+    // todo mike do the same here comment out the yAxisValues for loop and uncomment the second one for
+    for (int i = 0; i < yAxisData.length; i++) {
+      yAxisValues.add(new PointValue(i, yAxisData[i]));
     }
+//    for (int i = 0; i < graphData.size(); i++) {
+//      yAxisValues.add(new PointValue(i, graphData.get(i)));
+//    }
+
+
+
 
     List lines = new ArrayList();
     lines.add(line);
@@ -83,8 +94,8 @@ public class GraphActivity extends AppCompatActivity {
     Axis yAxis = new Axis();
     data.setAxisYLeft(yAxis);
 
-    axis.setTextColor(Color.parseColor("@color/colorPrimary"));
-    yAxis.setTextColor(Color.parseColor("@color/colorPrimary"));
+    axis.setTextColor(Color.parseColor("#9C27B0"));
+    yAxis.setTextColor(Color.parseColor("#9C27B0"));
     yAxis.setName("Elo");
     axis.setName("Progress over the last 10 games");
     axis.setTextSize(16);
@@ -96,7 +107,6 @@ public class GraphActivity extends AppCompatActivity {
 
     realm.close();
   }
-
 
   private void playMusic() {
     int song = R.raw.smooth_jazz;
