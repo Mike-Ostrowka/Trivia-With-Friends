@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
 import com.huhx0015.hxaudio.audio.HXMusic;
@@ -27,7 +28,7 @@ public class FaqActivity extends AppCompatActivity {
         ab.setDisplayHomeAsUpEnabled(true);
         TextView mtextView = findViewById(R.id.tv_faq);
         mtextView.setText(Html.fromHtml(getString(R.string.faq_text)));
-
+        mtextView.setMovementMethod(ScrollingMovementMethod.getInstance());
         //load preferences
         PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);

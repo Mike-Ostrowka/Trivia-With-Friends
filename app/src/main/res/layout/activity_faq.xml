@@ -38,6 +38,8 @@
       android:layout_marginLeft="10dp"
       android:layout_marginRight="10dp"
       android:text=""
-      android:textSize="18sp" />
+      android:textSize="18sp"
+      android:singleLine="false"
+      android:scrollbars="vertical"/>
   </LinearLayout>
 </android.support.constraint.ConstraintLayout>
