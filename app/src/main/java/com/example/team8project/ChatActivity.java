@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
@@ -19,12 +20,13 @@ import com.scaledrone.lib.Room;
 import com.scaledrone.lib.RoomListener;
 import com.scaledrone.lib.Scaledrone;
 import com.scaledrone.lib.SubscribeOptions;
+import java.io.IOException;
 import java.util.Random;
 
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private String channelID = "vARN10riQporwYKC";
+  private String channelID = "laNRgaDxIWeMCBIb";
   private final String roomName = "observable-room";
   private EditText editText;
   private Scaledrone scaledrone;
@@ -79,17 +81,21 @@ public class ChatActivity extends AppCompatActivity implements
         room.listenToHistoryEvents(new HistoryRoomListener() {
           @Override
           public void onHistoryMessage(Room room, com.scaledrone.lib.Message message) {
-            System.out.println(message.getClientID());
-//            final ObjectMapper mapper = new ObjectMapper();
-//            try {
-//              System.out.println("before data1 " + message);
-//              System.out.println("before data1 " + message.getMember());
-//              final MemberData data1 = mapper
-//                  .treeToValue(message.getMember().getClientData(), MemberData.class);
-//              System.out.println("we here");
+            final ObjectMapper mapper1 = new ObjectMapper();
+            try {
+              if (message.getMember() == null) {
+                return;
+              }
 
-              final Message messageSent = new Message(message.getData().asText(), data,
-                  message.getClientID().equals(scaledrone.getClientID()));
+              final MemberData data1 = mapper1
+                  .treeToValue(message.getMember().getClientData(), MemberData.class);
+
+              final JsonNode jsonNode = mapper1
+                  .readTree(String.valueOf(message.getData()));
+
+              final Message messageSent = new Message(jsonNode.get("text").asText(), data1,
+                  data1.getName().equals(data.getName()));
+
               runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -98,10 +104,11 @@ public class ChatActivity extends AppCompatActivity implements
                   messagesView.setSelection(messagesView.getCount() - 1);
                 }
               });
-//            } catch (JsonProcessingException e) {
-//              e.printStackTrace();
-//              System.out.println("Failed in new function");
-//            }
+            } catch (JsonProcessingException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
           }
         });
       }
@@ -109,21 +116,16 @@ public class ChatActivity extends AppCompatActivity implements
       @Override
       public void onOpenFailure(Exception ex) {
         System.err.println(ex);
-//        System.out.println("Failed inside onopenfailure");
       }
 
       @Override
       public void onFailure(Exception ex) {
         System.err.println(ex);
-//        System.out.println("Failed inside onfailure");
-
       }
 
       @Override
       public void onClosed(String reason) {
         System.err.println(reason);
-//        System.out.println("Failed inside onClosed");
-
       }
     });
   }
@@ -131,15 +133,13 @@ public class ChatActivity extends AppCompatActivity implements
   // Successfully connected to Scaledrone room
   @Override
   public void onOpen(Room room) {
-//    System.out.println("Connected to room");
+    System.out.println("Connected to room");
   }
 
   // Connecting to Scaledrone room failed
   @Override
   public void onOpenFailure(Room room, Exception ex) {
     System.err.println(ex);
-//    System.out.println("Failed outside onopenfailure");
-
   }
 
   // Received a message from Scaledrone room
@@ -151,11 +151,15 @@ public class ChatActivity extends AppCompatActivity implements
       // member.clientData is a MemberData object, let's parse it as such
       final MemberData data = mapper
           .treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
+
+      final JsonNode jsonNode = mapper
+          .readTree(String.valueOf(receivedMessage.getData()));
+
       // if the clientID of the message sender is the same as our's it was sent by us
       boolean belongsToCurrentUser = receivedMessage.getClientID().equals(scaledrone.getClientID());
       // since the message body is a simple string in our case we can use json.asText() to parse it as such
       // if it was instead an object we could use a similar pattern to data parsing
-      final Message message = new Message(receivedMessage.getData().asText(), data,
+      final Message message = new Message(jsonNode.get("text").asText(), data,
           belongsToCurrentUser);
       runOnUiThread(new Runnable() {
         @Override
@@ -167,16 +171,23 @@ public class ChatActivity extends AppCompatActivity implements
       });
     } catch (JsonProcessingException e) {
       e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
   public void sendMessage(View view) {
-    String message = editText.getText().toString();
-    message = BadWordFilter.getCensoredText(message,
+    String messageText = editText.getText().toString();
+    messageText = BadWordFilter.getCensoredText(messageText,
         getApplicationContext(),
         getString(R.string.censored_chat));
 
-    if (message.length() > 0) {
+    loginPreferences session = new loginPreferences(getApplicationContext());
+    String username = session.getusername();
+    MemberData data = new MemberData(username, getRandomColor());
+
+    Message message = new Message (messageText, data, true);
+    if (messageText.length() > 0) {
       scaledrone.publish("observable-room", message);
       editText.getText().clear();
     }

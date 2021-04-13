@@ -34,11 +34,10 @@
       android:parentActivityName=".WelcomeActivity" />
     <activity
       android:name=".ChatActivity"
-      android:parentActivityName=".ProfileActivity" />
-<!--    todo make parent proper one-->
+      android:parentActivityName=".WelcomeActivity" />
     <activity
       android:name=".GraphActivity"
-      android:parentActivityName=".ProfileActivity"
+      android:parentActivityName=".WelcomeActivity"
       android:configChanges="orientation|keyboardHidden"/>
     <activity
       android:label="@string/settings"
