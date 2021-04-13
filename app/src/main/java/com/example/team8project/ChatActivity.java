@@ -10,19 +10,23 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ListView;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
+import com.scaledrone.lib.HistoryRoomListener;
 import com.scaledrone.lib.Listener;
 import com.scaledrone.lib.Room;
 import com.scaledrone.lib.RoomListener;
 import com.scaledrone.lib.Scaledrone;
+import com.scaledrone.lib.SubscribeOptions;
+import java.io.IOException;
 import java.util.Random;
 
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private String channelID = "vARN10riQporwYKC";
+  private String channelID = "laNRgaDxIWeMCBIb";
   private final String roomName = "observable-room";
   private EditText editText;
   private Scaledrone scaledrone;
@@ -70,9 +74,43 @@ public class ChatActivity extends AppCompatActivity implements
     scaledrone.connect(new Listener() {
       @Override
       public void onOpen() {
-        System.out.println("Scaledrone connection open");
+//        System.out.println("Scaledrone connection open");
         // Since the ChatActivity itself already implement RoomListener we can pass it as a target
-        scaledrone.subscribe(roomName, ChatActivity.this);
+        Room room = scaledrone.subscribe(roomName, ChatActivity.this, new SubscribeOptions(25));
+
+        room.listenToHistoryEvents(new HistoryRoomListener() {
+          @Override
+          public void onHistoryMessage(Room room, com.scaledrone.lib.Message message) {
+            final ObjectMapper mapper1 = new ObjectMapper();
+            try {
+              if (message.getMember() == null) {
+                return;
+              }
+
+              final MemberData data1 = mapper1
+                  .treeToValue(message.getMember().getClientData(), MemberData.class);
+
+              final JsonNode jsonNode = mapper1
+                  .readTree(String.valueOf(message.getData()));
+
+              final Message messageSent = new Message(jsonNode.get("text").asText(), data1,
+                  data1.getName().equals(data.getName()));
+
+              runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                  messageAdapter.add(messageSent);
+                  // scroll the ListView to the last added element
+                  messagesView.setSelection(messagesView.getCount() - 1);
+                }
+              });
+            } catch (JsonProcessingException e) {
+              e.printStackTrace();
+            } catch (IOException e) {
+              e.printStackTrace();
+            }
+          }
+        });
       }
 
       @Override
@@ -90,7 +128,6 @@ public class ChatActivity extends AppCompatActivity implements
         System.err.println(reason);
       }
     });
-
   }
 
   // Successfully connected to Scaledrone room
@@ -114,11 +151,15 @@ public class ChatActivity extends AppCompatActivity implements
       // member.clientData is a MemberData object, let's parse it as such
       final MemberData data = mapper
           .treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
+
+      final JsonNode jsonNode = mapper
+          .readTree(String.valueOf(receivedMessage.getData()));
+
       // if the clientID of the message sender is the same as our's it was sent by us
       boolean belongsToCurrentUser = receivedMessage.getClientID().equals(scaledrone.getClientID());
       // since the message body is a simple string in our case we can use json.asText() to parse it as such
       // if it was instead an object we could use a similar pattern to data parsing
-      final Message message = new Message(receivedMessage.getData().asText(), data,
+      final Message message = new Message(jsonNode.get("text").asText(), data,
           belongsToCurrentUser);
       runOnUiThread(new Runnable() {
         @Override
@@ -130,6 +171,25 @@ public class ChatActivity extends AppCompatActivity implements
       });
     } catch (JsonProcessingException e) {
       e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void sendMessage(View view) {
+    String messageText = editText.getText().toString();
+    messageText = BadWordFilter.getCensoredText(messageText,
+        getApplicationContext(),
+        getString(R.string.censored_chat));
+
+    loginPreferences session = new loginPreferences(getApplicationContext());
+    String username = session.getusername();
+    MemberData data = new MemberData(username, getRandomColor());
+
+    Message message = new Message (messageText, data, true);
+    if (messageText.length() > 0) {
+      scaledrone.publish("observable-room", message);
+      editText.getText().clear();
     }
   }
 
@@ -140,18 +200,6 @@ public class ChatActivity extends AppCompatActivity implements
       sb.append(Integer.toHexString(r.nextInt()));
     }
     return sb.toString().substring(0, 7);
-  }
-
-  public void sendMessage(View view) {
-    String message = editText.getText().toString();
-    message = BadWordFilter.getCensoredText(message,
-        getApplicationContext(),
-        getString(R.string.censored_chat));
-
-    if (message.length() > 0) {
-      scaledrone.publish("observable-room", message);
-      editText.getText().clear();
-    }
   }
 
   private void playMusic() {
@@ -191,4 +239,9 @@ class MemberData {
     return color;
   }
 }
+
+// Citation for reference used:
+//Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
+//    Scaledrone Blog, 05-Feb-2019. [Online]. Available:
+//    https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].
 
