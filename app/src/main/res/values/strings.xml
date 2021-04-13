@@ -82,13 +82,16 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="input_placeholder">Write a message</string>
   <string name ="placeholder_message">Placeholder message</string>
   <string name="friend_exists">Already added this user as a friend</string>
-  <string name="chat_button">Chat With Friends!</string>
+  <string name="chat_button">Global Chatroom</string>
   <string name="bio_updated">Your Bio has been updated!</string>
   <string name="censored_bio">Your Bio contains banned words and was censored!</string>
   <string name="user_placeholder">Goku</string>
   <string name="user_message_placeholder">How are you doing? This is a long message that should probably wrap.</string>
   <string name="chat_warning">Please be aware of potential scams, do not share personal information through the app.</string>
   <string name="no_camera">This device does not have a camera!</string>
+  <string name="view_progress">View Progress</string>
+  <string name="censored_chat">Your message contains banned words and was censored!</string>
+
 
 
 

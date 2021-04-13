@@ -3,10 +3,10 @@ package com.example.team8project;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -67,19 +67,12 @@ public class ProfileActivity extends AppCompatActivity {
     click_sound = R.raw.click;
 
     Button cameraButton = findViewById(R.id.camera_button);
-    Button friends = findViewById(R.id.btn_friends);
+    Button viewProgress = findViewById(R.id.view_progress);
     Button updateBio = findViewById(R.id.updateBio_button);
     Button chat = findViewById(R.id.btn_chat);
     profilePicture = findViewById(R.id.profile_picture);
     TextView userBio = findViewById(R.id.user_bio);
 
-    friends.setOnClickListener(view -> {
-      HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(ProfileActivity.this, FriendsActivity.class);
-      startActivity(intent);
-    });
-
-    // TODO need to take profile pic byte[] from realm, and use as profile pic
     byte[] bitmapData = current.getProfilePictureByteArray();
     if (bitmapData != null) {
       Bitmap bitmap = BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
@@ -134,6 +127,12 @@ public class ProfileActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
+    viewProgress.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
+      startActivity(intent);
+    });
+
     TextView gamesPlayed = findViewById(R.id.games_played);
     String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
     gamesPlayed.setText(gamesPlayedString);
@@ -142,42 +141,36 @@ public class ProfileActivity extends AppCompatActivity {
     String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
     gamesWon.setText(gamesWonString);
 
-    //todo present elo tracker graph
+
+
 
   }
 
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-
-    Bitmap bp = (Bitmap) data.getExtras().get("data");
-    profilePicture.setImageBitmap(bp);
-    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-    byte[] byteArray = stream.toByteArray();
-    if(realm == null) {
-      realm = Realm.getDefaultInstance();
+    if (requestCode == 0) {
+      if (resultCode == RESULT_OK) {
+        //Pic taken
+        Bitmap bp = (Bitmap) data.getExtras().get("data");
+        profilePicture.setImageBitmap(bp);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        if(realm == null) {
+          realm = Realm.getDefaultInstance();
+        }
+        realm.executeTransaction(transactionRealm -> {
+          Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName())
+              .findFirst();
+          temp.setProfilePictureByteArray(byteArray);
+        });
+        realm.close();
+      } else {
+        //Pic not taken
+      }
     }
-    realm.executeTransaction(transactionRealm -> {
-      Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName())
-          .findFirst();
-      temp.setProfilePictureByteArray(byteArray);
-    });
-    realm.close();
   }
 
-//  private File createImageFile() throws IOException {
-//    // create an image file name
-//    String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-//    String imageFileName = "JPEG_" + timeStamp + "_";
-//    File storageDir = getExternalFilesDir((Environment.DIRECTORY_PICTURES));
-//    File image = File.createTempFile(
-//        imageFileName,
-//        ".jpg",
-//        storageDir
-//    );
-//    currentPhotoPath = image.getAbsolutePath();
-//    return image;
-//  }
 
   private void playMusic() {
     song = R.raw.smooth_jazz;
