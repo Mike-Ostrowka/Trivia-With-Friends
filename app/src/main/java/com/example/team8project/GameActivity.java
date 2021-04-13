@@ -37,6 +37,18 @@ public class GameActivity extends AppCompatActivity {
     public void run() {
 
       Toast.makeText(GameActivity.this, "The Game Has Completed", Toast.LENGTH_LONG).show();
+      realm.executeTransaction(new Realm.Transaction() {
+        @Override
+        public void execute(Realm realm) {
+          currentGame.setGameCompleted(true);
+          realm.insertOrUpdate(currentGame);
+        }
+      });
+
+      if (realm != null) {
+        realm.close();
+      }
+
 
     }
 
