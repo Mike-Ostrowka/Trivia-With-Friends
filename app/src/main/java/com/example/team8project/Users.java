@@ -172,7 +172,7 @@ public class Users extends RealmObject {
         return friends.get(index);
     }
 
-    //takes parameter of other players elo and updates users elo on win
+    //takes parameter of other players elo and updates users elo and stats on win
     void calculateEloOnWin(int otherElo) {
         int eloChange;
         int difference = (otherElo - elo);
@@ -184,9 +184,11 @@ public class Users extends RealmObject {
             eloChange = 1;
         }
         updateElo(eloChange);
+        gamesPlayed++;
+        gamesWon++;
     }
 
-    //takes parameter of other players elo and updates users elo on loss
+    //takes parameter of other players elo and updates users elo and stats on loss
     void calculateEloOnLoss(int otherElo) {
         int eloChange;
         int difference = (otherElo - elo);
@@ -196,6 +198,7 @@ public class Users extends RealmObject {
             eloChange = -2;
         }
         updateElo(eloChange);
+        gamesPlayed++;
     }
 
     //parameter is a positive or negative change in elo
@@ -206,16 +209,6 @@ public class Users extends RealmObject {
         updateEloTracker(elo);
     }
 
-    // update stats on win
-    void wonGame() {
-        gamesPlayed++;
-        gamesWon++;
-    }
-
-    // update stats on loss
-    void lostGame() {
-        gamesPlayed++;
-    }
 
     int getGamesPlayed() {
         return gamesPlayed;

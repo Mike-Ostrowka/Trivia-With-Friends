@@ -27,7 +27,7 @@ import java.util.Random;
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private final String channelID = "m5hujbRaUXtIVzj4";
+  private final String channelID = "vARN10riQporwYKC";
   private final String roomName = "observable-room";
   private EditText editText;
   private Scaledrone scaledrone;
@@ -146,7 +146,7 @@ public class ChatActivity extends AppCompatActivity implements
     String message = editText.getText().toString();
     message = BadWordFilter.getCensoredText(message,
         getApplicationContext(),
-        getString(R.string.censored_bio));
+        getString(R.string.censored_chat));
 
     if (message.length() > 0) {
       scaledrone.publish("observable-room", message);
