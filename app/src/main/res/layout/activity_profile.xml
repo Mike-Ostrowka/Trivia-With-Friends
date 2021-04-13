@@ -34,10 +34,10 @@
     app:layout_constraintTop_toBottomOf="@+id/toolbar_profile"
     tools:srcCompat="@drawable/ic_baseline_account" />
   <Button
-    android:id="@+id/btn_chat"
+    android:id="@+id/global_chatroom"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="64dp"
+    android:layout_marginTop="6dp"
     android:layout_marginStart="125dp"
     android:layout_marginEnd="126dp"
     android:layout_marginLeft="125dp"
@@ -46,7 +46,7 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.666"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/view_progress" />
+    app:layout_constraintTop_toBottomOf="@+id/my_chat_room" />
   <EditText
     android:id="@+id/user_bio"
     android:layout_width="273dp"
@@ -117,4 +117,18 @@
     app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/games_won" />
+  <Button
+    android:id="@+id/my_chat_room"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="28dp"
+    android:layout_marginStart="162dp"
+    android:layout_marginEnd="161dp"
+    android:layout_marginLeft="162dp"
+    android:layout_marginRight="161dp"
+    android:text="@string/my_chat_room"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.55"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/view_progress" />
 </android.support.constraint.ConstraintLayout>

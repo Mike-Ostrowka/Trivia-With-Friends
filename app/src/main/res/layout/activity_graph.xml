@@ -15,11 +15,6 @@
     app:layout_constraintTop_toTopOf="parent"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-<!--  <com.github.mikephil.charting.charts.LineChart-->
-<!--    android:id = "@+id/lineChart"-->
-<!--    android:layout_width = "fill_parent"-->
-<!--    android:layout_height = "fill_parent" />-->
-
   <lecho.lib.hellocharts.view.LineChartView
     android:id="@+id/chart"
     android:layout_width="match_parent"
