@@ -45,8 +45,7 @@ public class GameActivity extends AppCompatActivity {
   Runnable postGameRunnable = new Runnable() {
     @Override
     public void run() {
-
-      Toast.makeText(GameActivity.this, "The Game Has Completed", Toast.LENGTH_LONG).show();
+      HXSound.sound().load(R.raw.time_over).play(GameActivity.this);
       realm.executeTransaction(new Realm.Transaction() {
         @Override
         public void execute(Realm realm) {
@@ -58,7 +57,7 @@ public class GameActivity extends AppCompatActivity {
       if (realm != null) {
         realm.close();
       }
-
+      Dialogs.intentDialog("The game has ended", GameActivity.this, WelcomeActivity.class);
 
     }
 
