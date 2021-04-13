@@ -58,7 +58,6 @@ public class ProfileActivity extends AppCompatActivity {
     username = session.getusername();
     Realm realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
-    realm.close();
 
     click_sound = R.raw.click;
 
@@ -113,9 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
 
       String finalText = text;
       Realm realmBio = Realm.getDefaultInstance();
-      realmBio.executeTransaction(transactionRealm -> {
-        current.setBio(finalText);
-      });
+      realmBio.executeTransaction(transactionRealm -> current.setBio(finalText));
       userBio.setText(finalText);
       Toast.makeText(getApplicationContext(), getString(R.string.bio_updated),
           Toast.LENGTH_SHORT).show();
@@ -164,7 +161,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
         realm.close();
       } else {
-        //Pic not taken
+        Dialogs.buildDialog(getString(R.string.no_camera), this);
       }
     }
   }
