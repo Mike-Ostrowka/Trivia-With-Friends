@@ -22,7 +22,7 @@ import java.util.Random;
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private final String channelID = "vARN10riQporwYKC";
+  private String channelID = "vARN10riQporwYKC";
   private final String roomName = "observable-room";
   private EditText editText;
   private Scaledrone scaledrone;
@@ -61,12 +61,17 @@ public class ChatActivity extends AppCompatActivity implements
 
     MemberData data = new MemberData(username, getRandomColor());
 
+    String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
+    if (!(sessionId == null)) {
+      channelID = sessionId;
+    }
+
     scaledrone = new Scaledrone(channelID, data);
     scaledrone.connect(new Listener() {
       @Override
       public void onOpen() {
         System.out.println("Scaledrone connection open");
-        // Since the MainActivity itself already implement RoomListener we can pass it as a target
+        // Since the ChatActivity itself already implement RoomListener we can pass it as a target
         scaledrone.subscribe(roomName, ChatActivity.this);
       }
 

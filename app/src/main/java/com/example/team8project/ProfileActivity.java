@@ -64,9 +64,22 @@ public class ProfileActivity extends AppCompatActivity {
     Button cameraButton = findViewById(R.id.camera_button);
     Button viewProgress = findViewById(R.id.view_progress);
     Button updateBio = findViewById(R.id.updateBio_button);
-    Button chat = findViewById(R.id.btn_chat);
+    Button globalChat = findViewById(R.id.global_chatroom);
+    Button myChat = findViewById(R.id.my_chat_room);
     profilePicture = findViewById(R.id.profile_picture);
     TextView userBio = findViewById(R.id.user_bio);
+
+//    if(!(current.getChannelKey()==null)){
+//      System.out.println("users channel key is: " + current.getChannelKey());
+//      if((globalChat.getTag()==null)) {
+//        globalChat.setTag(current.getChannelKey());
+//        System.out.println("chat tag is channel key now: " + current.getChannelKey());
+//      } else {
+//        System.out.println("there was already a chat tag: " + globalChat.getTag());
+//      }
+//    } else {
+//      System.out.println("users channel key is null");
+//    }
 
     byte[] bitmapData = current.getProfilePictureByteArray();
     if (bitmapData != null) {
@@ -99,6 +112,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
+
     // update database with new bio, censor if needed
     updateBio.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
@@ -119,12 +133,24 @@ public class ProfileActivity extends AppCompatActivity {
       realmBio.close();
     });
 
-    chat.setOnClickListener(view -> {
+    // will allow users to send messages to entire playerbase in a global chat room
+    globalChat.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
 
+    // will allow user to enter their own chat room, and send messages to all their friends,
+    // similar to posting stuff on your own social media page
+    myChat.setOnClickListener(view -> {
+      HXSound.sound().load(click_sound).play(this);
+      Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
+      String sessionId = current.getChannelKey();
+      intent.putExtra("EXTRA_SESSION_ID", sessionId);
+      startActivity(intent);
+    });
+
+    // allows users to track their elo progress across their last 10 games
     viewProgress.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
@@ -138,7 +164,6 @@ public class ProfileActivity extends AppCompatActivity {
     TextView gamesWon = findViewById(R.id.games_won);
     String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
     gamesWon.setText(gamesWonString);
-
 
   }
 
