@@ -1,11 +1,15 @@
 package com.example.team8project;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.preference.PreferenceManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.huhx0015.hxaudio.audio.HXMusic;
+import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import java.util.UUID;
 
@@ -16,6 +20,12 @@ public class GameActivity extends AppCompatActivity {
   int questionCount = 0;
   int playerScore = 0, playerTwoScore = 0;
   long _ID = UUID.randomUUID().getMostSignificantBits();
+  private int correctSound;
+  private int wrongSound;
+  private int green;
+  private int red;
+  private int gray;
+  private int blue;
 
   //declaring all of the layout objects
   Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
@@ -62,6 +72,10 @@ public class GameActivity extends AppCompatActivity {
       answerTwoBtn.setClickable(true);
       answerThreeBtn.setClickable(true);
       answerFourBtn.setClickable(true);
+      answerOneBtn.setBackgroundColor(blue);
+      answerTwoBtn.setBackgroundColor(blue);
+      answerThreeBtn.setBackgroundColor(blue);
+      answerFourBtn.setBackgroundColor(blue);
 
 
     }
@@ -79,6 +93,7 @@ public class GameActivity extends AppCompatActivity {
   private Users current;
   private loginPreferences session;
   private String username;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -102,16 +117,28 @@ public class GameActivity extends AppCompatActivity {
     questionTextView = findViewById(R.id.questionText);
     playerScoreText = findViewById(R.id.playerScore);
     playerTwoText = findViewById(R.id.playerTwoScore);
+    correctSound = R.raw.correct;
+    wrongSound = R.raw.wrong;
+    green = getResources().getColor(R.color.green);
+    red = getResources().getColor(R.color.red);
+    gray = getResources().getColor(R.color.gray);
+    blue = getResources().getColor(R.color.blue);
+    int clickSound = R.raw.click;
 
     answerOneBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerOneBtn.getText().toString();
       playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
 
-      answerOneBtn.setClickable(false);
-      answerTwoBtn.setClickable(false);
-      answerThreeBtn.setClickable(false);
-      answerFourBtn.setClickable(false);
+      //correct chosen
+      if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
+        answerOneBtn.setBackgroundColor(green);
+        HXSound.sound().load(correctSound).play(this);
+      } else { //wrong answer
+        HXSound.sound().load(wrongSound).play(this);
+        setCorrectColor();
+        answerOneBtn.setBackgroundColor(red);
+      }
 
 
     });
@@ -119,13 +146,18 @@ public class GameActivity extends AppCompatActivity {
     answerTwoBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerTwoBtn.getText().toString();
-
       playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
 
-      answerOneBtn.setClickable(false);
-      answerTwoBtn.setClickable(false);
-      answerThreeBtn.setClickable(false);
-      answerFourBtn.setClickable(false);
+      //correct chosen
+      if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
+        answerTwoBtn.setBackgroundColor(green);
+        HXSound.sound().load(correctSound).play(this);
+      } else { //wrong answer
+        HXSound.sound().load(wrongSound).play(this);
+        setCorrectColor();
+        answerTwoBtn.setBackgroundColor(red);
+      }
+
 
 
     });
@@ -134,10 +166,17 @@ public class GameActivity extends AppCompatActivity {
 
       loadQuestions.playerOneSelection = answerThreeBtn.getText().toString();
       playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      answerOneBtn.setClickable(false);
-      answerTwoBtn.setClickable(false);
-      answerThreeBtn.setClickable(false);
-      answerFourBtn.setClickable(false);
+
+      //correct chosen
+      if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
+        answerThreeBtn.setBackgroundColor(green);
+        HXSound.sound().load(correctSound).play(this);
+      } else { //wrong answer
+        HXSound.sound().load(wrongSound).play(this);
+        setCorrectColor();
+        answerThreeBtn.setBackgroundColor(red);
+      }
+
 
 
     });
@@ -147,13 +186,34 @@ public class GameActivity extends AppCompatActivity {
       loadQuestions.playerOneSelection = answerFourBtn.getText().toString();
       playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
 
-      answerOneBtn.setClickable(false);
-      answerTwoBtn.setClickable(false);
-      answerThreeBtn.setClickable(false);
-      answerFourBtn.setClickable(false);
+      //correct chosen
+      if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
+        answerFourBtn.setBackgroundColor(green);
+        HXSound.sound().load(correctSound).play(this);
+      } else {
+        HXSound.sound().load(wrongSound).play(this);
+        setCorrectColor();
+        answerFourBtn.setBackgroundColor(red);
+      }
+
 
     });
 
+
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (soundSwitch) {
+      playMusic();
+    }
 
   }
 
@@ -204,12 +264,14 @@ public class GameActivity extends AppCompatActivity {
   @Override
   protected void onPause() {
     super.onPause();
-    realm.executeTransaction(new Realm.Transaction() {
-      @Override
-      public void execute(Realm realm) {
-        currentGame.setGameCompleted(true);
-        realm.insertOrUpdate(currentGame);
-      }
+    HXMusic.stop();
+    HXMusic.clear();
+    if (realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
+    realm.executeTransaction(realm -> {
+      currentGame.setGameCompleted(true);
+      realm.insertOrUpdate(currentGame);
     });
 
     if (realm != null) {
@@ -251,6 +313,58 @@ public class GameActivity extends AppCompatActivity {
     questionCount++;
 
 
+  }
+
+  private void playMusic() {
+    int song = R.raw.game_music;
+    HXMusic.music().load(song).gapless(true).looped(true).play(this);
+  }
+
+  public int correctAnswer() {
+    String answerOne = answerOneBtn.getText().toString();
+    String answerTwo = answerTwoBtn.getText().toString();
+    String answerThree = answerThreeBtn.getText().toString();
+    String answerFour = answerFourBtn.getText().toString();
+    if (loadQuestions.checkPlayerAnswer(answerOne) == 5) {
+      return 1;
+    }
+    if (loadQuestions.checkPlayerAnswer(answerTwo) == 5) {
+      return 2;
+    }
+    if (loadQuestions.checkPlayerAnswer(answerThree) == 5) {
+      return 3;
+    }
+    if (loadQuestions.checkPlayerAnswer(answerFour) == 5) {
+      return 4;
+    }
+    return 0;
+  }
+
+  public void setCorrectColor() {
+    answerOneBtn.setClickable(false);
+    answerTwoBtn.setClickable(false);
+    answerThreeBtn.setClickable(false);
+    answerFourBtn.setClickable(false);
+
+    answerOneBtn.setBackgroundColor(gray);
+    answerTwoBtn.setBackgroundColor(gray);
+    answerThreeBtn.setBackgroundColor(gray);
+    answerFourBtn.setBackgroundColor(gray);
+
+    switch(correctAnswer()) {
+      case 1:
+        answerOneBtn.setBackgroundColor(green);
+        break;
+      case 2:
+        answerTwoBtn.setBackgroundColor(green);
+        break;
+      case 3:
+        answerThreeBtn.setBackgroundColor(green);
+        break;
+      case 4:
+        answerFourBtn.setBackgroundColor(green);
+        break;
+    }
   }
 
 }
