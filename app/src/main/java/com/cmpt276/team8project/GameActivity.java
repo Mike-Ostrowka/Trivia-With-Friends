@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
     //load realm
     loadRealm();
     realmLoaded = true;
-    addChangeListenerToRealm(realm);
+
     //INSTANTIATE OBJECTS FOR USE
     gameHandler = new Handler();
     loadQuestions = new LoadQuestions();
@@ -297,8 +297,19 @@ public class GameActivity extends AppCompatActivity {
   Runnable gameRunnable = new Runnable() {
     @Override
     public void run() {
-      currentGame.getPlayerTwo();
+      if(realm != null) {
+        realm.close();
+      }
+      if(realm == null) {
+        realm = Realm.getDefaultInstance();
+      }
       playGame();
+      if(realm != null) {
+        realm.close();
+      }
+      if(realm == null) {
+        realm = Realm.getDefaultInstance();
+      }
       answerOneBtn.setClickable(true);
       answerTwoBtn.setClickable(true);
       answerThreeBtn.setClickable(true);
@@ -315,6 +326,7 @@ public class GameActivity extends AppCompatActivity {
     if(realmLoaded) {
       return;
     }
+    addChangeListenerToRealm(realm);
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
@@ -325,26 +337,27 @@ public class GameActivity extends AppCompatActivity {
 
     Log.v("QUICKSTART", "loadrealm");
 
+    currentGame = realm.where(Game.class).equalTo("playerCount", 1)
+        .equalTo("gameCompleted", false).findFirst();
     //check for game or create game
-    if (realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false)
-        .findFirst() != null) {
+    if (currentGame != null) {
 
       //if game with single player and not finished(this means player is in lobby waiting for second player
       //set this current player to false which flags it as second player
       //get current game that matches open game criteria
       setPlayer = false;
       playerTwo = username;
-      currentGame = realm.where(Game.class).equalTo("playerCount", 1)
-          .equalTo("gameCompleted", false).findFirst();
+
 
       //set user as second player and other connected player as player one
       realm.executeTransaction(new Realm.Transaction() {
         @Override
         public void execute(Realm realm) {
-          currentGame.setPlayerTwo(username);
-          currentGame.setPlayerCount(2);
-          playerOne = currentGame.getPlayerOne();
-          realm.copyToRealmOrUpdate(currentGame);
+          Game temp = realm.where(Game.class).equalTo("playerCount", 1)
+              .equalTo("gameCompleted", false).findFirst();
+          temp.setPlayerTwo(username);
+          temp.setPlayerCount(2);
+          playerOne = temp.getPlayerOne();
         }
       });
       _ID = currentGame.get_id();
@@ -503,6 +516,9 @@ public class GameActivity extends AppCompatActivity {
     //update friends list on realm change
     tasks.addChangeListener(users -> {
       Log.v("QUICKSTART", "Listening");
+      if(!setPlayer) {
+
+      }
     });
   }
 
