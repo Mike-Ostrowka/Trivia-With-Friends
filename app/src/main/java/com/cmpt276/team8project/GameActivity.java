@@ -91,9 +91,9 @@ public class GameActivity extends AppCompatActivity {
     answerOneBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerOneBtn.getText().toString();
-      if (setPlayer == true) {
+      if (setPlayer) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer == false) {
+      } else if (!setPlayer) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
       System.out.println(setPlayer);
@@ -114,9 +114,9 @@ public class GameActivity extends AppCompatActivity {
     answerTwoBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerTwoBtn.getText().toString();
-      if (setPlayer == true) {
+      if (setPlayer) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer == false) {
+      } else if (!setPlayer) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
       System.out.println(setPlayer);
@@ -137,9 +137,9 @@ public class GameActivity extends AppCompatActivity {
     answerThreeBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerThreeBtn.getText().toString();
-      if (setPlayer == true) {
+      if (setPlayer) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer == false) {
+      } else if (!setPlayer) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
       System.out.println(setPlayer);
@@ -160,9 +160,9 @@ public class GameActivity extends AppCompatActivity {
     answerFourBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerFourBtn.getText().toString();
-      if (setPlayer == true) {
+      if (setPlayer) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer == false) {
+      } else if (!setPlayer) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
       System.out.println(setPlayer);
@@ -224,10 +224,10 @@ public class GameActivity extends AppCompatActivity {
       realm.executeTransaction(transactionRealm -> {
         Game temp = realm.where(Game.class).equalTo("_id", _ID).findFirst();
         //if player one
-        if (setPlayer == true) {
+        if (setPlayer) {
           playerTwo = temp.getPlayerTwo();
           temp.setPlayerOneScore(playerScore);
-        } else if (setPlayer == false) { //if player two
+        } else if (!setPlayer) { //if player two
           playerOne = temp.getPlayerOne();
           temp.setPlayerTwoScore(playerTwoScore);
         }
@@ -427,17 +427,19 @@ public class GameActivity extends AppCompatActivity {
     realm.executeTransaction(transactionRealm -> {
       Game temp = transactionRealm.where(Game.class).equalTo("_id", _ID).findFirst();
       //if player one
-      if (setPlayer == true) {
+      if (setPlayer) {
         playerTwo = currentGame.getPlayerTwo();
         temp.setPlayerOneScore(playerScore);
-      } else if (setPlayer == false) { //if player two
+      } else if (!setPlayer) { //if player two
         temp.setPlayerTwoScore(playerTwoScore);
       }
     });
     currentGame = realm.where(Game.class).equalTo("_id", _ID).findFirst();
     //set player scores
-    playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
-    playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
+    String playerScoreTextString = playerOne + " " + currentGame.getPlayerOneScore();
+    String playerTwoTextString = playerTwo + " " + currentGame.getPlayerTwoScore();
+    playerScoreText.setText(playerScoreTextString);
+    playerTwoText.setText(playerTwoTextString);
 
     if (currentGame.getPlayerOne() == null) {
       playerScoreText.setText(getString(R.string.single_player));
@@ -517,29 +519,5 @@ public class GameActivity extends AppCompatActivity {
         answerFourBtn.setBackgroundColor(green);
         break;
     }
-  }
-
-  private void updateListener() {
-    addChangeListenerToRealm(realm);
-  }
-
-  //change listener on local realm
-  private void addChangeListenerToRealm(Realm realm) {
-    RealmResults<Game> tasks = realm.where(Game.class).equalTo("_id", currentGame.get_id())
-        .findAll();
-
-    //update friends list on realm change
-    tasks.addChangeListener(users -> {
-      Log.v("QUICKSTART", "Listening");
-      if (!setPlayer) {
-
-      }
-    });
-  }
-
-  private void updateScores() {
-    currentGame.getPlayerOneScore();
-    currentGame.getPlayerTwoScore();
-    currentGame.getPlayerOne();
   }
 }
