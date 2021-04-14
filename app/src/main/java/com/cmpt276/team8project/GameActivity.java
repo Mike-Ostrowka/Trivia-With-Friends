@@ -313,7 +313,7 @@ public class GameActivity extends AppCompatActivity {
 
   };
 
-  //declaring current game, handler for rounds, and player one and two
+  //declaring current game, handler for rounds, the first handler queues up 10 times at 10 seconds per round and then after those complete the post game logic runs
   Runnable mainGameRunnable = new Runnable() {
     @Override
     public void run() {
@@ -339,6 +339,8 @@ public class GameActivity extends AppCompatActivity {
     }
   };
 
+
+  //loads the realm db and will check if there is a current game that is open, if it is it will join, otherwise will create a new game
   private void loadRealm() {
 
     if (realmLoaded) {
