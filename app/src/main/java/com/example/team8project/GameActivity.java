@@ -27,6 +27,10 @@ public class GameActivity extends AppCompatActivity {
   private int gray;
   private int blue;
 
+
+  //player flag, if true player one, if two player two
+  boolean setPlayer;
+
   //declaring all of the layout objects
   Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
   TextView questionTextView, playerScoreText, playerTwoText;
@@ -127,7 +131,12 @@ public class GameActivity extends AppCompatActivity {
     answerOneBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerOneBtn.getText().toString();
-      playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      if(setPlayer = true) {
+        playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
+      else if (setPlayer = false){
+        playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
 
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
@@ -145,7 +154,12 @@ public class GameActivity extends AppCompatActivity {
     answerTwoBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerTwoBtn.getText().toString();
-      playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      if(setPlayer = true) {
+        playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
+      else if (setPlayer = false){
+        playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
 
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
@@ -164,8 +178,12 @@ public class GameActivity extends AppCompatActivity {
     answerThreeBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerThreeBtn.getText().toString();
-      playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-
+      if(setPlayer = true) {
+        playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
+      else if (setPlayer = false){
+        playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerThreeBtn.setBackgroundColor(green);
@@ -183,7 +201,12 @@ public class GameActivity extends AppCompatActivity {
     answerFourBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerFourBtn.getText().toString();
-      playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      if(setPlayer = true) {
+        playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
+      else if (setPlayer = false){
+        playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
+      }
 
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
@@ -241,6 +264,7 @@ public class GameActivity extends AppCompatActivity {
        * Must update player count to 2
        * Game should start only once player count == 2
        * */
+      setPlayer = false;
       currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
       realm.executeTransaction(new Realm.Transaction() {
         @Override
@@ -254,6 +278,7 @@ public class GameActivity extends AppCompatActivity {
 
 
     } else {
+      setPlayer = true;
       currentGame = new Game(username, _ID, 1);
     }
 
