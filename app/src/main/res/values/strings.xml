@@ -100,5 +100,7 @@ or post on your friends pages to talk with them.<br/><br/><b>How is the game sco
   <string name="back_to_main">Back to Main Menu</string>
   <string name="user_score">Your score: </string>
   <string name="enemy_score">Their score: </string>
+  <string name="more">More</string>
+  <string name="communication">Communication</string>
 
 </resources>

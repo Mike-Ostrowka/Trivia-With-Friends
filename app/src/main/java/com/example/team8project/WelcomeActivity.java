@@ -152,6 +152,18 @@ public class WelcomeActivity extends AppCompatActivity {
           intent.setClass(WelcomeActivity.this, FriendsActivity.class);
           startActivity(intent);
           break;
+        case R.id.nm_my_chatroom:
+          intent = new Intent();
+          intent.setClass(WelcomeActivity.this, ChatActivity.class);
+          String sessionId = current.getChannelKey();
+          intent.putExtra("EXTRA_SESSION_ID", sessionId);
+          startActivity(intent);
+          break;
+        case R.id.nm_global_chat_room:
+          intent = new Intent();
+          intent.setClass(WelcomeActivity.this, ChatActivity.class);
+          startActivity(intent);
+          break;
       }
       drawerLayout.closeDrawers();
       return false;
