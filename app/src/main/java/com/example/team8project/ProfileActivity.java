@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
     Button cameraButton = findViewById(R.id.camera_button);
     Button viewProgress = findViewById(R.id.friends_view_progress);
     Button updateBio = findViewById(R.id.updateBio_button);
-    Button globalChat = findViewById(R.id.global_chatroom);
+    //Button globalChat = findViewById(R.id.global_chatroom);
     Button myChat = findViewById(R.id.friends_chat_room);
     profilePicture = findViewById(R.id.friends_profile_picture);
     TextView userBio = findViewById(R.id.friends_bio);
@@ -144,23 +144,6 @@ public class ProfileActivity extends AppCompatActivity {
       Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
       ArrayList<Integer> sessionEloId = current.eloList();
       intent.putExtra("EXTRA_SESSION_ID", sessionEloId);
-      startActivity(intent);
-    });
-
-    // button will allow user to enter their own chat room, and send messages to all their friends,
-    // similar to posting stuff on your own social media page
-    myChat.setOnClickListener(view -> {
-      HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
-      String sessionId = current.getChannelKey();
-      intent.putExtra("EXTRA_SESSION_ID", sessionId);
-      startActivity(intent);
-    });
-
-    // will allow users to send messages to entire player base in a global chat room
-    globalChat.setOnClickListener(view -> {
-      HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
 
