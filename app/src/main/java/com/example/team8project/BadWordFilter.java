@@ -79,7 +79,6 @@ public class BadWordFilter {
     try {
       // The following bad word text file is from https://github.com/areebbeigh/profanityfilter/blob/master/profanityfilter/data/badwords.txt
       // it was modified to include words that could be used to scam users
-      // todo, make above citation IEEE style
       InputStream file = BadWordFilter.class.getClassLoader()
           .getResourceAsStream("DONOTREADbannedWordsList.txt");
       BufferedReader reader = new BufferedReader(

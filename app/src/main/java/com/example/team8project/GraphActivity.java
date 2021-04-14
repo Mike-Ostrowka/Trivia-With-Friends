@@ -46,7 +46,8 @@ public class GraphActivity extends AppCompatActivity {
     }
 
     // get eloList from the calling activity
-    ArrayList<Integer> myList = (ArrayList<Integer>) getIntent().getSerializableExtra("EXTRA_SESSION_ID");
+    ArrayList<Integer> myList = (ArrayList<Integer>) getIntent()
+        .getSerializableExtra("EXTRA_SESSION_ID");
 
     LineChartView lineChartView = findViewById(R.id.chart);
     String[] axisData = {"10", "9", "8", "7", "6", "5", "4", "3", "2", "1"};
@@ -112,7 +113,7 @@ public class GraphActivity extends AppCompatActivity {
   }
 }
 
-// Citation for reference used:
+// Code below was modified from the following reference:
 //Codedmin, “Android Line Chart - How to Draw Line Chart in Android,”
 //    Coding Demos, 16-Jul-2018. [Online]. Available:
 //    https://www.codingdemos.com/draw-android-line-chart/.
