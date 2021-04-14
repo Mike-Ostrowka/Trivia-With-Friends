@@ -15,7 +15,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
@@ -133,8 +132,7 @@ public class ProfileActivity extends AppCompatActivity {
       Realm realmBio = Realm.getDefaultInstance();
       realmBio.executeTransaction(transactionRealm -> current.setBio(finalText));
       userBio.setText(finalText);
-      Toast.makeText(getApplicationContext(), getString(R.string.bio_updated),
-          Toast.LENGTH_SHORT).show();
+      Dialogs.buildDialog(getString(R.string.bio_updated), this);
       realmBio.close();
     });
 

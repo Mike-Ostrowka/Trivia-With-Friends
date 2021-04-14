@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
-import io.realm.RealmResults;
-
 import java.util.UUID;
 
 

@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
@@ -131,13 +130,8 @@ public class WelcomeActivity extends AppCompatActivity {
         //logout button
         case R.id.nm_logout:
           session.setUsername("");
-
-          Toast.makeText(getApplicationContext(), R.string.logout_message,
-              Toast.LENGTH_LONG).show();
           realm.close();
-          intent = new Intent();
-          intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
-          startActivity(intent);
+          Dialogs.intentDialog(getString(R.string.logout_message), this, MainMenuActivity.class);
           break;
 
         //friends list button

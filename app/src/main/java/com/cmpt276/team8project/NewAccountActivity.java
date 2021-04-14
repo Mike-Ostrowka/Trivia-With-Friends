@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import java.util.ArrayList;
@@ -45,24 +44,21 @@ public class NewAccountActivity extends AppCompatActivity {
 
       // inform player if username is already taken
       if (nameExists != null) {
-        Toast.makeText(getApplicationContext(), getString(R.string.account_exists),
-            Toast.LENGTH_SHORT).show();
+        Dialogs.buildDialog(getString(R.string.account_exists), this);
         return;
       }
 
       // ensure that selected username does not contain banned words
       BadWordFilter vulgarityCheck = new BadWordFilter();
       if (vulgarityCheck.isBannedWordUsed(name)) {
-        Toast.makeText(getApplicationContext(), getString(R.string.user_name_banned),
-            Toast.LENGTH_SHORT).show();
+        Dialogs.buildDialog(getString(R.string.user_name_banned), this);
         return;
       }
 
       // ensure that password meets requirements
       temp = new Users(name);
       if (!temp.updatePassword(password)) {
-        Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
-            Toast.LENGTH_SHORT).show();
+        Dialogs.buildDialog(getString(R.string.account_fail), this);
         return;
       }
 
@@ -101,11 +97,7 @@ public class NewAccountActivity extends AppCompatActivity {
       if (realm != null) {
         realm.close();
       }
-      Toast.makeText(getApplicationContext(), getString(R.string.account_success) + name,
-          Toast.LENGTH_LONG).show();
-      Intent intent = new Intent();
-      intent.setClass(NewAccountActivity.this, LoginActivity.class);
-      startActivity(intent);
+      Dialogs.intentDialog(getString(R.string.account_success), this, LoginActivity.class);
     });
 
     //Set the event for Text View Already have an account

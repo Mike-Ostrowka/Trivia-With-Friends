@@ -1,13 +1,11 @@
 package com.cmpt276.team8project;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 import io.realm.Realm;
 
 public class ChangePasswordActivity extends AppCompatActivity {
@@ -57,13 +55,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
             //check if password has 7 characters, a number, and a capital letter
             //if true, then navigate back to settings activity
             if (temp.updatePassword(newPassword)) {
-              Toast.makeText(getApplicationContext(), getString(R.string.password_success),
-                  Toast.LENGTH_LONG).show();
               realm.close();
+              Dialogs
+                  .intentDialog(getString(R.string.password_success), this, SettingsActivity.class);
 
-              Intent intent = new Intent();
-              intent.setClass(ChangePasswordActivity.this, SettingsActivity.class);
-              startActivity(intent);
             } else {
               Dialogs.buildDialog(getString(R.string.account_fail), this);
             }

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 
@@ -46,8 +45,7 @@ public class LoginActivity extends AppCompatActivity {
           //create temp for user to check password
           currentUser = realm.where(Users.class).equalTo("_id", name).findFirst();
           if (currentUser == null) {
-            Toast.makeText(getApplicationContext(), "Username does not exist, please try again",
-                Toast.LENGTH_LONG).show();
+            Dialogs.buildDialog(getString(R.string.user_failed), this);
             return;
           }
 
@@ -60,12 +58,10 @@ public class LoginActivity extends AppCompatActivity {
             intent.setClass(LoginActivity.this, WelcomeActivity.class);
             startActivity(intent);
           } else {
-            Toast.makeText(getApplicationContext(), "Credentials are incorrect, please try again",
-                Toast.LENGTH_LONG).show();
+            Dialogs.buildDialog(getString(R.string.credentials_incorrect), this);
           }
         } else {
-          Toast.makeText(getApplicationContext(), "User does not exist, please try again",
-              Toast.LENGTH_LONG).show();
+          Dialogs.buildDialog(getString(R.string.user_failed), this);
 
         }
 

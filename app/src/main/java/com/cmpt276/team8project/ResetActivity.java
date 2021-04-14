@@ -1,13 +1,11 @@
 package com.cmpt276.team8project;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import io.realm.Realm;
 
 public class ResetActivity extends AppCompatActivity {
@@ -45,15 +43,13 @@ public class ResetActivity extends AppCompatActivity {
       //check if given username exists
       Users current = realm.where(Users.class).equalTo("_id", name).findFirst();
       if (current == null) {
-        Toast.makeText(getApplicationContext(), getString(R.string.user_failed), Toast.LENGTH_LONG)
-            .show();
+        Dialogs.buildDialog(getString(R.string.user_failed), this);
         return;
       }
 
       //check if current has a security question associated with it
       if (!current.securityExists()) {
-        Toast.makeText(getApplicationContext(), getString(R.string.security_missing),
-            Toast.LENGTH_LONG).show();
+        Dialogs.buildDialog(getString(R.string.security_missing), this);
         return;
       }
 
@@ -64,15 +60,13 @@ public class ResetActivity extends AppCompatActivity {
 
       //check if the 2 passwords given are the same
       if (!password.equals(passwordConfirm)) {
-        Toast.makeText(getApplicationContext(), getString(R.string.different_password),
-            Toast.LENGTH_LONG).show();
+        Dialogs.buildDialog(getString(R.string.different_password), this);
         return;
       }
 
       //check if security question answered correctly
       if (!current.checkSecurityAnswer(answer)) {
-        Toast.makeText(getApplicationContext(), getString(R.string.security_failed),
-            Toast.LENGTH_LONG).show();
+        Dialogs.buildDialog(getString(R.string.security_failed), this);
         return;
       }
 
@@ -83,15 +77,9 @@ public class ResetActivity extends AppCompatActivity {
 
         //check if password has 7 characters, a number, and a capital letter
         if (temp.updatePassword(password)) {
-          Toast.makeText(getApplicationContext(), getString(R.string.password_success),
-              Toast.LENGTH_LONG).show();
-          realm.close();
-          Intent intent = new Intent();
-          intent.setClass(ResetActivity.this, LoginActivity.class);
-          startActivity(intent);
+          Dialogs.intentDialog(getString(R.string.password_success), this, LoginActivity.class);
         } else {
-          Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
-              Toast.LENGTH_SHORT).show();
+          Dialogs.buildDialog(getString(R.string.account_fail), this);
         }
       });
     });
