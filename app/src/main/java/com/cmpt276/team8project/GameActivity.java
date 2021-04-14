@@ -1,8 +1,10 @@
 package com.cmpt276.team8project;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
 import android.widget.Button;
@@ -23,6 +25,7 @@ public class GameActivity extends AppCompatActivity {
 
   //player flag, if true player one, if false player two
   boolean setPlayer;
+  boolean winner; // true if player won
 
   //declaring all of the layout objects
   Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
@@ -43,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
   private Users current;
   private loginPreferences session;
   private String username;
+  private long gameID;
 
 
   @Override
@@ -193,22 +197,51 @@ public class GameActivity extends AppCompatActivity {
 
   }
 
+  //post game logic
   Runnable postGameRunnable = new Runnable() {
     @Override
     public void run() {
       HXSound.sound().load(R.raw.time_over).play(GameActivity.this);
-      realm.executeTransaction(new Realm.Transaction() {
-        @Override
-        public void execute(Realm realm) {
-          currentGame.setGameCompleted(true);
-          realm.insertOrUpdate(currentGame);
-        }
+      realm.executeTransaction(realm -> {
+        currentGame.setGameCompleted(true);
+        realm.insertOrUpdate(currentGame);
       });
+
+      //check if player won
+      winner = false;
+      if(setPlayer) { //user is player one
+        if(currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) {
+          winner = true;
+        }
+      } else { //user is player two
+        if(currentGame.getPlayerTwoScore() >= currentGame.getPlayerOneScore()) {
+          winner = true;
+        }
+      }
+
+      //get gameID
+      gameID = currentGame.get_id();
 
       if (realm != null) {
         realm.close();
       }
-      Dialogs.intentDialog("The game has ended", GameActivity.this, WelcomeActivity.class);
+
+      //sets the message and context for the dialog
+      AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
+      builder.setMessage(getString(R.string.end_game));
+
+      //sets a button that changes activity after clicking ok
+      builder.setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+        Intent intent = new Intent();
+        intent.setClass(GameActivity.this, PostGameActivity.class);
+        intent.putExtra("Winner", winner);
+        intent.putExtra("GameID", gameID);
+        startActivity(intent);
+      });
+
+      //builds dialog
+      AlertDialog dialog = builder.create();
+      dialog.show();
 
     }
 

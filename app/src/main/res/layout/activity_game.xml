@@ -175,7 +175,7 @@
       android:layout_marginRight="32dp"
       android:background="@drawable/round_bg"
       android:text="Button"
-      android:textColor="white"
+      android:textColor="@color/white"
       android:textSize="18sp"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintStart_toStartOf="parent"
