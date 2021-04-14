@@ -217,7 +217,6 @@ public class GameActivity extends AppCompatActivity {
   Runnable mainGameRunnable = new Runnable() {
     @Override
     public void run() {
-
       for (int i = 0; i <= 9; i++) {
         gameHandler.postDelayed(gameRunnable, 5000 * i);
       }
@@ -228,7 +227,7 @@ public class GameActivity extends AppCompatActivity {
   Runnable gameRunnable = new Runnable() {
     @Override
     public void run() {
-
+      currentGame.getPlayerTwo();
       playGame();
       answerOneBtn.setClickable(true);
       answerTwoBtn.setClickable(true);
@@ -259,13 +258,13 @@ public class GameActivity extends AppCompatActivity {
       //get current game that matches open game criteria
       //
       setPlayer = false;
+      playerTwo = username;
       currentGame = realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false).findFirst();
       realm.executeTransaction(new Realm.Transaction() {
         @Override
         public void execute(Realm realm) {
           currentGame.setPlayerTwo(username);
           currentGame.setPlayerCount(2);
-          playerTwo = username;
           playerOne = currentGame.getPlayerOne();
           realm.copyToRealmOrUpdate(currentGame);
         }
@@ -300,7 +299,6 @@ public class GameActivity extends AppCompatActivity {
     if (realm != null) {
       realm.close();
     }
-    System.out.println(currentGame.get_id());
     gameHandler.removeCallbacks(gameRunnable);
     gameHandler.removeCallbacks(postGameRunnable);
 
@@ -308,22 +306,27 @@ public class GameActivity extends AppCompatActivity {
   }
 
   public void playGame() {
-
     answerOneBtn = findViewById(R.id.AnswerOneButton);
     answerTwoBtn = findViewById(R.id.AnswerTwoButton);
     answerThreeBtn = findViewById(R.id.AnswerThreeButton);
     answerFourBtn = findViewById(R.id.AnswerFourButton);
     questionTextView = findViewById(R.id.questionText);
-
-
+    //Check if player is player one or player two and updates that players score and updates that score to databse
     realm.executeTransaction(new Realm.Transaction() {
       @Override
       public void execute(Realm realm) {
-        currentGame.setPlayerOneScore(playerScore);
-        currentGame.setPlayerTwoScore(playerTwoScore);
+        if(setPlayer == true) {
+          playerTwo = currentGame.getPlayerTwo();
+          currentGame.setPlayerOneScore(playerScore);
+        }
+        else if(setPlayer == false) {
+          currentGame.setPlayerTwoScore(playerTwoScore);
+        }
         realm.insertOrUpdate(currentGame);
       }
     });
+    playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
+    playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
 
     loadQuestions.loadQuestion(questionCount);
     questionTextView.setText(loadQuestions.currentQuestion);
@@ -331,9 +334,6 @@ public class GameActivity extends AppCompatActivity {
     answerTwoBtn.setText(loadQuestions.secondAnswer);
     answerThreeBtn.setText(loadQuestions.thirdAnswer);
     answerFourBtn.setText(loadQuestions.fourthAnswer);
-
-    playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
-    playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
 
     questionCount++;
 
