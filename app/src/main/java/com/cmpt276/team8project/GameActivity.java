@@ -326,7 +326,6 @@ public class GameActivity extends AppCompatActivity {
     if(realmLoaded) {
       return;
     }
-    addChangeListenerToRealm(realm);
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
@@ -371,6 +370,7 @@ public class GameActivity extends AppCompatActivity {
     System.out.println(currentGame.getPlayerTwoScore());
     System.out.println(currentGame.getPlayerOne());
     System.out.println(currentGame.getPlayerTwo());
+    addChangeListenerToRealm(realm);
 
   }
 
