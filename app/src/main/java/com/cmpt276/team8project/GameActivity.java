@@ -403,6 +403,14 @@ public class GameActivity extends AppCompatActivity {
     playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
     playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
 
+    if(currentGame.getPlayerOne() == null) {
+      playerScoreText.setText(getString(R.string.single_player));
+    }
+
+    if(currentGame.getPlayerTwo() == null) {
+      playerTwoText.setText(getString(R.string.single_player));
+    }
+
     //write questions to screen
     loadQuestions.loadQuestion(questionCount);
     questionTextView.setText(loadQuestions.currentQuestion);

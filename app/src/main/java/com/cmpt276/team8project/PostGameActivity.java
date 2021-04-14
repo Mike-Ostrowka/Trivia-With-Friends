@@ -72,10 +72,10 @@ public class PostGameActivity extends AppCompatActivity {
     //check if User is player one or two and set score
     if (currentGame.getPlayerOne().equals(currentUser.getUserName())) {
       playerOneText = getString(R.string.user_score) + "\t" + currentGame.getPlayerOneScore();
-      playerTwoText = getString(R.string.enemy_score) + "\t" + currentGame.getPlayerTwoScore();
+      playerTwoText = currentGame.getPlayerTwo() + getString(R.string.apostrophe)  +"\t" + currentGame.getPlayerTwoScore();
     } else {
       playerOneText = getString(R.string.user_score) + "\t" + currentGame.getPlayerTwoScore();
-      playerTwoText = getString(R.string.enemy_score) + "\t" + currentGame.getPlayerOneScore();
+      playerTwoText = currentGame.getPlayerOne() + getString(R.string.apostrophe)  +"\t" + currentGame.getPlayerOneScore();
     }
 
     String userElo = getString(R.string.user_elo) + "\t" + currentUser.getElo();
