@@ -31,7 +31,7 @@
     android:orientation="horizontal"
     app:layout_constraintGuide_percent="0.96" />
   <android.support.constraint.Guideline
-    android:id="@+id/guideline_H60"
+    android:id="@+id/guideline_H50"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -75,7 +75,7 @@
     android:text="@string/update_bio"
     android:textColor="#FFFFFF"
     android:textSize="18sp"
-    app:layout_constraintBottom_toTopOf="@+id/guideline_H60"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H50"
     app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
     app:layout_constraintStart_toStartOf="@+id/guideline_V30"
     app:layout_constraintTop_toBottomOf="@+id/friends_bio" />
@@ -100,6 +100,12 @@
     android:id="@+id/friends_bio"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:background="@drawable/textview_bg"
     android:ems="10"
     android:gravity="start|top"
@@ -108,7 +114,7 @@
     android:lines="5"
     android:maxLength="140"
     android:scrollbars="vertical"
-    app:layout_constraintBottom_toTopOf="@+id/guideline_H60"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H50"
     app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="@+id/guideline_V30"
@@ -127,12 +133,17 @@
     tools:srcCompat="@drawable/ic_baseline_account" />
   <TextView
     android:id="@+id/user_name"
+    android:textStyle="bold|italic"
     android:layout_width="0dp"
     android:layout_height="71dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
     android:text="@string/user_placeholder"
-    android:textSize="18sp"
+    android:textSize="36sp"
     app:layout_constraintBottom_toTopOf="@+id/guideline_H30"
     app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
     app:layout_constraintStart_toStartOf="@+id/guideline_V30"
@@ -150,7 +161,7 @@
     app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
     app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toStartOf="@+id/guideline_V4"
-    app:layout_constraintTop_toTopOf="@+id/guideline_H60" />
+    app:layout_constraintTop_toTopOf="@+id/guideline_H50" />
   <TextView
     android:id="@+id/friends_games_won"
     android:layout_width="0dp"
