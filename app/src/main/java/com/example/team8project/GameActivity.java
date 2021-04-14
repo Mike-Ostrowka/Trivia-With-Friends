@@ -20,8 +20,10 @@ public class GameActivity extends AppCompatActivity {
   int playerScore = 0, playerTwoScore = 0;
   String playerOne, playerTwo;
   long _ID = UUID.randomUUID().getMostSignificantBits();
-  //player flag, if true player one, if two player two
+
+  //player flag, if true player one, if false player two
   boolean setPlayer;
+
   //declaring all of the layout objects
   Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
   TextView questionTextView, playerScoreText, playerTwoText;
@@ -71,7 +73,6 @@ public class GameActivity extends AppCompatActivity {
     red = getResources().getColor(R.color.red);
     gray = getResources().getColor(R.color.gray);
     blue = getResources().getColor(R.color.blue);
-    int clickSound = R.raw.click;
 
     answerOneBtn.setOnClickListener(v -> {
 
@@ -237,12 +238,11 @@ public class GameActivity extends AppCompatActivity {
       answerTwoBtn.setBackgroundColor(blue);
       answerThreeBtn.setBackgroundColor(blue);
       answerFourBtn.setBackgroundColor(blue);
-
-
     }
   };
 
   private void loadRealm() {
+
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
     username = session.getUsername();
@@ -251,15 +251,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     //check for game or create game
-    if (realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false).findFirst() != null) {
+    if (realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false)
+        .findFirst() != null) {
 
       //if game with single player and not finished(this means player is in lobby waiting for second player
       //set this current player to false which flags it as second player
       //get current game that matches open game criteria
-      //
       setPlayer = false;
       playerTwo = username;
-      currentGame = realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false).findFirst();
+      currentGame = realm.where(Game.class).equalTo("playerCount", 1)
+          .equalTo("gameCompleted", false).findFirst();
+
+      //set user as second player and other connected player as player one
       realm.executeTransaction(new Realm.Transaction() {
         @Override
         public void execute(Realm realm) {
@@ -270,7 +273,7 @@ public class GameActivity extends AppCompatActivity {
         }
       });
       _ID = currentGame.get_id();
-    } else {
+    } else { // create new game
       setPlayer = true;
       currentGame = new Game(username, _ID, 1);
       currentGame.setPlayerOne(username);
@@ -283,6 +286,7 @@ public class GameActivity extends AppCompatActivity {
 
   }
 
+  //end game and close resources
   @Override
   protected void onPause() {
     super.onPause();
@@ -301,33 +305,38 @@ public class GameActivity extends AppCompatActivity {
     }
     gameHandler.removeCallbacks(gameRunnable);
     gameHandler.removeCallbacks(postGameRunnable);
-
-
+    HXMusic.stop();
+    HXMusic.clear();
   }
 
+  //main game operations
   public void playGame() {
+
+    //set views
     answerOneBtn = findViewById(R.id.AnswerOneButton);
     answerTwoBtn = findViewById(R.id.AnswerTwoButton);
     answerThreeBtn = findViewById(R.id.AnswerThreeButton);
     answerFourBtn = findViewById(R.id.AnswerFourButton);
     questionTextView = findViewById(R.id.questionText);
-    //Check if player is player one or player two and updates that players score and updates that score to databse
-    realm.executeTransaction(new Realm.Transaction() {
-      @Override
-      public void execute(Realm realm) {
-        if(setPlayer == true) {
-          playerTwo = currentGame.getPlayerTwo();
-          currentGame.setPlayerOneScore(playerScore);
-        }
-        else if(setPlayer == false) {
-          currentGame.setPlayerTwoScore(playerTwoScore);
-        }
-        realm.insertOrUpdate(currentGame);
+
+    //Check if player is player one or player two and updates that players score and updates that score to database
+    realm.executeTransaction(realm -> {
+
+      //if player one
+      if (setPlayer == true) {
+        playerTwo = currentGame.getPlayerTwo();
+        currentGame.setPlayerOneScore(playerScore);
+      } else if (setPlayer == false) { //if player two
+        currentGame.setPlayerTwoScore(playerTwoScore);
       }
+      realm.insertOrUpdate(currentGame);
     });
+
+    //set player scores
     playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
     playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
 
+    //write questions to screen
     loadQuestions.loadQuestion(questionCount);
     questionTextView.setText(loadQuestions.currentQuestion);
     answerOneBtn.setText(loadQuestions.firstAnswer);
@@ -335,6 +344,7 @@ public class GameActivity extends AppCompatActivity {
     answerThreeBtn.setText(loadQuestions.thirdAnswer);
     answerFourBtn.setText(loadQuestions.fourthAnswer);
 
+    //navigates to next question
     questionCount++;
 
     System.out.println(currentGame.getPlayerOneScore());
@@ -349,6 +359,7 @@ public class GameActivity extends AppCompatActivity {
     HXMusic.music().load(song).gapless(true).looped(true).play(this);
   }
 
+  //returns the position of correct answer
   public int correctAnswer() {
     String answerOne = answerOneBtn.getText().toString();
     String answerTwo = answerTwoBtn.getText().toString();
@@ -369,6 +380,7 @@ public class GameActivity extends AppCompatActivity {
     return 0;
   }
 
+  //sets color of right answer to green
   public void setCorrectColor() {
     answerOneBtn.setClickable(false);
     answerTwoBtn.setClickable(false);
