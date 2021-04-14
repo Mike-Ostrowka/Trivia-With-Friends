@@ -74,13 +74,13 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="password_forgot">FORGOT PASSWORD?</string>
   <string name="already_have_a_account">ALREADY HAVE AN ACCOUNT?</string>
   <string name="new_user_register_now">New User? Register Now</string>
-  <string name="play_again">Would you like to play again or return to main menu?</string>
+  <string name="play_again_prompt">Would you like to play again or return to main menu?</string>
   <string name="main_menu">Return</string>
   <string name="refresh">Refresh</string>
   <string name="welcome">Welcome!</string>
   <string name="chat_app_name">Trivia With Friends chat</string>
   <string name="input_placeholder">Write a message</string>
-  <string name ="placeholder_message">Placeholder message</string>
+  <string name="placeholder_message">Placeholder message</string>
   <string name="friend_exists">Already added this user as a friend</string>
   <string name="chat_button">Global Chat Room</string>
   <string name="bio_updated">Your Bio has been updated!</string>
@@ -95,12 +95,10 @@ you.<br/><br/><b>How is the game scored?</b>    Players are given no points for 
   <string name="my_chat_room">My Chat Room</string>
   <string name="friends_bio">Your friend has not entered a bio.</string>
   <string name="no_pic_taken">No picture was taken or selected.</string>
-
-
-
-
-
-
-
+  <string name="victory_defeat">Victory or Defeat image</string>
+  <string name="play_again">Play Again!</string>
+  <string name="back_to_main">Back to Main Menu</string>
+  <string name="user_score">Your score: </string>
+  <string name="enemy_score">Their score: </string>
 
 </resources>
