@@ -317,6 +317,8 @@ public class GameActivity extends AppCompatActivity {
       realm = Realm.getDefaultInstance();
     }
 
+    Log.v("QUICKSTART", "loadrealm");
+
     //check for game or create game
     if (realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false)
         .findFirst() != null) {
