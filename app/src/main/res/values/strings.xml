@@ -24,9 +24,9 @@
   <string name="faq_text"> <![CDATA[<b>How do I start a game?:</b>   You can start a solo game by
    clicking play, or play against an opponent with Play With Friends.<br/><br/>
 <b> How do I change my password? </b>     You can change your password in the setting page, along with
-changing in-game settings such as your sound.<br/><br/><b>What are lifelines?</b>    Lifelines are power-ups
-that can swing the game in your favor! They have the ability to either hurt your opponent or to help
-you.<br/><br/><b>How is the game scored?</b>    Players are given no points for a wrong answer, and
+changing in-game settings such as your sound.<br/><br/><b>How do I chat with friends?</b>    You can post
+to the global chat room to talk with everyone, post in your own chat room to talk to your friends or assigned chat mates,
+or post on your friends pages to talk with them.<br/><br/><b>How is the game scored?</b>    Players are given no points for a wrong answer, and
  (10 - time taken) points for a correct answer. For example, a 4 second answer would be worth 10 - 4
  = 6 points<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Jaden Yu<br/><br/>
 <b>Tools Used: </b>   Realm Database, MongoDB<br/><br/>]]></string>
