@@ -24,8 +24,6 @@ import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import java.util.Objects;
 
-//todo fix java.lang.IllegalStateException: Cannot modify managed objects outside of a write transaction. at line 34 of this activity
-
 
 @SuppressWarnings("FieldCanBeLocal")
 public class WelcomeActivity extends AppCompatActivity {
@@ -210,8 +208,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
   //clear resources
   @Override
-  protected void onDestroy() {
-    super.onDestroy();
+  protected void onPause() {
+    super.onPause();
     HXMusic.stop();
     HXMusic.clear();
   }

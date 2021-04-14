@@ -58,7 +58,9 @@ public class PostGameActivity extends AppCompatActivity {
     }
 
     //get current user and game from realm
-    realm = Realm.getDefaultInstance();
+    if (realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
     loginPreferences session = new loginPreferences(getApplicationContext());
     String username = session.getUsername();
     currentUser = realm.where(Users.class).equalTo("_id", username).findFirst();
@@ -71,10 +73,14 @@ public class PostGameActivity extends AppCompatActivity {
     //check if User is player one or two and set score
     if (currentGame.getPlayerOne().equals(currentUser.getUserName())) {
       playerOneText = getString(R.string.user_score) + "\t" + currentGame.getPlayerOneScore();
-      playerTwoText = currentGame.getPlayerTwo() + getString(R.string.apostrophe)  +" score\t" + currentGame.getPlayerTwoScore();
+      playerTwoText =
+          currentGame.getPlayerTwo() + getString(R.string.apostrophe) + " score\t" + currentGame
+              .getPlayerTwoScore();
     } else {
       playerOneText = getString(R.string.user_score) + "\t" + currentGame.getPlayerTwoScore();
-      playerTwoText = currentGame.getPlayerOne() + getString(R.string.apostrophe)  +" score\t" + currentGame.getPlayerOneScore();
+      playerTwoText =
+          currentGame.getPlayerOne() + getString(R.string.apostrophe) + " score\t" + currentGame
+              .getPlayerOneScore();
     }
 
     String userElo = getString(R.string.user_elo) + "\t" + currentUser.getElo();
@@ -84,7 +90,7 @@ public class PostGameActivity extends AppCompatActivity {
     elo.setText(userElo);
 
     //check if player is null
-    if(currentGame.getPlayerOne() == null || currentGame.getPlayerTwo() == null) {
+    if (currentGame.getPlayerOne() == null || currentGame.getPlayerTwo() == null) {
       playerTwoScore.setText("");
       elo.setText(getString(R.string.single_player_elo));
     }
@@ -112,8 +118,16 @@ public class PostGameActivity extends AppCompatActivity {
   }
 
   @Override
-  public void onDestroy() {
-    super.onDestroy();
+  public void onResume() {
+    super.onResume();
+    if (realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
+  }
+
+  @Override
+  public void onPause() {
+    super.onPause();
     if (realm != null) {
       realm.close();
     }
