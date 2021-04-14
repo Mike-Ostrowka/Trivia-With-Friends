@@ -386,8 +386,6 @@ public class GameActivity extends AppCompatActivity {
     System.out.println(currentGame.getPlayerTwoScore());
     System.out.println(currentGame.getPlayerOne());
     System.out.println(currentGame.getPlayerTwo());
-    addChangeListenerToRealm(realm);
-
   }
 
   //end game and close resources
