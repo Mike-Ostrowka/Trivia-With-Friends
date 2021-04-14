@@ -225,7 +225,9 @@ public class GameActivity extends AppCompatActivity {
           other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerTwo()).findFirst();
           winner = true;
           realm.executeTransaction(transactionRealm -> {
-            current.calculateEloOnWin(other.getElo());
+            Users tempCurrent = transactionRealm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
+            Users tempOther = transactionRealm.where(Users.class).equalTo("_id", other.getUserName()).findFirst();
+            tempCurrent.calculateEloOnWin(tempOther.getElo());
           });
         }
       } else { //user is player two
@@ -234,7 +236,9 @@ public class GameActivity extends AppCompatActivity {
         other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerOne()).findFirst();
         winner = true;
         realm.executeTransaction(transactionRealm -> {
-          current.calculateEloOnWin(other.getElo());
+          Users tempCurrent = transactionRealm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
+          Users tempOther = transactionRealm.where(Users.class).equalTo("_id", other.getUserName()).findFirst();
+          tempCurrent.calculateEloOnWin(tempOther.getElo());
         });
       }
 
