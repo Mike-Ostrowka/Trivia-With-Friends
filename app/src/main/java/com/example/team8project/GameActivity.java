@@ -30,61 +30,14 @@ public class GameActivity extends AppCompatActivity {
   Realm realm;
   Game currentGame;
   LoadQuestions loadQuestions;
-  Runnable postGameRunnable = new Runnable() {
-    @Override
-    public void run() {
-      HXSound.sound().load(R.raw.time_over).play(GameActivity.this);
-      realm.executeTransaction(new Realm.Transaction() {
-        @Override
-        public void execute(Realm realm) {
-          currentGame.setGameCompleted(true);
-          realm.insertOrUpdate(currentGame);
-        }
-      });
 
-      if (realm != null) {
-        realm.close();
-      }
-      Dialogs.intentDialog("The game has ended", GameActivity.this, WelcomeActivity.class);
-
-    }
-
-  };
-
-  //declaring current game, handler for rounds, and player one and two
-  Runnable mainGameRunnable = new Runnable() {
-    @Override
-    public void run() {
-
-      for (int i = 0; i <= 9; i++) {
-        gameHandler.postDelayed(gameRunnable, 5000 * i);
-      }
-      gameHandler.postDelayed(postGameRunnable, 50000);
-    }
-  };
   private int correctSound;
   private int wrongSound;
   private int green;
   private int red;
   private int gray;
   private int blue;
-  Runnable gameRunnable = new Runnable() {
-    @Override
-    public void run() {
 
-      playGame();
-      answerOneBtn.setClickable(true);
-      answerTwoBtn.setClickable(true);
-      answerThreeBtn.setClickable(true);
-      answerFourBtn.setClickable(true);
-      answerOneBtn.setBackgroundColor(blue);
-      answerTwoBtn.setBackgroundColor(blue);
-      answerThreeBtn.setBackgroundColor(blue);
-      answerFourBtn.setBackgroundColor(blue);
-
-
-    }
-  };
   private Users current;
   private loginPreferences session;
   private String username;
@@ -123,11 +76,12 @@ public class GameActivity extends AppCompatActivity {
     answerOneBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerOneBtn.getText().toString();
-      if (setPlayer = true) {
+      if (setPlayer == true) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer = false) {
+      } else if (setPlayer == false) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
+      System.out.println(setPlayer);
 
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
@@ -145,11 +99,12 @@ public class GameActivity extends AppCompatActivity {
     answerTwoBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerTwoBtn.getText().toString();
-      if (setPlayer = true) {
+      if (setPlayer == true) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer = false) {
+      } else if (setPlayer == false) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
+      System.out.println(setPlayer);
 
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
@@ -167,11 +122,13 @@ public class GameActivity extends AppCompatActivity {
     answerThreeBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerThreeBtn.getText().toString();
-      if (setPlayer = true) {
+      if (setPlayer == true) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer = false) {
+      } else if (setPlayer == false) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
+      System.out.println(setPlayer);
+
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerThreeBtn.setBackgroundColor(green);
@@ -188,12 +145,12 @@ public class GameActivity extends AppCompatActivity {
     answerFourBtn.setOnClickListener(v -> {
 
       loadQuestions.playerOneSelection = answerFourBtn.getText().toString();
-      if (setPlayer = true) {
+      if (setPlayer == true) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
-      } else if (setPlayer = false) {
+      } else if (setPlayer == false) {
         playerTwoScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);
       }
-
+      System.out.println(setPlayer);
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerFourBtn.setBackgroundColor(green);
@@ -228,11 +185,63 @@ public class GameActivity extends AppCompatActivity {
   @Override
   protected void onStart() {
     super.onStart();
-
+    playerOne = currentGame.getPlayerOne();
+    playerTwo = currentGame.getPlayerTwo();
     mainGameHandler.postDelayed(mainGameRunnable, 0);
 
 
   }
+
+  Runnable postGameRunnable = new Runnable() {
+    @Override
+    public void run() {
+      HXSound.sound().load(R.raw.time_over).play(GameActivity.this);
+      realm.executeTransaction(new Realm.Transaction() {
+        @Override
+        public void execute(Realm realm) {
+          currentGame.setGameCompleted(true);
+          realm.insertOrUpdate(currentGame);
+        }
+      });
+
+      if (realm != null) {
+        realm.close();
+      }
+      Dialogs.intentDialog("The game has ended", GameActivity.this, WelcomeActivity.class);
+
+    }
+
+  };
+
+  //declaring current game, handler for rounds, and player one and two
+  Runnable mainGameRunnable = new Runnable() {
+    @Override
+    public void run() {
+
+      for (int i = 0; i <= 9; i++) {
+        gameHandler.postDelayed(gameRunnable, 5000 * i);
+      }
+      gameHandler.postDelayed(postGameRunnable, 50000);
+    }
+  };
+
+  Runnable gameRunnable = new Runnable() {
+    @Override
+    public void run() {
+
+      playGame();
+      answerOneBtn.setClickable(true);
+      answerTwoBtn.setClickable(true);
+      answerThreeBtn.setClickable(true);
+      answerFourBtn.setClickable(true);
+      answerOneBtn.setBackgroundColor(blue);
+      answerTwoBtn.setBackgroundColor(blue);
+      answerThreeBtn.setBackgroundColor(blue);
+      answerFourBtn.setBackgroundColor(blue);
+
+
+    }
+  };
 
   private void loadRealm() {
     //open a realm and find logged in user
@@ -241,37 +250,37 @@ public class GameActivity extends AppCompatActivity {
     if (realm == null) {
       realm = Realm.getDefaultInstance();
     }
-    current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
     //check for game or create game
-    if (realm.where(Game.class).equalTo("playerCount", 1).findFirst() != null) {
+    if (realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false).findFirst() != null) {
 
-      /*
-       * On Game Load we need player one info, game id, question count
-       * Must update player count to 2
-       * Game should start only once player count == 2
-       * */
+      //if game with single player and not finished(this means player is in lobby waiting for second player
+      //set this current player to false which flags it as second player
+      //get current game that matches open game criteria
+      //
       setPlayer = false;
-      currentGame = realm.where(Game.class).equalTo("playerCount", 1).findFirst();
+      currentGame = realm.where(Game.class).equalTo("playerCount", 1).equalTo("gameCompleted", false).findFirst();
       realm.executeTransaction(new Realm.Transaction() {
         @Override
         public void execute(Realm realm) {
           currentGame.setPlayerTwo(username);
-          questionCount = currentGame.getQuestionCount();
           currentGame.setPlayerCount(2);
           playerTwo = username;
           playerOne = currentGame.getPlayerOne();
           realm.copyToRealmOrUpdate(currentGame);
         }
       });
-
-
+      _ID = currentGame.get_id();
     } else {
       setPlayer = true;
-      currentGame = new Game(1, _ID);
+      currentGame = new Game(username, _ID, 1);
       currentGame.setPlayerOne(username);
     }
 
+    System.out.println(currentGame.getPlayerOneScore());
+    System.out.println(currentGame.getPlayerTwoScore());
+    System.out.println(currentGame.getPlayerOne());
+    System.out.println(currentGame.getPlayerTwo());
 
   }
 
@@ -291,7 +300,7 @@ public class GameActivity extends AppCompatActivity {
     if (realm != null) {
       realm.close();
     }
-
+    System.out.println(currentGame.get_id());
     gameHandler.removeCallbacks(gameRunnable);
     gameHandler.removeCallbacks(postGameRunnable);
 
@@ -299,14 +308,13 @@ public class GameActivity extends AppCompatActivity {
   }
 
   public void playGame() {
-    playerTwo = currentGame.getPlayerTwo();
+
     answerOneBtn = findViewById(R.id.AnswerOneButton);
     answerTwoBtn = findViewById(R.id.AnswerTwoButton);
     answerThreeBtn = findViewById(R.id.AnswerThreeButton);
     answerFourBtn = findViewById(R.id.AnswerFourButton);
     questionTextView = findViewById(R.id.questionText);
-    playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
-    playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
+
 
     realm.executeTransaction(new Realm.Transaction() {
       @Override
@@ -323,6 +331,9 @@ public class GameActivity extends AppCompatActivity {
     answerTwoBtn.setText(loadQuestions.secondAnswer);
     answerThreeBtn.setText(loadQuestions.thirdAnswer);
     answerFourBtn.setText(loadQuestions.fourthAnswer);
+
+    playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
+    playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
 
     questionCount++;
 

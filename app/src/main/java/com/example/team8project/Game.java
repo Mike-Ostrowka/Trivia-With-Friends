@@ -1,6 +1,7 @@
 package com.example.team8project;
 
 import io.realm.RealmObject;
+import io.realm.annotations.Index;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -12,7 +13,9 @@ public class Game extends RealmObject {
   private String playerOne;
   private String playerTwo;
   private int playerOneScore, playerTwoScore;
+  @Index
   private boolean gameCompleted;
+  @Index
   private int playerCount;
   private int questionCount;
   @PrimaryKey
