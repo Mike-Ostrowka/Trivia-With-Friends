@@ -16,7 +16,6 @@ import javax.crypto.spec.PBEKeySpec;
 public class Users extends RealmObject {
 
   private final RealmList<Users> friends = new RealmList<>();
-  //  private RealmList<Integer> eloTrackerList = new RealmList<>(1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000, 1000);
   protected Integer eloOne = 1000;
   protected int eloTwo = 1000;
   protected int eloThree = 1000;
@@ -56,6 +55,7 @@ public class Users extends RealmObject {
   }
 
   public Users() {
+    //required empty constructor
   }
 
   // This code was found and adapted from:
@@ -64,13 +64,14 @@ public class Users extends RealmObject {
   //  https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#PBKDF2WithHmacSHA1.
   //  [Accessed: 10-Mar-2021].
 
+  //checks if given password matches hased storedPassword
   private static boolean validatePassword(String originalPassword, String storedPassword)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
 
     String[] breakApart = storedPassword.split(":");
     int iterations = Integer.parseInt(breakApart[0]);
-    byte[] salt = fromHex(breakApart[1]); // could just bring it back in bytes
-    byte[] hash = fromHex(breakApart[2]); // could just bring it back in bytes
+    byte[] salt = fromHex(breakApart[1]);
+    byte[] hash = fromHex(breakApart[2]);
 
     PBEKeySpec cryptoSpec = new PBEKeySpec(originalPassword.toCharArray(),
         salt, iterations, hash.length * 8);
@@ -306,6 +307,7 @@ public class Users extends RealmObject {
     }
   }
 
+  //checks if password has 7 characters, a number, and a capital
   boolean resetPassword(String newPassword) {
     if (checkCapital(newPassword)) {
       if (checkNumber(newPassword)) {
@@ -315,6 +317,7 @@ public class Users extends RealmObject {
     return false;
   }
 
+  //checks if given password matches stored password
   boolean checkPassword(String newPassword) {
     try {
       return validatePassword(newPassword, this.password);
@@ -326,6 +329,7 @@ public class Users extends RealmObject {
     return false;
   }
 
+  //check if password has a capital
   boolean checkCapital(String newPassword) {
     for (int i = 0; i < newPassword.length(); i++) {
       char c = newPassword.charAt(i);
@@ -336,6 +340,7 @@ public class Users extends RealmObject {
     return false;
   }
 
+  //checks if password has a number
   boolean checkNumber(String newPassword) {
     for (int i = 0; i < newPassword.length(); i++) {
       char c = newPassword.charAt(i);
@@ -350,7 +355,4 @@ public class Users extends RealmObject {
     return newPassword.length() > 6;
   }
 
-  void updateBio(String newBio) {
-    bio = newBio;
-  }
 }

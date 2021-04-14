@@ -27,8 +27,11 @@ public class ResetActivity extends AppCompatActivity {
 
     Realm realm = Realm.getDefaultInstance();
 
+    //listener on reset password button
     Button save = findViewById(R.id.btn_confirm_change_pass);
     save.setOnClickListener(view -> {
+
+      //declare views
       EditText nameField = findViewById(R.id.tf_username);
       EditText passwordField = findViewById(R.id.pf_reset_pass);
       EditText passwordConfirmField = findViewById(R.id.pf_reset_pass_confirm);
@@ -39,33 +42,46 @@ public class ResetActivity extends AppCompatActivity {
       String passwordConfirm = passwordConfirmField.getText().toString();
       String answer = answerField.getText().toString();
 
+      //check if given username exists
       Users current = realm.where(Users.class).equalTo("_id", name).findFirst();
       if (current == null) {
         Toast.makeText(getApplicationContext(), getString(R.string.user_failed), Toast.LENGTH_LONG)
             .show();
         return;
       }
+
+      //check if current has a security question associated with it
       if (!current.securityExists()) {
         Toast.makeText(getApplicationContext(), getString(R.string.security_missing),
             Toast.LENGTH_LONG).show();
         return;
       }
+
+      //check if given password is null
       if (password.equals("")) {
         return;
       }
+
+      //check if the 2 passwords given are the same
       if (!password.equals(passwordConfirm)) {
         Toast.makeText(getApplicationContext(), getString(R.string.different_password),
             Toast.LENGTH_LONG).show();
         return;
       }
+
+      //check if security question answered correctly
       if (!current.checkSecurityAnswer(answer)) {
         Toast.makeText(getApplicationContext(), getString(R.string.security_failed),
             Toast.LENGTH_LONG).show();
         return;
       }
+
+      //if passes all checks, open up realm for final check
       realm.executeTransaction(transactionRealm -> {
         Users temp = transactionRealm.where(Users.class).equalTo("_id", name)
             .findFirst();
+
+        //check if password has 7 characters, a number, and a capital letter
         if (temp.updatePassword(password)) {
           Toast.makeText(getApplicationContext(), getString(R.string.password_success),
               Toast.LENGTH_LONG).show();

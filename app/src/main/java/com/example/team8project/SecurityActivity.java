@@ -24,10 +24,15 @@ public class SecurityActivity extends AppCompatActivity {
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
 
+    //load views
     EditText question = findViewById(R.id.tf_security);
     Button save = findViewById(R.id.btn_confirm_question);
+
+    //click listener on save button
     save.setOnClickListener(view -> {
       String text = question.getText().toString();
+
+      //if answer is blank, return
       if (text.equals("")) {
         return;
       }
@@ -36,6 +41,8 @@ public class SecurityActivity extends AppCompatActivity {
       session = new loginPreferences(getApplicationContext());
       username = session.getUsername();
       Realm realm = Realm.getDefaultInstance();
+
+      //set security answer
       realm.executeTransaction(transactionRealm -> {
         Users current = transactionRealm.where(Users.class).equalTo("_id", username).findFirst();
         current.setSecurityAnswer(text);

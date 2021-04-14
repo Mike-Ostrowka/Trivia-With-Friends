@@ -23,6 +23,7 @@ public class StartupActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_startup);
+
     //set up realm app
     final String appID = "triviawithfriends-ljuog";
     app = new App(new AppConfiguration.Builder(appID).build());
@@ -36,12 +37,13 @@ public class StartupActivity extends AppCompatActivity {
         if (user == null) {
           Log.v("QUICKSTART", "null user");
         }
+
+        //build and set default realm
         SyncConfiguration config = new SyncConfiguration.Builder(
             user,
             PARTITION_VALUE).allowWritesOnUiThread(true).allowQueriesOnUiThread(true).build();
         Realm.setDefaultConfiguration(config);
         uiThreadRealm = Realm.getDefaultInstance();
-//        addChangeListenerToRealm(uiThreadRealm);
         uiThreadRealm.close();
         Intent intent = new Intent();
         intent.setClass(StartupActivity.this, MainMenuActivity.class);
@@ -56,32 +58,7 @@ public class StartupActivity extends AppCompatActivity {
   }
 
 
-  //  //change listener on local realm
-//  private void addChangeListenerToRealm(Realm realm) {
-//    // all tasks in the realm
-//    RealmResults<Users> tasks = realm.where(Users.class).findAllAsync();
-//    tasks.addChangeListener((collection, changeSet) -> {
-//      // process deletions in reverse order if maintaining parallel data structures so indices don't change as you iterate
-//      OrderedCollectionChangeSet.Range[] deletions = changeSet.getDeletionRanges();
-//      for (OrderedCollectionChangeSet.Range range : deletions) {
-//        Log.v("QUICKSTART",
-//            "Deleted range: " + range.startIndex + " to " + (range.startIndex + range.length
-//                - 1));
-//      }
-//      OrderedCollectionChangeSet.Range[] insertions = changeSet.getInsertionRanges();
-//      for (OrderedCollectionChangeSet.Range range : insertions) {
-//        Log.v("QUICKSTART",
-//            "Inserted range: " + range.startIndex + " to " + (range.startIndex + range.length
-//                - 1));
-//      }
-//      OrderedCollectionChangeSet.Range[] modifications = changeSet.getChangeRanges();
-//      for (OrderedCollectionChangeSet.Range range : modifications) {
-//        Log.v("QUICKSTART",
-//            "Updated range: " + range.startIndex + " to " + (range.startIndex + range.length
-//                - 1));
-//      }
-//    });
-//  }
+  //close realm and log out from mongodb
   @Override
   protected void onDestroy() {
     super.onDestroy();

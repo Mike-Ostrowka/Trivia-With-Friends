@@ -37,12 +37,14 @@ public class SettingsActivity extends AppCompatActivity {
     HXMusic.music().load(song).gapless(true).looped(true).play(this);
   }
 
+  //function called by change password button
   public void changePass(View view) {
     Intent intent = new Intent();
     intent.setClass(SettingsActivity.this, ChangePasswordActivity.class);
     startActivity(intent);
   }
 
+  //function called by save and exit button
   public void saveSettings(View view) {
     HXMusic.stop();
     HXMusic.clear();
@@ -51,12 +53,14 @@ public class SettingsActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
+  //function called by change security question button
   public void securityQuestions(View view) {
     Intent intent = new Intent();
     intent.setClass(SettingsActivity.this, SecurityActivity.class);
     startActivity(intent);
   }
 
+  //clear resources
   @Override
   protected void onPause() {
     super.onPause();

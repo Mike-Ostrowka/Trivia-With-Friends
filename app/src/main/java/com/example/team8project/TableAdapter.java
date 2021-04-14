@@ -13,7 +13,12 @@ import android.widget.TextView;
 import io.realm.Realm;
 import java.util.ArrayList;
 
-//code adapted from https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
+//code adapted from
+// Anupam Chugh, Android ListView with Custom Adapter Example Tutorial
+// JournalDev [Online], Available: https://www.journaldev.com/10416/android-listview-with-custom-adapter-example-tutorial
+// Accessed April 10, 2021
+
+//class handles array of users for listView table, and adds click listener to delete button
 public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickListener {
 
   private final ArrayList<Users> dataSet;
@@ -36,8 +41,8 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
   @Override
   public void onClick(View v) {
 
+    //get position of deleted item in table
     int position = (Integer) v.getTag();
-    Users dataModel = getItem(position);
     if (v.getId() == R.id.item_delete) {
       String message =
           "Are you sure you want to remove :    " + current.getFriend(position).getUserName()
@@ -45,8 +50,11 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
       AlertDialog.Builder builder = new AlertDialog.Builder(mDialog);
       builder.setMessage(message);
 
+      //confirm delete button
       builder.setPositiveButton(R.string.delete, (dialogInterface, i) -> {
         realm = Realm.getDefaultInstance();
+
+        //deletes friend and user from each others friends lists
         realm.executeTransaction(transactionRealm -> {
           Users tempOther = realm.where(Users.class)
               .equalTo("_id", current.getFriend(position).getUserName()).findFirst();
@@ -58,24 +66,28 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
           if (temp != null) {
             temp.removeFriend(current.getFriend(position));
           }
-
         });
         realm.close();
       });
 
+      //cancel delete button, does nothing
       builder.setNegativeButton(R.string.cancel, (dialogInterface, i) -> {
-
       });
 
+      //build dialog
       AlertDialog dialog = builder.create();
       dialog.show();
     }
   }
 
+
+  //processes a given row
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
+
     // Get the data item for this position
     Users dataModel = getItem(position);
+
     // Check if an existing view is being reused, otherwise inflate the view
     ViewHolder viewHolder; // view lookup cache stored in tag
 
@@ -83,6 +95,7 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
 
     if (convertView == null) {
 
+      //sets Views for each of the table elements
       viewHolder = new ViewHolder();
       LayoutInflater inflater = LayoutInflater.from(getContext());
       convertView = inflater.inflate(R.layout.row_item, parent, false);
@@ -108,6 +121,7 @@ public class TableAdapter extends ArrayAdapter<Users> implements View.OnClickLis
     int elo = dataModel.getElo();
     String strElo = Integer.toString(elo);
 
+    //sets values for the row
     viewHolder.txtName.setText(dataModel.getUserName());
     viewHolder.txtElo.setText(strElo);
     viewHolder.mDelete.setOnClickListener(this);

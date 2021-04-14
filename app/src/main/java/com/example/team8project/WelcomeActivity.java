@@ -70,6 +70,7 @@ public class WelcomeActivity extends AppCompatActivity {
     String greetingText = current.getUserName();
     greeting.setText(greetingText);
 
+    //click listener for profile button
     Button mButtonProfile = findViewById(R.id.profile_button);
     mButtonProfile.setOnClickListener(v -> {
       HXSound.sound().load(click_sound).play(this);
@@ -78,6 +79,7 @@ public class WelcomeActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
+    //click listener for new game button
     Button newGameBtn = findViewById(R.id.newgame_button);
     newGameBtn.setOnClickListener(v -> {
       HXSound.sound().load(click_sound).play(this);
@@ -87,10 +89,12 @@ public class WelcomeActivity extends AppCompatActivity {
     });
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 
+    //open navigation drawer
     Toolbar toolbar = findViewById(R.id.toolbar_WA);
     setSupportActionBar(toolbar);
     toolbar.setNavigationOnClickListener(v -> finish());
 
+    //opens friends list on options button press (displayed as friends logo)
     toolbar.setOnMenuItemClickListener(menuItem -> {
       if (menuItem.getItemId() == R.id.ic_friends_wa) {
         Intent intent = new Intent();
@@ -99,6 +103,7 @@ public class WelcomeActivity extends AppCompatActivity {
       }
       return true;
     });
+
     Objects.requireNonNull(getSupportActionBar()).setTitle(null);
     drawerLayout = findViewById(R.id.drawer_layout);
     ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -110,19 +115,26 @@ public class WelcomeActivity extends AppCompatActivity {
     navigationView = findViewById(R.id.nav_view);
     navigationView.setBackgroundColor(getResources().getColor(R.color.white));
 
+    //listens for item clicks inside of navigation drawer
     navigationView.setNavigationItemSelectedListener(menuItem -> {
       Intent intent;
       switch (menuItem.getItemId()) {
+
+        //settings button
         case R.id.nm_setting:
           intent = new Intent();
           intent.setClass(WelcomeActivity.this, SettingsActivity.class);
           startActivity(intent);
           break;
+
+        //faq button
         case R.id.nm_faq:
           intent = new Intent();
           intent.setClass(WelcomeActivity.this, FaqActivity.class);
           startActivity(intent);
           break;
+
+        //logout button
         case R.id.nm_logout:
           session.setUsername("");
 
@@ -133,6 +145,8 @@ public class WelcomeActivity extends AppCompatActivity {
           intent.setClass(WelcomeActivity.this, MainMenuActivity.class);
           startActivity(intent);
           break;
+
+        //friends list button
         case R.id.nm_friends:
           intent = new Intent();
           intent.setClass(WelcomeActivity.this, FriendsActivity.class);
@@ -146,12 +160,14 @@ public class WelcomeActivity extends AppCompatActivity {
 
   }
 
+  //open friends list on click
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.toolbar_wa, menu);
     return true;
   }
 
+  //open navigation drawer on click
   @Override
   public void onBackPressed() {
     drawerLayout = findViewById(R.id.drawer_layout);
@@ -168,6 +184,7 @@ public class WelcomeActivity extends AppCompatActivity {
     HXMusic.music().load(song).gapless(true).looped(true).play(this);
   }
 
+  //restart sound on resume
   @Override
   protected void onResume() {
     super.onResume();
@@ -182,19 +199,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
   }
 
+  //clear resources
   @Override
   protected void onDestroy() {
     super.onDestroy();
     HXMusic.stop();
     HXMusic.clear();
   }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    HXMusic.stop();
-    HXMusic.clear();
-  }
-
 }
 
