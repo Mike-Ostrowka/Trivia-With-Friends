@@ -55,14 +55,12 @@ public class ChatActivity extends AppCompatActivity implements
 
     // This is where we write the message
     editText = (EditText) findViewById(R.id.editText);
-
     messageAdapter = new MessageAdapter(this);
     messagesView = (ListView) findViewById(R.id.messages_view);
     messagesView.setAdapter(messageAdapter);
 
     loginPreferences session = new loginPreferences(getApplicationContext());
     String username = session.getusername();
-
     MemberData data = new MemberData(username, getRandomColor());
 
     String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
@@ -74,7 +72,7 @@ public class ChatActivity extends AppCompatActivity implements
     scaledrone.connect(new Listener() {
       @Override
       public void onOpen() {
-//        System.out.println("Scaledrone connection open");
+        System.out.println("Scaledrone connection open");
         // Since the ChatActivity itself already implement RoomListener we can pass it as a target
         Room room = scaledrone.subscribe(roomName, ChatActivity.this, new SubscribeOptions(25));
 
@@ -86,13 +84,10 @@ public class ChatActivity extends AppCompatActivity implements
               if (message.getMember() == null) {
                 return;
               }
-
               final MemberData data1 = mapper1
                   .treeToValue(message.getMember().getClientData(), MemberData.class);
-
               final JsonNode jsonNode = mapper1
                   .readTree(String.valueOf(message.getData()));
-
               final Message messageSent = new Message(jsonNode.get("text").asText(), data1,
                   data1.getName().equals(data.getName()));
 
@@ -151,7 +146,6 @@ public class ChatActivity extends AppCompatActivity implements
       // member.clientData is a MemberData object, let's parse it as such
       final MemberData data = mapper
           .treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
-
       final JsonNode jsonNode = mapper
           .readTree(String.valueOf(receivedMessage.getData()));
 
@@ -186,7 +180,7 @@ public class ChatActivity extends AppCompatActivity implements
     String username = session.getusername();
     MemberData data = new MemberData(username, getRandomColor());
 
-    Message message = new Message (messageText, data, true);
+    Message message = new Message(messageText, data, true);
     if (messageText.length() > 0) {
       scaledrone.publish("observable-room", message);
       editText.getText().clear();
@@ -240,7 +234,7 @@ class MemberData {
   }
 }
 
-// Citation for reference used:
+// Code below was modified from the following reference:
 //Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
 //    Scaledrone Blog, 05-Feb-2019. [Online]. Available:
 //    https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].
