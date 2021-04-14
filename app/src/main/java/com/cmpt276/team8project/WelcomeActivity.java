@@ -79,9 +79,7 @@ public class WelcomeActivity extends AppCompatActivity {
     Button newGameBtn = findViewById(R.id.newgame_button);
     newGameBtn.setOnClickListener(v -> {
       HXSound.sound().load(click_sound).play(this);
-      Intent intent = new Intent();
-      intent.setClass(WelcomeActivity.this, GameActivity.class);
-      startActivity(intent);
+      Dialogs.intentDialog(getString(R.string.new_game_message), this, GameActivity.class);
     });
     PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
 

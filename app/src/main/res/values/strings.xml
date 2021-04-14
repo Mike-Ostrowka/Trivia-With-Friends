@@ -106,5 +106,8 @@ or post on your friends pages to talk with them.<br/><br/><b>How is the game sco
   <string name="user_elo">Your elo is:</string>
   <string name="apostrophe">\'s</string>
   <string name="single_player">Single Player Mode</string>
+  <string name="single_player_elo">You played in single player mode so your elo has not changed!</string>
+  <string name="new_game_message">If any other players are currently playing, you will be put
+    in a game with them, otherwise you will be put into single player mode</string>
 
 </resources>

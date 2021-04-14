@@ -87,6 +87,7 @@ public class PostGameActivity extends AppCompatActivity {
     //check if player is null
     if(currentGame.getPlayerOne() == null || currentGame.getPlayerTwo() == null) {
       playerTwoScore.setText("");
+      elo.setText(getString(R.string.single_player_elo));
     }
 
     //button click for play again
