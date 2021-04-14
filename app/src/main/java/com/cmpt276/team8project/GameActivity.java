@@ -98,6 +98,7 @@ public class GameActivity extends AppCompatActivity {
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerOneBtn.setBackgroundColor(green);
+        disableButtons();
         HXSound.sound().load(correctSound).play(this);
       } else { //wrong answer
         HXSound.sound().load(wrongSound).play(this);
@@ -121,6 +122,7 @@ public class GameActivity extends AppCompatActivity {
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerTwoBtn.setBackgroundColor(green);
+        disableButtons();
         HXSound.sound().load(correctSound).play(this);
       } else { //wrong answer
         HXSound.sound().load(wrongSound).play(this);
@@ -144,6 +146,7 @@ public class GameActivity extends AppCompatActivity {
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerThreeBtn.setBackgroundColor(green);
+        disableButtons();
         HXSound.sound().load(correctSound).play(this);
       } else { //wrong answer
         HXSound.sound().load(wrongSound).play(this);
@@ -165,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
       //correct chosen
       if (loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection) == 5) {
         answerFourBtn.setBackgroundColor(green);
+        disableButtons();
         HXSound.sound().load(correctSound).play(this);
       } else {
         HXSound.sound().load(wrongSound).play(this);
@@ -515,5 +519,12 @@ public class GameActivity extends AppCompatActivity {
         answerFourBtn.setBackgroundColor(green);
         break;
     }
+  }
+
+  public void disableButtons() {
+    answerOneBtn.setClickable(false);
+    answerTwoBtn.setClickable(false);
+    answerThreeBtn.setClickable(false);
+    answerFourBtn.setClickable(false);
   }
 }
