@@ -318,9 +318,9 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void run() {
       for (int i = 0; i <= 9; i++) {
-        gameHandler.postDelayed(gameRunnable, 5000 * i);
+        gameHandler.postDelayed(gameRunnable, 10000 * i);
       }
-      gameHandler.postDelayed(postGameRunnable, 50000);
+      gameHandler.postDelayed(postGameRunnable, 10000);
     }
   };
 
