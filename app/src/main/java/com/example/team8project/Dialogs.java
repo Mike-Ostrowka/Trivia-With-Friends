@@ -7,9 +7,10 @@ import android.support.v7.app.AlertDialog;
 public class Dialogs {
 
   public Dialogs() {
-
+    //required empty constructor
   }
 
+  //builds a dialog at given context with a message, no action on close
   public static void buildDialog(String message, Context context) {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setMessage(message);
@@ -20,6 +21,7 @@ public class Dialogs {
     dialog.show();
   }
 
+  //creates dialog that navigates to given activity after clicking ok
   public static void intentDialog(String message, Context context, Class<?> cls) {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     builder.setMessage(message);

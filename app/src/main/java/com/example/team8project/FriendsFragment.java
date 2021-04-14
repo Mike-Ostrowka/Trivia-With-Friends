@@ -12,7 +12,6 @@ import io.realm.Realm;
 
 public class FriendsFragment extends Fragment implements View.OnClickListener {
 
-  private Button friendButton;
   private Realm realm;
   private Users current;
   private loginPreferences session;
@@ -31,7 +30,8 @@ public class FriendsFragment extends Fragment implements View.OnClickListener {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-// Inflate the layout for this fragment
+
+    // Inflate the layout for this fragment
     View myView = inflater.inflate(R.layout.fragment_friends, container, false);
 
     //open a realm and find logged in user
@@ -40,6 +40,8 @@ public class FriendsFragment extends Fragment implements View.OnClickListener {
     realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
     realm.close();
+
+    //return view to parent friends activity
     mView = myView;
     return myView;
 
@@ -50,31 +52,40 @@ public class FriendsFragment extends Fragment implements View.OnClickListener {
     super.onViewCreated(view, savedInstanceState);
 
     //add listener to button
-    friendButton = view.findViewById(R.id.btn_new_friend);
+    Button friendButton = view.findViewById(R.id.btn_new_friend);
     friendButton.setOnClickListener(this);
   }
 
+  //add friend listener
   @Override
   public void onClick(View view) {
+
     EditText friendField = mView.findViewById(R.id.tf_new_friend);
+
+    //if no name entered, return
     if (friendField.getText() == null) {
       return;
     }
+
     String friendName = friendField.getText().toString();
     realm = Realm.getDefaultInstance();
     Users checkFriend = realm.where(Users.class).equalTo("_id", friendName).findFirst();
+
+    //if friend does not exist, return
     if (checkFriend == null) {
-      Context context = getActivity();
-      Dialogs.buildDialog(getString(R.string.user_failed), context);
+      Dialogs.buildDialog(getString(R.string.user_failed), getActivity());
       realm.close();
       return;
     }
+
+    //if already added user as friend
     if (current.friendExists(checkFriend)) {
-      Context context = getActivity();
-      Dialogs.buildDialog(getString(R.string.friend_exists), context);
+      Dialogs.buildDialog(getString(R.string.friend_exists), getActivity());
       realm.close();
       return;
     }
+
+    //if passed checks, add current user and given user and friends
     realm.executeTransaction(transactionRealm -> {
       Users temp = realm.where(Users.class).equalTo("_id", username).findFirst();
       temp.addFriend(checkFriend);
@@ -82,11 +93,13 @@ public class FriendsFragment extends Fragment implements View.OnClickListener {
           .findFirst();
       tempOther.addFriend(current);
     });
+
     realm.close();
     friendField.setText("");
     Dialogs.buildDialog(getString(R.string.friend_added), getActivity());
   }
 
+  //delete mView to stop memory leak
   @Override
   public void onDestroy() {
     super.onDestroy();

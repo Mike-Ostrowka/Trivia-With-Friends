@@ -43,7 +43,7 @@ public class FriendsListFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-    if(realm == null) {
+    if (realm == null) {
       realm = Realm.getDefaultInstance();
     }
   }
@@ -51,13 +51,19 @@ public class FriendsListFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
+
+    //inflate layout
     View myView = inflater.inflate(R.layout.fragment_friends_list, container, false);
 
     //open a realm and find logged in user
     session = new loginPreferences(getActivity().getApplicationContext());
     username = session.getusername();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
+
+    //add change listener to update table on friend change
     addChangeListenerToRealm(realm);
+
+    //return fragment to Friends Activity
     mView = myView;
     return myView;
   }
@@ -66,17 +72,26 @@ public class FriendsListFragment extends Fragment {
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     listView = mView.findViewById(R.id.list);
+
+    //populate dataModels with all friends from current user
     dataModels = new ArrayList<>();
     for (int i = 0; i < current.getSizeFriends(); i++) {
       dataModels.add(current.getFriend(i));
     }
+
+    //create an adapter containing all friends
     adapter = new TableAdapter(dataModels, getActivity().getApplicationContext(), getActivity(),
         current);
+
+    //pass adapter info to listView, which displays it
     listView.setAdapter(adapter);
+
+    //listener to open friends profile
     listView.setOnItemClickListener((adapterView, view1, i, l) -> {
       Users friend = dataModels.get(i);
-
       HXSound.sound().load(R.raw.click).play(view1.getContext());
+
+      //pass intent with friend's username to FriendsProfileActivity
       Intent intent = new Intent(getActivity(), FriendsProfileActivity.class);
       String sessionId = friend.getUserName();
       intent.putExtra("EXTRA_SESSION_ID", sessionId);
@@ -84,6 +99,7 @@ public class FriendsListFragment extends Fragment {
     });
   }
 
+  //deletes and repopulates the adapter
   public void updateTable() {
     adapter.clear();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
@@ -95,12 +111,15 @@ public class FriendsListFragment extends Fragment {
     adapter.notifyDataSetChanged();
   }
 
-    //change listener on local realm
+  //change listener on local realm
   private void addChangeListenerToRealm(Realm realm) {
-    // all tasks in the realm
-    RealmResults<Users> tasks = realm.where(Users.class).equalTo("_id", current.getUserName()).findAll();
+    RealmResults<Users> tasks = realm.where(Users.class).equalTo("_id", current.getUserName())
+        .findAll();
+    //update friends list on realm change
     tasks.addChangeListener(users -> {
       updateTable();
+
+      //reset listener on realm
       tasks.removeAllChangeListeners();
       updateListener();
     });
@@ -110,10 +129,11 @@ public class FriendsListFragment extends Fragment {
     addChangeListenerToRealm(realm);
   }
 
+  //ensure realm is closed
   @Override
   public void onPause() {
     super.onPause();
-    if(realm != null) {
+    if (realm != null) {
       realm.close();
     }
   }

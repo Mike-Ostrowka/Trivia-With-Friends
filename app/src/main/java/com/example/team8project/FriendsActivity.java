@@ -23,7 +23,7 @@ public class FriendsActivity extends AppCompatActivity {
   private String username;
   private int song;
   private Realm realm;
-  private int click_sound;
+
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -55,29 +55,35 @@ public class FriendsActivity extends AppCompatActivity {
     simpleViewPager = findViewById(R.id.simpleViewPager);
     tabLayout = findViewById(R.id.simpleTabLayout);
 
+    //create first tab
     Tab firstTab = tabLayout.newTab();
     firstTab.setText("Add Friends");
     firstTab.setIcon(R.drawable.ic__add_friend);
     tabLayout.addTab(firstTab);
 
+    //create second tab
     Tab secondTab = tabLayout.newTab();
     secondTab.setText("Friends List");
     secondTab.setIcon(R.drawable.ic_friends_tab);
     tabLayout.addTab(secondTab);
 
+    //add tabs to adapter
     PagerAdapter adapter = new PagerAdapter
         (getSupportFragmentManager(), tabLayout.getTabCount());
     simpleViewPager.setAdapter(adapter);
 
-    //change on swipe
+    //change listener on swipe
     simpleViewPager.addOnPageChangeListener(new TabLayoutOnPageChangeListener(tabLayout));
-    //change on button press
+
+    //change listener on button press
     tabLayout.setOnTabSelectedListener(onTabSelectedListener(simpleViewPager));
 
   }
 
   private TabLayout.OnTabSelectedListener onTabSelectedListener(final ViewPager pager) {
     return new TabLayout.OnTabSelectedListener() {
+
+      //play sound and change tab
       @Override
       public void onTabSelected(TabLayout.Tab tab) {
         HXSound.sound().load(R.raw.click).play(getApplicationContext());
@@ -96,19 +102,13 @@ public class FriendsActivity extends AppCompatActivity {
     };
   }
 
+  //play background music
   private void playMusic() {
     song = R.raw.smooth_jazz;
     HXMusic.music().load(song).gapless(true).looped(true).play(this);
   }
 
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        HXSound.clear();
-//        HXMusic.stop();
-//        HXMusic.clear();
-//    }
-
+  //clear HXMusic
   @Override
   protected void onPause() {
     super.onPause();
