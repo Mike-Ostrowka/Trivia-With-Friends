@@ -18,7 +18,6 @@ import java.util.UUID;
 
 public class GameActivity extends AppCompatActivity {
 
-  private final boolean gameFinished = false;
   int questionCount = 0;
   int playerScore = 0, playerTwoScore = 0;
   String playerOne, playerTwo;
@@ -156,7 +155,6 @@ public class GameActivity extends AppCompatActivity {
     });
 
     answerFourBtn.setOnClickListener(v -> {
-
       loadQuestions.playerOneSelection = answerFourBtn.getText().toString();
       if (setPlayer) {
         playerScore += loadQuestions.checkPlayerAnswer(loadQuestions.playerOneSelection);

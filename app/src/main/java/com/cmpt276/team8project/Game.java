@@ -17,7 +17,6 @@ public class Game extends RealmObject {
   private boolean gameCompleted;
   @Index
   private int playerCount;
-  private int questionCount;
   @PrimaryKey
   private long _id;
 
@@ -64,13 +63,6 @@ public class Game extends RealmObject {
     //empty constructor
   }
 
-  public int getQuestionCount() {
-    return questionCount;
-  }
-
-  public void setQuestionCount(int questionCount) {
-    this.questionCount = questionCount;
-  }
 
   public int getPlayerCount() {
     return playerCount;
@@ -111,7 +103,6 @@ public class Game extends RealmObject {
   public void setPlayerTwo(String playerTwo) {
     this.playerTwo = playerTwo;
   }
-
 
   public boolean isGameCompleted() {
     return gameCompleted;
