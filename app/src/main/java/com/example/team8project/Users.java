@@ -241,6 +241,7 @@ public class Users extends RealmObject {
     eloTen = newElo;
   }
 
+  // stores elo history
   ArrayList<Integer> eloList() {
     return new ArrayList<Integer>() {
       {
@@ -258,6 +259,7 @@ public class Users extends RealmObject {
     };
   }
 
+  // set security question answer in case password is lost or forgotten
   void setSecurityAnswer(String answer) {
     try {
       securityAnswer = generateEncryption(answer);
