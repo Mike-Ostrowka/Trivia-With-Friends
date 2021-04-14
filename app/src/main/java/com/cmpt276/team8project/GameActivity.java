@@ -318,7 +318,7 @@ public class GameActivity extends AppCompatActivity {
       for (int i = 0; i <= 9; i++) {
         gameHandler.postDelayed(gameRunnable, 10000 * i);
       }
-      gameHandler.postDelayed(postGameRunnable, 10000);
+      gameHandler.postDelayed(postGameRunnable, 100000);
     }
   };
 
