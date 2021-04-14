@@ -18,15 +18,18 @@ public class MessageAdapter extends BaseAdapter {
   List<Message> messages = new ArrayList<Message>();
   Context context;
 
+  // constructor
   public MessageAdapter(Context context) {
     this.context = context;
   }
 
+  // add message to messages list
   public void add(Message message) {
     this.messages.add(message);
     notifyDataSetChanged(); // to render the list we need to notify
   }
 
+  // getter functions
   @Override
   public int getCount() {
     return messages.size();
@@ -80,3 +83,8 @@ class MessageViewHolder {
   public TextView name;
   public TextView messageBody;
 }
+
+// Code above was modified from the following reference:
+//Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
+//    Scaledrone Blog, 05-Feb-2019. [Online]. Available:
+//    https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].

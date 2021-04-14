@@ -11,6 +11,7 @@ public class Question {
   //Correct Answer
   private String correctAnswer = null;
 
+  // constructor
   public Question(String question, String answerOne, String answerTwo, String answerThree,
       String answerFour, String correctAnswer) {
     this.question = question;
@@ -21,10 +22,12 @@ public class Question {
     this.correctAnswer = correctAnswer;
   }
 
+  // empty constructor
   public Question() {
     // make it all null
   }
 
+  // getter functions
   public String[] getWrongAnswers() {
     return new String[]{this.answerOne, this.answerTwo, this.answerThree};
   }
@@ -40,6 +43,5 @@ public class Question {
   public String getQuestion() {
     return this.question;
   }
-
 
 }

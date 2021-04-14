@@ -113,7 +113,7 @@ public class GraphActivity extends AppCompatActivity {
   }
 }
 
-// Code below was modified from the following reference:
+// Code above was modified from the following reference:
 //Codedmin, “Android Line Chart - How to Draw Line Chart in Android,”
 //    Coding Demos, 16-Jul-2018. [Online]. Available:
 //    https://www.codingdemos.com/draw-android-line-chart/.

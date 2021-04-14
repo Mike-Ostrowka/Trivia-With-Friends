@@ -25,22 +25,17 @@
     android:id="@+id/friends_bio"
     android:layout_width="273dp"
     android:layout_height="123dp"
-    android:layout_marginTop="136dp"
+    android:layout_marginTop="35dp"
     android:layout_marginStart="7dp"
-    android:layout_marginEnd="8dp"
     android:layout_marginLeft="7dp"
-    android:layout_marginRight="8dp"
     android:ems="10"
     android:gravity="start|top"
     android:hint="@string/friends_bio"
-    android:inputType="textMultiLine"
     android:lines="4"
     android:maxLength="140"
     android:scrollbars="vertical"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="1.0"
     app:layout_constraintStart_toEndOf="@+id/friends_profile_picture"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile" />
+    app:layout_constraintTop_toBottomOf="@+id/friend_name" />
   <TextView
     android:id="@+id/friends_games_played"
     android:layout_width="350dp"
@@ -96,4 +91,15 @@
     app:layout_constraintHorizontal_bias="0.55"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/friends_view_progress" />
+  <TextView
+    android:id="@+id/friend_name"
+    android:layout_width="262dp"
+    android:layout_height="71dp"
+    android:layout_marginTop="30dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginLeft="16dp"
+    android:textSize="18sp"
+    android:text="@string/user_placeholder"
+    app:layout_constraintStart_toEndOf="@+id/friends_profile_picture"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile" />
 </android.support.constraint.ConstraintLayout>

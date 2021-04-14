@@ -59,15 +59,18 @@ public class ChatActivity extends AppCompatActivity implements
     messagesView = (ListView) findViewById(R.id.messages_view);
     messagesView.setAdapter(messageAdapter);
 
+    // use username in MemberData object
     loginPreferences session = new loginPreferences(getApplicationContext());
     String username = session.getusername();
     MemberData data = new MemberData(username, getRandomColor());
 
+    // if not join the global chat room retrieve the channel ID of the desired chat room
     String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
     if (!(sessionId == null)) {
       channelID = sessionId;
     }
 
+    // open up a new scaledrone chat room of the desired channel ID using your own credentials
     scaledrone = new Scaledrone(channelID, data);
     scaledrone.connect(new Listener() {
       @Override
@@ -76,21 +79,31 @@ public class ChatActivity extends AppCompatActivity implements
         // Since the ChatActivity itself already implement RoomListener we can pass it as a target
         Room room = scaledrone.subscribe(roomName, ChatActivity.this, new SubscribeOptions(25));
 
+        // History Room is a beta feature of scaledrone, should retrieve all messages submitted
+        // to scaledrone using the respective channel key
         room.listenToHistoryEvents(new HistoryRoomListener() {
           @Override
           public void onHistoryMessage(Room room, com.scaledrone.lib.Message message) {
             final ObjectMapper mapper1 = new ObjectMapper();
             try {
+              // bugs in scaledrone do not always allow messages to be
+              // read so return from this function if bugs present
               if (message.getMember() == null) {
                 return;
               }
+              // message.getMember().clientData is a MemberData object, let's parse it as such
               final MemberData data1 = mapper1
                   .treeToValue(message.getMember().getClientData(), MemberData.class);
+
+              // message.getData() is a JsonNode of the Member object, parse it as such
               final JsonNode jsonNode = mapper1
                   .readTree(String.valueOf(message.getData()));
+
+              // construct a Message object from the scaledrone library stored messages
               final Message messageSent = new Message(jsonNode.get("text").asText(), data1,
                   data1.getName().equals(data.getName()));
 
+              // run stored messages on UI thread
               runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
@@ -100,9 +113,9 @@ public class ChatActivity extends AppCompatActivity implements
                 }
               });
             } catch (JsonProcessingException e) {
-              e.printStackTrace();
+              e.printStackTrace(); // catch for ObjectMapper
             } catch (IOException e) {
-              e.printStackTrace();
+              e.printStackTrace(); // catch for JsonNode
             }
           }
         });
@@ -142,15 +155,19 @@ public class ChatActivity extends AppCompatActivity implements
   public void onMessage(Room room, com.scaledrone.lib.Message receivedMessage) {
     // To transform the raw JsonNode into a POJO we can use an ObjectMapper
     final ObjectMapper mapper = new ObjectMapper();
+
     try {
       // member.clientData is a MemberData object, let's parse it as such
       final MemberData data = mapper
           .treeToValue(receivedMessage.getMember().getClientData(), MemberData.class);
+
+      // receivedMessage.getData is a JsonNode of the Message object, parse it as such
       final JsonNode jsonNode = mapper
           .readTree(String.valueOf(receivedMessage.getData()));
 
       // if the clientID of the message sender is the same as our's it was sent by us
       boolean belongsToCurrentUser = receivedMessage.getClientID().equals(scaledrone.getClientID());
+
       // since the message body is a simple string in our case we can use json.asText() to parse it as such
       // if it was instead an object we could use a similar pattern to data parsing
       final Message message = new Message(jsonNode.get("text").asText(), data,
@@ -170,23 +187,31 @@ public class ChatActivity extends AppCompatActivity implements
     }
   }
 
+  // send a message as a Message object
   public void sendMessage(View view) {
     String messageText = editText.getText().toString();
+
+    // filter the message input from the user
     messageText = BadWordFilter.getCensoredText(messageText,
         getApplicationContext(),
         getString(R.string.censored_chat));
 
+    // retrieve username of sending user to add to Json node
     loginPreferences session = new loginPreferences(getApplicationContext());
     String username = session.getusername();
     MemberData data = new MemberData(username, getRandomColor());
 
+    // create new Message object with associated text, MemberData, and tell message a
+    // dapter it was sent by the current user
     Message message = new Message(messageText, data, true);
     if (messageText.length() > 0) {
+      // publish the roomName and Message obejct to scaldrone library as a Json Node object
       scaledrone.publish("observable-room", message);
       editText.getText().clear();
     }
   }
 
+  // get a random color using hex values
   private String getRandomColor() {
     Random r = new Random();
     StringBuffer sb = new StringBuffer("#");
@@ -210,12 +235,12 @@ public class ChatActivity extends AppCompatActivity implements
   }
 }
 
-
+// Member Data class record by library, holds username and color
 class MemberData {
-
   private String name;
   private String color;
 
+  // constrcutor
   public MemberData(String name, String color) {
     this.name = name;
     this.color = color;
@@ -225,16 +250,16 @@ class MemberData {
   public MemberData() {
   }
 
+  // getter functions
   public String getName() {
     return name;
   }
-
   public String getColor() {
     return color;
   }
 }
 
-// Code below was modified from the following reference:
+// Code above was modified from the following reference:
 //Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
 //    Scaledrone Blog, 05-Feb-2019. [Online]. Available:
 //    https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].

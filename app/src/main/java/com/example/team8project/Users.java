@@ -58,8 +58,13 @@ public class Users extends RealmObject {
   public Users() {
   }
 
-  // this code was found and adapted from
-  // https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#PBKDF2WithHmacSHA1
+
+  // This code was found and adapted from:
+  // L. Gupta, M. Rajavel, and M. Taylor, “Java Secure Hashing - MD5, SHA256, SHA512, PBKDF2, BCrypt, SCrypt,”
+  // HowToDoInJava, 25-Dec-2020. [Online]. Available:
+  // https://howtodoinjava.com/java/java-security/how-to-generate-secure-password-hash-md5-sha-pbkdf2-bcrypt-examples/#PBKDF2WithHmacSHA1.
+  // [Accessed: 10-Mar-2021].
+
   private static boolean validatePassword(String originalPassword, String storedPassword)
       throws NoSuchAlgorithmException, InvalidKeySpecException {
 

@@ -21,6 +21,7 @@ import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import org.w3c.dom.Text;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -70,20 +71,10 @@ public class ProfileActivity extends AppCompatActivity {
     TextView userBio = findViewById(R.id.friends_bio);
     TextView gamesWon = findViewById(R.id.friends_games_won);
     TextView gamesPlayed = findViewById(R.id.friends_games_played);
-
-//    if(!(current.getChannelKey()==null)){
-//      System.out.println("users channel key is: " + current.getChannelKey());
-//      if((globalChat.getTag()==null)) {
-//        globalChat.setTag(current.getChannelKey());
-//        System.out.println("chat tag is channel key now: " + current.getChannelKey());
-//      } else {
-//        System.out.println("there was already a chat tag: " + globalChat.getTag());
-//      }
-//    } else {
-//      System.out.println("users channel key is null");
-//    }
+    TextView userName = findViewById(R.id.user_name);
 
     // set text of users stats
+    userName.setText(username);
     String gamesPlayedString = getString(R.string.games_played) + "   " + current.getGamesPlayed();
     gamesPlayed.setText(gamesPlayedString);
     String gamesWonString = getString(R.string.games_won) + "   " + current.getGamesWon();
@@ -96,7 +87,8 @@ public class ProfileActivity extends AppCompatActivity {
       profilePicture.setImageBitmap(bitmap);
     }
 
-    // Display bio saved in database, if present
+    // Display bio saved in database, if present. If a bio is present cursor
+    // and keyboard do not appear unless input box is clicked on
     bio = current.getBio();
     if (!(bio == null)) {
       userBio.setText(bio);
@@ -106,8 +98,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     // camera button will update profile picture and what is stored in realm database
     cameraButton.setOnClickListener(view -> {
+      // check to see if camera is present
       if (getApplicationContext().getPackageManager()
           .hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
+
         HXSound.sound().load(click_sound).play(this);
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -120,20 +114,23 @@ public class ProfileActivity extends AppCompatActivity {
       }
     });
 
+    // cursor reappears upon clicking bio input box
     userBio.setOnClickListener(view -> userBio.setCursorVisible(true));
 
     // update database with new bio, censor if needed
     updateBio.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
-
       String text = userBio.getText().toString();
+
       if (text.equals("") || text.equals(current.getBio())) {
         return;
       }
+      // censor t4xt input if needed
       text = BadWordFilter
           .getCensoredText(text, getApplicationContext(), getString(R.string.censored_bio));
       String finalText = text;
 
+      // update database with new bio
       Realm realmBio = Realm.getDefaultInstance();
       realmBio.executeTransaction(transactionRealm -> current.setBio(finalText));
       userBio.setText(finalText);
@@ -142,7 +139,7 @@ public class ProfileActivity extends AppCompatActivity {
       realmBio.close();
     });
 
-    // allows users to track their elo progress across their last 10 games
+    // button to allow users to track their elo progress across their last 10 games
     viewProgress.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent(ProfileActivity.this, GraphActivity.class);
@@ -151,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
-    // will allow user to enter their own chat room, and send messages to all their friends,
+    // button will allow user to enter their own chat room, and send messages to all their friends,
     // similar to posting stuff on your own social media page
     myChat.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
@@ -161,35 +158,32 @@ public class ProfileActivity extends AppCompatActivity {
       startActivity(intent);
     });
 
-    // will allow users to send messages to entire playerbase in a global chat room
+    // will allow users to send messages to entire player base in a global chat room
     globalChat.setOnClickListener(view -> {
       HXSound.sound().load(click_sound).play(this);
       Intent intent = new Intent(ProfileActivity.this, ChatActivity.class);
       startActivity(intent);
     });
 
-//    friendbtn.setOnClickListener(view -> {
-//      HXSound.sound().load(click_sound).play(this);
-//      Intent intent = new Intent(thisActibvity.this, FriendsProfileActivity.class);
-//      String sessionId = friend.username;
-//      intent.putExtra("EXTRA_SESSION_ID", sessionId);
-//      startActivity(intent);
-//    });
   }
 
+  // function will run if request code is one for picture taking
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == 0) {
       if (resultCode == RESULT_OK) {
-        //Pic taken
+
+        //Pic taken and compressed and store in a byte array
         Bitmap bp = (Bitmap) data.getExtras().get("data");
         profilePicture.setImageBitmap(bp);
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bp.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
+
         if (realm == null) {
           realm = Realm.getDefaultInstance();
         }
+        // store byte array in database
         realm.executeTransaction(transactionRealm -> {
           Users temp = transactionRealm.where(Users.class).equalTo("_id", current.getUserName())
               .findFirst();
@@ -197,7 +191,10 @@ public class ProfileActivity extends AppCompatActivity {
         });
         realm.close();
       } else {
-        Dialogs.buildDialog(getString(R.string.no_camera), this);
+        // selected to go back without taking a picture or selecting it
+        // bug with emulator camera where it doesn't ask you to confirm
+        // the picture before going back to app sometimes
+        Dialogs.buildDialog(getString(R.string.no_pic_taken), this);
       }
     }
   }
