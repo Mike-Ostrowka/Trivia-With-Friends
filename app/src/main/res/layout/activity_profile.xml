@@ -100,6 +100,7 @@
     android:id="@+id/friends_bio"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
+    android:background="@drawable/textview_bg"
     android:ems="10"
     android:gravity="start|top"
     android:hint="@string/add_bio"
