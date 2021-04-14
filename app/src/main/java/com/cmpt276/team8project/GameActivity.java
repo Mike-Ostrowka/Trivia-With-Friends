@@ -12,6 +12,8 @@ import android.widget.TextView;
 import com.huhx0015.hxaudio.audio.HXMusic;
 import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
+import io.realm.RealmResults;
+
 import java.util.UUID;
 
 
@@ -57,7 +59,7 @@ public class GameActivity extends AppCompatActivity {
 
     //load realm
     loadRealm();
-
+    addChangeListenerToRealm(realm);
     //INSTANTIATE OBJECTS FOR USE
     gameHandler = new Handler();
     loadQuestions = new LoadQuestions();
@@ -441,4 +443,24 @@ public class GameActivity extends AppCompatActivity {
     }
   }
 
+  private void updateListener() {
+    addChangeListenerToRealm(realm);
+  }
+
+  //change listener on local realm
+  private void addChangeListenerToRealm(Realm realm) {
+    RealmResults<Game> tasks = realm.where(Game.class).equalTo("_id", currentGame.get_id())
+            .findAll();
+
+    //update friends list on realm change
+    tasks.addChangeListener(users -> {
+      updateListener();
+    });
+  }
+
+  private void updateScores(){
+      currentGame.getPlayerOneScore();
+      currentGame.getPlayerTwoScore();
+      currentGame.getPlayerOne();
+  }
 }
