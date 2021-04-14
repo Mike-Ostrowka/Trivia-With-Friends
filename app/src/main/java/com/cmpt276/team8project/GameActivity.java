@@ -219,28 +219,38 @@ public class GameActivity extends AppCompatActivity {
 
       //check if player won
       winner = false;
-      if(setPlayer) { //user is player one
-        if(currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) {
+
+      //if in multiplayer
+      if(currentGame.getPlayerCount() == 2) {
+        if (setPlayer) { //user is player one
+          if (currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) {
+
+            //get other player
+            other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerTwo()).findFirst();
+            winner = true;
+            realm.executeTransaction(transactionRealm -> {
+              Users tempCurrent = transactionRealm.where(Users.class)
+                  .equalTo("_id", current.getUserName()).findFirst();
+              Users tempOther = transactionRealm.where(Users.class)
+                  .equalTo("_id", other.getUserName()).findFirst();
+              tempCurrent.calculateEloOnWin(tempOther.getElo());
+            });
+          }
+        } else { //user is player two
 
           //get other player
-          other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerTwo()).findFirst();
+          other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerOne()).findFirst();
           winner = true;
           realm.executeTransaction(transactionRealm -> {
-            Users tempCurrent = transactionRealm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
-            Users tempOther = transactionRealm.where(Users.class).equalTo("_id", other.getUserName()).findFirst();
+            Users tempCurrent = transactionRealm.where(Users.class)
+                .equalTo("_id", current.getUserName()).findFirst();
+            Users tempOther = transactionRealm.where(Users.class)
+                .equalTo("_id", other.getUserName()).findFirst();
             tempCurrent.calculateEloOnWin(tempOther.getElo());
           });
         }
-      } else { //user is player two
-
-        //get other player
-        other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerOne()).findFirst();
+      } else { //playing solo
         winner = true;
-        realm.executeTransaction(transactionRealm -> {
-          Users tempCurrent = transactionRealm.where(Users.class).equalTo("_id", current.getUserName()).findFirst();
-          Users tempOther = transactionRealm.where(Users.class).equalTo("_id", other.getUserName()).findFirst();
-          tempCurrent.calculateEloOnWin(tempOther.getElo());
-        });
       }
 
       //get gameID

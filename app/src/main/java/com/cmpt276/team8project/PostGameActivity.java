@@ -67,6 +67,7 @@ public class PostGameActivity extends AppCompatActivity {
 
     TextView playerOneScore = findViewById(R.id.player_one_score);
     TextView playerTwoScore = findViewById(R.id.player_two_score);
+    TextView elo = findViewById(R.id.elo_updated);
 
     //check if User is player one or two and set score
     if (currentGame.getPlayerOne().equals(currentUser.getUserName())) {
@@ -77,8 +78,11 @@ public class PostGameActivity extends AppCompatActivity {
       playerTwoText = getString(R.string.enemy_score) + "\t" + currentGame.getPlayerOneScore();
     }
 
+    String userElo = getString(R.string.user_elo) + "\t" + currentUser.getElo();
+
     playerOneScore.setText(playerOneText);
     playerTwoScore.setText(playerTwoText);
+    elo.setText(userElo);
 
     //button click for play again
     Button playAgain = findViewById(R.id.btn_play_again);
