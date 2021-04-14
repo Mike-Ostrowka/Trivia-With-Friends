@@ -8,19 +8,26 @@
       android:layout="@layout/sound_switch"
       android:title="@string/toggle_sound" />
   </PreferenceCategory>
-  <PreferenceCategory>
+  <PreferenceCategory
+    android:layout="@layout/preference_divider_blank">
   <Preference
     android:title=""
     android:key="btn_change_pass"
     android:summary=""
     android:widgetLayout="@layout/pref_password_button"
     />
+  </PreferenceCategory>
+  <PreferenceCategory
+    android:layout="@layout/preference_divider_blank">
   <Preference
     android:title=""
     android:key="btn_security"
     android:summary=""
     android:widgetLayout="@layout/pref_security_button"
     />
+  </PreferenceCategory>
+  <PreferenceCategory
+    android:layout="@layout/preference_divider_blank">
   <Preference
     android:title=""
     android:key="btn_save_settings"
