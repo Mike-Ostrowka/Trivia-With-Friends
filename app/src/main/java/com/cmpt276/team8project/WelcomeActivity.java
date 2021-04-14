@@ -1,8 +1,12 @@
 package com.cmpt276.team8project;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -186,6 +190,7 @@ public class WelcomeActivity extends AppCompatActivity {
     if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
       drawerLayout.closeDrawer(GravityCompat.START);
     } else {
+      goBackToDesktop();
       super.onBackPressed();
     }
   }
@@ -217,6 +222,39 @@ public class WelcomeActivity extends AppCompatActivity {
     super.onDestroy();
     HXMusic.stop();
     HXMusic.clear();
+  }
+
+
+  private void goBackToDesktop() {
+    PackageManager pm = getPackageManager();
+    if (null == pm) {
+      finish();
+      return;
+    }
+
+    ResolveInfo homeInfo = pm.resolveActivity(new Intent(Intent.ACTION_MAIN)
+        .addCategory(Intent.CATEGORY_HOME), 0);
+
+    if (null == homeInfo) {
+      finish();
+      return;
+    }
+    ActivityInfo ai = homeInfo.activityInfo;
+    Intent startIntent = new Intent(Intent.ACTION_MAIN);
+    startIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+    startIntent.setComponent(new ComponentName(ai.packageName,ai.name));
+    startActivitySafely(startIntent);
+  }
+
+  private void startActivitySafely(Intent intent) {
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    try {
+      startActivity(intent);
+    } catch (Exception e) {
+      finish();
+    } catch (Error e) {
+      finish();
+    }
   }
 }
 
