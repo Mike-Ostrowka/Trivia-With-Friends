@@ -33,6 +33,7 @@ public class WelcomeActivity extends AppCompatActivity {
   private String username;
   private int song;
   private int click_sound;
+  private Realm realm;
   private NavigationView navigationView;
   private DrawerLayout drawerLayout;
   private long mExitTime;
@@ -60,7 +61,9 @@ public class WelcomeActivity extends AppCompatActivity {
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
     username = session.getUsername();
-    Realm realm = Realm.getDefaultInstance();
+    if(realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
     TextView greeting = findViewById(R.id.textViewGreeting);
@@ -204,6 +207,10 @@ public class WelcomeActivity extends AppCompatActivity {
     if (soundSwitch) {
       playMusic();
     }
+
+    if(realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
   }
 
   //clear resources
@@ -212,6 +219,9 @@ public class WelcomeActivity extends AppCompatActivity {
     super.onPause();
     HXMusic.stop();
     HXMusic.clear();
+    if(realm != null) {
+      realm.close();
+    }
   }
 
 
