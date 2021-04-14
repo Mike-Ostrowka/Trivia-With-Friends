@@ -42,11 +42,11 @@ public class QuestionList {
     Question[] bank = this.getAllQuestions();
     List<Integer> range = new ArrayList<>();
 
-    //randomize an array from 0 to 99
+    //randomize an array of 80 questions
     for (int i = 0; i < 80; i++) {
       range.add(i);
     }
-    Collections.shuffle(range, new Random(System.currentTimeMillis()));
+    Collections.shuffle(range, new Random());
 
     //take first 10 randomized numbers and get the corresponding questions associated with those indices
     for (int j = 0; j < 10; j++) {
