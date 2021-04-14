@@ -60,6 +60,10 @@ public class GameActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_game);
 
+    if (realm == null) {
+      realm = Realm.getDefaultInstance();
+    }
+
     //load realm
     loadRealm();
     realmLoaded = true;
@@ -174,8 +178,6 @@ public class GameActivity extends AppCompatActivity {
 
 
     });
-
-
   }
 
   @Override
@@ -210,7 +212,6 @@ public class GameActivity extends AppCompatActivity {
       HXSound.sound().load(R.raw.time_over).play(GameActivity.this);
       realm.executeTransaction(realm -> {
         currentGame.setGameCompleted(true);
-        realm.insertOrUpdate(currentGame);
       });
 
       //set current player
@@ -219,11 +220,24 @@ public class GameActivity extends AppCompatActivity {
       username = session.getUsername();
       current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
+      //Check if player is player one or player two and updates that players score and updates that score to database
+      realm.executeTransaction(transactionRealm -> {
+        Game temp = realm.where(Game.class).equalTo("_id", _ID).findFirst();
+        //if player one
+        if (setPlayer == true) {
+          playerTwo = temp.getPlayerTwo();
+          temp.setPlayerOneScore(playerScore);
+        } else if (setPlayer == false) { //if player two
+          playerOne = temp.getPlayerOne();
+          temp.setPlayerTwoScore(playerTwoScore);
+        }
+      });
+
       //check if player won
       winner = false;
 
       //if in multiplayer
-      if(currentGame.getPlayerCount() == 2) {
+      if (currentGame.getPlayerCount() == 2) {
         if (setPlayer) { //user is player one
           if (currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) {
 
@@ -257,10 +271,6 @@ public class GameActivity extends AppCompatActivity {
 
       //get gameID
       gameID = currentGame.get_id();
-
-      if (realm != null) {
-        realm.close();
-      }
 
       //sets the message and context for the dialog
       AlertDialog.Builder builder = new AlertDialog.Builder(GameActivity.this);
@@ -297,19 +307,7 @@ public class GameActivity extends AppCompatActivity {
   Runnable gameRunnable = new Runnable() {
     @Override
     public void run() {
-      if(realm != null) {
-        realm.close();
-      }
-      if(realm == null) {
-        realm = Realm.getDefaultInstance();
-      }
       playGame();
-      if(realm != null) {
-        realm.close();
-      }
-      if(realm == null) {
-        realm = Realm.getDefaultInstance();
-      }
       answerOneBtn.setClickable(true);
       answerTwoBtn.setClickable(true);
       answerThreeBtn.setClickable(true);
@@ -323,16 +321,13 @@ public class GameActivity extends AppCompatActivity {
 
   private void loadRealm() {
 
-    if(realmLoaded) {
+    if (realmLoaded) {
       return;
     }
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
     username = session.getUsername();
-    if (realm == null) {
-      realm = Realm.getDefaultInstance();
-    }
 
     Log.v("QUICKSTART", "loadrealm");
 
@@ -347,23 +342,22 @@ public class GameActivity extends AppCompatActivity {
       setPlayer = false;
       playerTwo = username;
 
-
       //set user as second player and other connected player as player one
-      realm.executeTransaction(new Realm.Transaction() {
-        @Override
-        public void execute(Realm realm) {
-          Game temp = realm.where(Game.class).equalTo("playerCount", 1)
-              .equalTo("gameCompleted", false).findFirst();
-          temp.setPlayerTwo(username);
-          temp.setPlayerCount(2);
-          playerOne = temp.getPlayerOne();
-        }
+      realm.executeTransaction(transactionRealm -> {
+        Game temp = transactionRealm.where(Game.class).equalTo("playerCount", 1)
+            .equalTo("gameCompleted", false).findFirst();
+        temp.setPlayerTwo(username);
+        temp.setPlayerCount(2);
+        playerOne = temp.getPlayerOne();
       });
       _ID = currentGame.get_id();
     } else { // create new game
       setPlayer = true;
       currentGame = new Game(username, _ID, 1);
       currentGame.setPlayerOne(username);
+      realm.executeTransaction(transactionRealm -> {
+        transactionRealm.insert(currentGame);
+      });
     }
 
     System.out.println(currentGame.getPlayerOneScore());
@@ -383,9 +377,9 @@ public class GameActivity extends AppCompatActivity {
     if (realm == null) {
       realm = Realm.getDefaultInstance();
     }
-    realm.executeTransaction(realm -> {
-      currentGame.setGameCompleted(true);
-      realm.insertOrUpdate(currentGame);
+    realm.executeTransaction(transactionRealm -> {
+      Game temp = realm.where(Game.class).equalTo("_id", _ID).findFirst();
+      temp.setGameCompleted(true);
     });
 
     if (realm != null) {
@@ -408,27 +402,26 @@ public class GameActivity extends AppCompatActivity {
     questionTextView = findViewById(R.id.questionText);
 
     //Check if player is player one or player two and updates that players score and updates that score to database
-    realm.executeTransaction(realm -> {
-
+    realm.executeTransaction(transactionRealm -> {
+      Game temp = transactionRealm.where(Game.class).equalTo("_id", _ID).findFirst();
       //if player one
       if (setPlayer == true) {
         playerTwo = currentGame.getPlayerTwo();
-        currentGame.setPlayerOneScore(playerScore);
+        temp.setPlayerOneScore(playerScore);
       } else if (setPlayer == false) { //if player two
-        currentGame.setPlayerTwoScore(playerTwoScore);
+        temp.setPlayerTwoScore(playerTwoScore);
       }
-      realm.insertOrUpdate(currentGame);
     });
-
+    currentGame = realm.where(Game.class).equalTo("_id", _ID).findFirst();
     //set player scores
     playerScoreText.setText(playerOne + " " + currentGame.getPlayerOneScore());
     playerTwoText.setText(playerTwo + " " + currentGame.getPlayerTwoScore());
 
-    if(currentGame.getPlayerOne() == null) {
+    if (currentGame.getPlayerOne() == null) {
       playerScoreText.setText(getString(R.string.single_player));
     }
 
-    if(currentGame.getPlayerTwo() == null) {
+    if (currentGame.getPlayerTwo() == null) {
       playerTwoText.setText(getString(R.string.single_player));
     }
 
@@ -511,20 +504,20 @@ public class GameActivity extends AppCompatActivity {
   //change listener on local realm
   private void addChangeListenerToRealm(Realm realm) {
     RealmResults<Game> tasks = realm.where(Game.class).equalTo("_id", currentGame.get_id())
-            .findAll();
+        .findAll();
 
     //update friends list on realm change
     tasks.addChangeListener(users -> {
       Log.v("QUICKSTART", "Listening");
-      if(!setPlayer) {
+      if (!setPlayer) {
 
       }
     });
   }
 
-  private void updateScores(){
-      currentGame.getPlayerOneScore();
-      currentGame.getPlayerTwoScore();
-      currentGame.getPlayerOne();
+  private void updateScores() {
+    currentGame.getPlayerOneScore();
+    currentGame.getPlayerTwoScore();
+    currentGame.getPlayerOne();
   }
 }
