@@ -46,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
   private int blue;
 
   private Users current;
+  private Users other;
   private loginPreferences session;
   private String username;
   private long gameID;
@@ -209,16 +210,33 @@ public class GameActivity extends AppCompatActivity {
         realm.insertOrUpdate(currentGame);
       });
 
+      //set current player
+      //open a realm and find logged in user
+      session = new loginPreferences(getApplicationContext());
+      username = session.getUsername();
+      Realm realm = Realm.getDefaultInstance();
+      current = realm.where(Users.class).equalTo("_id", username).findFirst();
+
       //check if player won
       winner = false;
       if(setPlayer) { //user is player one
         if(currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) {
+
+          //get other player
+          other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerTwo()).findFirst();
           winner = true;
+          realm.executeTransaction(transactionRealm -> {
+            current.calculateEloOnWin(other.getElo());
+          });
         }
       } else { //user is player two
-        if(currentGame.getPlayerTwoScore() >= currentGame.getPlayerOneScore()) {
-          winner = true;
-        }
+
+        //get other player
+        other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerOne()).findFirst();
+        winner = true;
+        realm.executeTransaction(transactionRealm -> {
+          current.calculateEloOnWin(other.getElo());
+        });
       }
 
       //get gameID
