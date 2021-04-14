@@ -102,5 +102,6 @@ or post on your friends pages to talk with them.<br/><br/><b>How is the game sco
   <string name="enemy_score">Their score: </string>
   <string name="more">More</string>
   <string name="communication">Communication</string>
+  <string name="end_game">The game has ended!</string>
 
 </resources>

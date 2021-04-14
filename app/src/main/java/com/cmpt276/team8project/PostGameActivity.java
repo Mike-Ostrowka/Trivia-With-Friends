@@ -1,14 +1,19 @@
 package com.cmpt276.team8project;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.preference.PreferenceManager;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.huhx0015.hxaudio.audio.HXMusic;
 import io.realm.Realm;
 
 public class PostGameActivity extends AppCompatActivity {
@@ -29,6 +34,16 @@ public class PostGameActivity extends AppCompatActivity {
     setSupportActionBar(myToolbar);
     ActionBar ab = getSupportActionBar();
     ab.setDisplayHomeAsUpEnabled(true);
+    ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.green)));
+
+    //load preferences
+    PreferenceManager.setDefaultValues(getApplicationContext(), R.xml.preferences, false);
+    SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
+    boolean soundSwitch = sharedPref.getBoolean(SettingsActivity.KEY_PREF_SOUND_SWITCH, false);
+    //if switch value is false, disable music
+    if (soundSwitch) {
+      playMusic();
+    }
 
     boolean winner = getIntent().getBooleanExtra("Winner", true);
     long currentGameId = getIntent().getLongExtra("GameID", 0);
@@ -37,8 +52,10 @@ public class PostGameActivity extends AppCompatActivity {
     if (!winner) {
       ImageView image = findViewById(R.id.victor_banner);
       View background = findViewById(R.id.post_game_layout);
+      image.setImageResource(0);
       image.setBackgroundResource(R.drawable.image_defeat);
       background.setBackgroundColor(getResources().getColor(R.color.red));
+      ab.setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.red)));
     }
 
     //get current user and game from realm
@@ -80,11 +97,18 @@ public class PostGameActivity extends AppCompatActivity {
     });
   }
 
+  private void playMusic() {
+    int song = R.raw.menu;
+    HXMusic.music().load(song).gapless(true).looped(true).play(this);
+  }
+
   @Override
   public void onDestroy() {
     super.onDestroy();
     if (realm != null) {
       realm.close();
     }
+    HXMusic.stop();
+    HXMusic.clear();
   }
 }
