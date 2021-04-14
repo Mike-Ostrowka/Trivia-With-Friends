@@ -26,10 +26,14 @@ public class NewAccountActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_new_account);
     Button mButton = findViewById(R.id.registerButton);
+
     mButton.setOnClickListener(v -> {
+
       HXSound.sound().load(click_sound).play(this);
       EditText nameEdit = findViewById(R.id.registerName);
       EditText passwordEdit = findViewById(R.id.registerPassword);
+
+      // get inputted user name and password
       String name = nameEdit.getText().toString();
       String password = passwordEdit.getText().toString();
 
@@ -39,12 +43,14 @@ public class NewAccountActivity extends AppCompatActivity {
       }
       Users nameExists = realm.where(Users.class).equalTo("_id", name).findFirst();
 
+      // inform player if username is already taken
       if (nameExists != null) {
         Toast.makeText(getApplicationContext(), getString(R.string.account_exists),
             Toast.LENGTH_SHORT).show();
         return;
       }
 
+      // ensure that selected username does not contain banned words
       BadWordFilter vulgarityCheck = new BadWordFilter();
       if (vulgarityCheck.isBannedWordUsed(name)) {
         Toast.makeText(getApplicationContext(), getString(R.string.user_name_banned),
@@ -52,6 +58,7 @@ public class NewAccountActivity extends AppCompatActivity {
         return;
       }
 
+      // ensure that password meets requirements
       temp = new Users(name);
       if (!temp.updatePassword(password)) {
         Toast.makeText(getApplicationContext(), getString(R.string.account_fail),
@@ -59,6 +66,7 @@ public class NewAccountActivity extends AppCompatActivity {
         return;
       }
 
+      // array with all of the available channel keys
       ArrayList<String> channelKeys = new ArrayList<String>(){{
         add("J7Ws0kKbptiDV3NH");
         add("HWAaPjyiYzRc1g1o");
@@ -82,11 +90,13 @@ public class NewAccountActivity extends AppCompatActivity {
         add("iLTsCTpWUEcNpMwy");
       }};
 
+      // assign a random channel key to a user upon account creation
+      // multiple users may share a key to allow players to socialize with on another
       Random random = new Random();
       int randomKey = random.nextInt(20);
       temp.setChannelKey(channelKeys.get(randomKey));
 
-      //save temp to realm
+      // save User to realm database
       realm.executeTransaction(transactionRealm -> transactionRealm.insert(temp));
       if (realm != null) {
         realm.close();
@@ -107,7 +117,6 @@ public class NewAccountActivity extends AppCompatActivity {
       startActivity(intent);
       finish();
     });
-
   }
 
   @Override
@@ -121,6 +130,4 @@ public class NewAccountActivity extends AppCompatActivity {
     super.onPause();
     HXSound.clear();
   }
-
-
 }

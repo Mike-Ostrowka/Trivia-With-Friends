@@ -109,7 +109,7 @@ public class ProfileActivity extends AppCompatActivity {
           startActivityForResult(intent, 0);
         }
       } else {
-        // no camera on this device or picture not taken
+        // no camera on this device
         Dialogs.buildDialog(getString(R.string.no_camera), this);
       }
     });
@@ -191,6 +191,9 @@ public class ProfileActivity extends AppCompatActivity {
         });
         realm.close();
       } else {
+        // selected to go back without taking a picture or selecting it
+        // bug with emulator camera where it doesn't ask you to confirm
+        // the picture before going back to app sometimes
         Dialogs.buildDialog(getString(R.string.no_pic_taken), this);
       }
     }
