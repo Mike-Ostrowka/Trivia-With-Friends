@@ -277,7 +277,7 @@ public class GameActivity extends AppCompatActivity {
                   .equalTo("_id", other.getUserName()).findFirst();
               tempCurrent.calculateEloOnWin(tempOther.getElo());
             });
-          } else {
+          } else { //lost game
             realm.executeTransaction(transactionRealm -> {
               Users tempCurrent = transactionRealm.where(Users.class)
                   .equalTo("_id", current.getUserName()).findFirst();
