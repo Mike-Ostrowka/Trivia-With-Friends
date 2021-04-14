@@ -29,6 +29,7 @@ public class GameActivity extends AppCompatActivity {
   //player flag, if true player one, if false player two
   boolean setPlayer;
   boolean winner; // true if player won
+  boolean realmLoaded = false;
 
   //declaring all of the layout objects
   Button answerOneBtn, answerTwoBtn, answerThreeBtn, answerFourBtn;
@@ -61,6 +62,7 @@ public class GameActivity extends AppCompatActivity {
 
     //load realm
     loadRealm();
+    realmLoaded = true;
     addChangeListenerToRealm(realm);
     //INSTANTIATE OBJECTS FOR USE
     gameHandler = new Handler();
@@ -309,6 +311,10 @@ public class GameActivity extends AppCompatActivity {
   };
 
   private void loadRealm() {
+
+    if(realmLoaded) {
+      return;
+    }
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
