@@ -62,8 +62,10 @@ public class FriendsProfileActivity extends AppCompatActivity {
     TextView userBio = findViewById(R.id.friends_bio);
     TextView gamesPlayed = findViewById(R.id.friends_games_played);
     TextView gamesWon = findViewById(R.id.friends_games_won);
+    TextView userName = findViewById(R.id.friend_name);
 
     // set text of friends stats
+    userName.setText(username);
     String gamesPlayedString = getString(R.string.games_played) + "   " + friend.getGamesPlayed();
     gamesPlayed.setText(gamesPlayedString);
     String gamesWonString = getString(R.string.games_won) + "   " + friend.getGamesWon();
