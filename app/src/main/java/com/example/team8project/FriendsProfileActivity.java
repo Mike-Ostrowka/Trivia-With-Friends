@@ -22,7 +22,6 @@ public class FriendsProfileActivity extends AppCompatActivity {
   private int click_sound;
   private Realm realm;
   private Users friend;
-  private loginPreferences session;
   private String username;
 
   @Override
@@ -53,7 +52,7 @@ public class FriendsProfileActivity extends AppCompatActivity {
     } else {
       Dialogs.intentDialog(getString(R.string.user_failed), this, FriendsActivity.class);
     }
-    Realm realm = Realm.getDefaultInstance();
+    realm = Realm.getDefaultInstance();
     friend = realm.where(Users.class).equalTo("_id", username).findFirst();
 
     Button viewFriendsProgress = findViewById(R.id.friends_view_progress);

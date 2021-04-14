@@ -3,17 +3,12 @@ package com.example.team8project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import com.huhx0015.hxaudio.audio.HXSound;
-import io.realm.OrderedCollectionChangeSet;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import java.util.ArrayList;
 
@@ -115,6 +110,7 @@ public class FriendsListFragment extends Fragment {
   private void addChangeListenerToRealm(Realm realm) {
     RealmResults<Users> tasks = realm.where(Users.class).equalTo("_id", current.getUserName())
         .findAll();
+
     //update friends list on realm change
     tasks.addChangeListener(users -> {
       updateTable();

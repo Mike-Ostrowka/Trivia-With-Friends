@@ -35,6 +35,11 @@ public class Game extends RealmObject {
     this._id = _id;
   }
 
+  public Game(int playerCount, long _id) {
+    this.playerCount = playerCount;
+    this._id = _id;
+  }
+
   public Game(String playerOne, String playerTwo, int playerOneScore, int playerTwoScore,
       long _id) {
     this.playerOne = playerOne;

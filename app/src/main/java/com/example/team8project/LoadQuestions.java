@@ -10,16 +10,13 @@ public class LoadQuestions {
 
   public void loadQuestion(int questionCount) {
 
-    // Changed the questionlist class, jumbled holds 3 correct and 1 wrong, fifth answer is optional
-    // but correct one is within one of the jumbled answers
-
+    // load question and possible answers along with correct answer into QuestionList object
     currentQuestion = questionList.getQuestion(questionCount);
     firstAnswer = questionList.getJumbledAnswer(questionCount, 0);
     secondAnswer = questionList.getJumbledAnswer(questionCount, 1);
     thirdAnswer = questionList.getJumbledAnswer(questionCount, 2);
     fourthAnswer = questionList.getJumbledAnswer(questionCount, 3);
     getCorrect = questionList.getCorrectAnswer(questionCount);
-
   }
 
   public int checkPlayerAnswer(String selection) {
@@ -30,8 +27,6 @@ public class LoadQuestions {
     } else {
       return 0;
     }
-
-
   }
 
 }

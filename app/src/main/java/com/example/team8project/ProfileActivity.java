@@ -21,7 +21,6 @@ import com.huhx0015.hxaudio.audio.HXSound;
 import io.realm.Realm;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import org.w3c.dom.Text;
 
 public class ProfileActivity extends AppCompatActivity {
 

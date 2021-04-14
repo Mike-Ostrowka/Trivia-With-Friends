@@ -13,16 +13,11 @@ import java.util.Arrays;
 
 public class BadWordFilter {
 
-  //  private static Map<String, String> allBadWords = new HashMap<String, String>();
   private static final ArrayList<String> allBadWords = new ArrayList<>();
   private static int largestWordLength = 0;
 
-  /**
-   * Iterates over a String input and checks whether any cuss or possible scammer words found,
-   * replaces the cuss/scam word with asterisks unless in username, then ask user to pick another
-   * username.
-   */
-
+  // Iterates over a String input and checks whether any cuss or possible scammer
+  // words found, replaces the cuss/scam word with asterisks unless in username
   public static String getCensoredText(final String input, Context context, String toast) {
     loadBannedWords();
     if (input == null) {
@@ -60,8 +55,9 @@ public class BadWordFilter {
     if (badWordsFound.size() > 0) {
       Toast.makeText(context, toast, Toast.LENGTH_LONG).show();
     }
-
     String inputToReturn = input;
+
+    // replace all swearword with ***
     for (String swearWord : badWordsFound) {
       char[] charsStars = new char[swearWord.length()];
       Arrays.fill(charsStars, '*');
@@ -70,10 +66,10 @@ public class BadWordFilter {
       // The "(?i)" is to make the replacement case insensitive.
       inputToReturn = inputToReturn.replaceAll("(?i)" + swearWord, stars);
     }
-
     return inputToReturn;
   }
 
+  // load banned words from a text file into an array list
   private static void loadBannedWords() {
     String currentLine = "";
     try {
@@ -102,6 +98,8 @@ public class BadWordFilter {
     }
   }
 
+  // function to see if banned word is used for usernames, will return
+  // falsy if username caontains banned word, truthy otherwise
   public boolean isBannedWordUsed(String userName) {
     loadBannedWords();
     boolean bannedWordUsed = false;
@@ -120,3 +118,9 @@ public class BadWordFilter {
     return bannedWordUsed;
   }
 }
+
+// The above code was modified from the following reference:
+// Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
+//  Scaledrone Blog, 05-Feb-2019. [Online]. Available:
+//  https://www.scaledrone.com/blog/android-chat-tutorial/.
+//  [Accessed: 09-Apr-2021].
