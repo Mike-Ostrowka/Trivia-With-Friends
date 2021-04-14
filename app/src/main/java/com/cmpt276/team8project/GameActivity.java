@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import com.huhx0015.hxaudio.audio.HXMusic;
@@ -475,7 +476,7 @@ public class GameActivity extends AppCompatActivity {
 
     //update friends list on realm change
     tasks.addChangeListener(users -> {
-      updateListener();
+      Log.v("QUICKSTART", "Listening");
     });
   }
 
