@@ -152,6 +152,8 @@ public class WelcomeActivity extends AppCompatActivity {
           intent.setClass(WelcomeActivity.this, FriendsActivity.class);
           startActivity(intent);
           break;
+
+        //open personal chatroom on click
         case R.id.nm_my_chatroom:
           intent = new Intent();
           intent.setClass(WelcomeActivity.this, ChatActivity.class);
@@ -159,6 +161,8 @@ public class WelcomeActivity extends AppCompatActivity {
           intent.putExtra("EXTRA_SESSION_ID", sessionId);
           startActivity(intent);
           break;
+
+        //open global chat on click
         case R.id.nm_global_chat_room:
           intent = new Intent();
           intent.setClass(WelcomeActivity.this, ChatActivity.class);
