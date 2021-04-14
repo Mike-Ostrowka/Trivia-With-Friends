@@ -1,5 +1,6 @@
 package com.example.team8project;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -15,7 +16,7 @@ import java.util.List;
 // MessageAdapter.java
 public class MessageAdapter extends BaseAdapter {
 
-  List<Message> messages = new ArrayList<Message>();
+  List<Message> messages = new ArrayList<>();
   Context context;
 
   // constructor
@@ -46,6 +47,7 @@ public class MessageAdapter extends BaseAdapter {
   }
 
   // This is the backbone of the class, it handles the creation of single ListView row (chat bubble)
+  @SuppressLint("InflateParams")
   @Override
   public View getView(int i, View convertView, ViewGroup viewGroup) {
     MessageViewHolder holder = new MessageViewHolder();
@@ -55,11 +57,13 @@ public class MessageAdapter extends BaseAdapter {
 
     if (message
         .isBelongsToCurrentUser()) { // this message was sent by us so let's create a basic chat bubble on the right
+
       convertView = messageInflater.inflate(R.layout.my_message, null);
       holder.messageBody = (TextView) convertView.findViewById(R.id.message_body);
       convertView.setTag(holder);
       holder.messageBody.setText(message.getText());
     } else { // this message was sent by someone else so let's create an advanced chat bubble on the left
+
       convertView = messageInflater.inflate(R.layout.their_message, null);
       holder.avatar = (View) convertView.findViewById(R.id.avatar);
       holder.name = (TextView) convertView.findViewById(R.id.name);
@@ -71,10 +75,8 @@ public class MessageAdapter extends BaseAdapter {
       GradientDrawable drawable = (GradientDrawable) holder.avatar.getBackground();
       drawable.setColor(Color.parseColor(message.getMemberData().getColor()));
     }
-
     return convertView;
   }
-
 }
 
 class MessageViewHolder {
@@ -85,6 +87,6 @@ class MessageViewHolder {
 }
 
 // Code above was modified from the following reference:
-//Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
-//    Scaledrone Blog, 05-Feb-2019. [Online]. Available:
-//    https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].
+// Scaledrone, “Android Chat Tutorial: Building A Realtime Messaging App,”
+//  Scaledrone Blog, 05-Feb-2019. [Online]. Available:
+//  https://www.scaledrone.com/blog/android-chat-tutorial/. [Accessed: 09-Apr-2021].
