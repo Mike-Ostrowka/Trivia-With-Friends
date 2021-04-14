@@ -1,7 +1,6 @@
 package com.example.team8project;
 
 import android.content.Intent;
-import android.support.constraint.ConstraintSet.Layout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -45,7 +44,7 @@ public class PostGameActivity extends AppCompatActivity {
     //get current user and game from realm
     realm = Realm.getDefaultInstance();
     loginPreferences session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
+    String username = session.getUsername();
     currentUser = realm.where(Users.class).equalTo("_id", username).findFirst();
     currentGame = realm.where(Game.class).equalTo("_id", currentGameId).findFirst();
 
@@ -53,7 +52,7 @@ public class PostGameActivity extends AppCompatActivity {
     TextView playerTwoScore = findViewById(R.id.player_two_score);
 
     //check if User is player one or two and set score
-    if(currentGame.getPlayerOne().equals(currentUser.getUserName())) {
+    if (currentGame.getPlayerOne().equals(currentUser.getUserName())) {
       playerOneText = getString(R.string.user_score) + "\t" + currentGame.getPlayerOneScore();
       playerTwoText = getString(R.string.enemy_score) + "\t" + currentGame.getPlayerTwoScore();
     } else {

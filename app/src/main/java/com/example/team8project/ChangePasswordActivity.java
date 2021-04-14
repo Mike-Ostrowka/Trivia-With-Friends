@@ -27,7 +27,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     //get user
     loginPreferences session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
+    String username = session.getUsername();
     Realm realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 

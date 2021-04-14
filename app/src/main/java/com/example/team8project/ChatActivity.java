@@ -61,7 +61,7 @@ public class ChatActivity extends AppCompatActivity implements
 
     // use username in MemberData object
     loginPreferences session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
+    String username = session.getUsername();
     MemberData data = new MemberData(username, getRandomColor());
 
     // if not join the global chat room retrieve the channel ID of the desired chat room
@@ -81,42 +81,36 @@ public class ChatActivity extends AppCompatActivity implements
 
         // History Room is a beta feature of scaledrone, should retrieve all messages submitted
         // to scaledrone using the respective channel key
-        room.listenToHistoryEvents(new HistoryRoomListener() {
-          @Override
-          public void onHistoryMessage(Room room, com.scaledrone.lib.Message message) {
-            final ObjectMapper mapper1 = new ObjectMapper();
-            try {
-              // bugs in scaledrone do not always allow messages to be
-              // read so return from this function if bugs present
-              if (message.getMember() == null) {
-                return;
-              }
-              // message.getMember().clientData is a MemberData object, let's parse it as such
-              final MemberData data1 = mapper1
-                  .treeToValue(message.getMember().getClientData(), MemberData.class);
-
-              // message.getData() is a JsonNode of the Member object, parse it as such
-              final JsonNode jsonNode = mapper1
-                  .readTree(String.valueOf(message.getData()));
-
-              // construct a Message object from the scaledrone library stored messages
-              final Message messageSent = new Message(jsonNode.get("text").asText(), data1,
-                  data1.getName().equals(data.getName()));
-
-              // run stored messages on UI thread
-              runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                  messageAdapter.add(messageSent);
-                  // scroll the ListView to the last added element
-                  messagesView.setSelection(messagesView.getCount() - 1);
-                }
-              });
-            } catch (JsonProcessingException e) {
-              e.printStackTrace(); // catch for ObjectMapper
-            } catch (IOException e) {
-              e.printStackTrace(); // catch for JsonNode
+        room.listenToHistoryEvents((room1, message) -> {
+          final ObjectMapper mapper1 = new ObjectMapper();
+          try {
+            // bugs in scaledrone do not always allow messages to be
+            // read so return from this function if bugs present
+            if (message.getMember() == null) {
+              return;
             }
+            // message.getMember().clientData is a MemberData object, let's parse it as such
+            final MemberData data1 = mapper1
+                .treeToValue(message.getMember().getClientData(), MemberData.class);
+
+            // message.getData() is a JsonNode of the Member object, parse it as such
+            final JsonNode jsonNode = mapper1
+                .readTree(String.valueOf(message.getData()));
+
+            // construct a Message object from the scaledrone library stored messages
+            final Message messageSent = new Message(jsonNode.get("text").asText(), data1,
+                data1.getName().equals(data.getName()));
+
+            // run stored messages on UI thread
+            runOnUiThread(() -> {
+              messageAdapter.add(messageSent);
+              // scroll the ListView to the last added element
+              messagesView.setSelection(messagesView.getCount() - 1);
+            });
+          } catch (JsonProcessingException e) {
+            e.printStackTrace(); // catch for ObjectMapper
+          } catch (IOException e) {
+            e.printStackTrace(); // catch for JsonNode
           }
         });
       }
@@ -172,13 +166,10 @@ public class ChatActivity extends AppCompatActivity implements
       // if it was instead an object we could use a similar pattern to data parsing
       final Message message = new Message(jsonNode.get("text").asText(), data,
           belongsToCurrentUser);
-      runOnUiThread(new Runnable() {
-        @Override
-        public void run() {
-          messageAdapter.add(message);
-          //scroll the ListView to the last added element
-          messagesView.setSelection(messagesView.getCount() - 1);
-        }
+      runOnUiThread(() -> {
+        messageAdapter.add(message);
+        //scroll the ListView to the last added element
+        messagesView.setSelection(messagesView.getCount() - 1);
       });
     } catch (JsonProcessingException e) {
       e.printStackTrace();
@@ -198,7 +189,7 @@ public class ChatActivity extends AppCompatActivity implements
 
     // retrieve username of sending user to add to Json node
     loginPreferences session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
+    String username = session.getUsername();
     MemberData data = new MemberData(username, getRandomColor());
 
     // create new Message object with associated text, MemberData, and tell message a

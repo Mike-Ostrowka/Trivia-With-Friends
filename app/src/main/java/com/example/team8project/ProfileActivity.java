@@ -55,7 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
-    username = session.getusername();
+    username = session.getUsername();
     Realm realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 

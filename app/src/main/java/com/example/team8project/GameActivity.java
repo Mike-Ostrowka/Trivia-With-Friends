@@ -246,7 +246,7 @@ public class GameActivity extends AppCompatActivity {
   private void loadRealm() {
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
-    username = session.getusername();
+    username = session.getUsername();
     if (realm == null) {
       realm = Realm.getDefaultInstance();
     }

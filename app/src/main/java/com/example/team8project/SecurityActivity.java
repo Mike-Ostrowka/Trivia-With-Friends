@@ -34,7 +34,7 @@ public class SecurityActivity extends AppCompatActivity {
 
       //open a realm and find logged in user
       session = new loginPreferences(getApplicationContext());
-      username = session.getusername();
+      username = session.getUsername();
       Realm realm = Realm.getDefaultInstance();
       realm.executeTransaction(transactionRealm -> {
         Users current = transactionRealm.where(Users.class).equalTo("_id", username).findFirst();

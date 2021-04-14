@@ -1,6 +1,5 @@
 package com.example.team8project;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -36,7 +35,7 @@ public class FriendsFragment extends Fragment implements View.OnClickListener {
 
     //open a realm and find logged in user
     session = new loginPreferences(getActivity().getApplicationContext());
-    username = session.getusername();
+    username = session.getUsername();
     realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
     realm.close();

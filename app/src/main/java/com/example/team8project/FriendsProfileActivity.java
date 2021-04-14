@@ -46,15 +46,20 @@ public class FriendsProfileActivity extends AppCompatActivity {
 
     click_sound = R.raw.click;
 
+    //should always return true
     String sessionId = getIntent().getStringExtra("EXTRA_SESSION_ID");
     if (!(sessionId == null)) {
       username = sessionId;
     } else {
       Dialogs.intentDialog(getString(R.string.user_failed), this, FriendsActivity.class);
     }
+
+    //get friend from intent extra
     realm = Realm.getDefaultInstance();
     friend = realm.where(Users.class).equalTo("_id", username).findFirst();
 
+
+    //declare views
     Button viewFriendsProgress = findViewById(R.id.friends_view_progress);
     Button friendsChat = findViewById(R.id.friends_chat_room);
     ImageView profilePicture = findViewById(R.id.friends_profile_picture);
@@ -112,6 +117,7 @@ public class FriendsProfileActivity extends AppCompatActivity {
   }
 
 
+  //clear resources
   @Override
   protected void onPause() {
     super.onPause();

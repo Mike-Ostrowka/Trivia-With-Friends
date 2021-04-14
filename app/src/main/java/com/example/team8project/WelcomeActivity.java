@@ -62,7 +62,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     //open a realm and find logged in user
     session = new loginPreferences(getApplicationContext());
-    username = session.getusername();
+    username = session.getUsername();
     Realm realm = Realm.getDefaultInstance();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
@@ -89,25 +89,15 @@ public class WelcomeActivity extends AppCompatActivity {
 
     Toolbar toolbar = findViewById(R.id.toolbar_WA);
     setSupportActionBar(toolbar);
-    toolbar.setNavigationOnClickListener(new OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        finish();
-      }
-    });
+    toolbar.setNavigationOnClickListener(v -> finish());
 
-    toolbar.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-      @Override
-      public boolean onMenuItemClick(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-          case R.id.ic_friends_wa:
-            Intent intent = new Intent();
-            intent.setClass(WelcomeActivity.this, FriendsActivity.class);
-            startActivity(intent);
-            break;
-        }
-        return true;
+    toolbar.setOnMenuItemClickListener(menuItem -> {
+      if (menuItem.getItemId() == R.id.ic_friends_wa) {
+        Intent intent = new Intent();
+        intent.setClass(WelcomeActivity.this, FriendsActivity.class);
+        startActivity(intent);
       }
+      return true;
     });
     Objects.requireNonNull(getSupportActionBar()).setTitle(null);
     drawerLayout = findViewById(R.id.drawer_layout);
@@ -134,7 +124,7 @@ public class WelcomeActivity extends AppCompatActivity {
           startActivity(intent);
           break;
         case R.id.nm_logout:
-          session.setusername("");
+          session.setUsername("");
 
           Toast.makeText(getApplicationContext(), R.string.logout_message,
               Toast.LENGTH_LONG).show();

@@ -52,7 +52,7 @@ public class FriendsListFragment extends Fragment {
 
     //open a realm and find logged in user
     session = new loginPreferences(getActivity().getApplicationContext());
-    username = session.getusername();
+    username = session.getUsername();
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
 
     //add change listener to update table on friend change

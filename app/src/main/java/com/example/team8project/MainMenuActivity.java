@@ -51,7 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
   //check if user is already logged in
   public void checkLogin() {
     session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
+    String username = session.getUsername();
     if (!username.equals("")) {
       Intent intent = new Intent();
       intent.setClass(MainMenuActivity.this, WelcomeActivity.class);

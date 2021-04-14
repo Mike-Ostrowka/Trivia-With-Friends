@@ -26,8 +26,11 @@ public class LoginActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     checkLogin();
+
+    //click listener to login
     Button mButton = findViewById(R.id.login_button);
     mButton.setOnClickListener(v -> {
+
       HXSound.sound().load(click_sound).play(this);
       EditText nameEdit = findViewById(R.id.loginUsername);
       EditText passwordEdit = findViewById(R.id.loginPassword);
@@ -39,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
 
         if (realm.where(Users.class).equalTo("_id", name).findFirst() != null) {
+
           //create temp for user to check password
           currentUser = realm.where(Users.class).equalTo("_id", name).findFirst();
           if (currentUser == null) {
@@ -46,9 +50,11 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.LENGTH_LONG).show();
             return;
           }
+
+          //check if password matches hashed password associated with the username
           if (currentUser.checkPassword(password)) {
             session = new loginPreferences(getApplicationContext());
-            session.setusername(currentUser.getUserName());
+            session.setUsername(currentUser.getUserName());
 
             Intent intent = new Intent();
             intent.setClass(LoginActivity.this, WelcomeActivity.class);
@@ -70,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         }
       }
     });
+
     //Set event for Text View Forgot password
     TextView tv_forgot_password = findViewById(R.id.tv_Forgot_Password);
     tv_forgot_password.setOnClickListener(view -> {
@@ -99,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
   //check if user is already logged in
   public void checkLogin() {
     session = new loginPreferences(getApplicationContext());
-    String username = session.getusername();
+    String username = session.getUsername();
     if (!username.equals("")) {
       Intent intent = new Intent();
       intent.setClass(LoginActivity.this, WelcomeActivity.class);
@@ -107,15 +114,12 @@ public class LoginActivity extends AppCompatActivity {
     }
   }
 
+  //close realm
   @Override
   protected void onDestroy() {
     super.onDestroy();
-    HXSound.clear();
-  }
-
-  @Override
-  protected void onPause() {
-    super.onPause();
-    HXSound.clear();
+    if (realm != null) {
+      realm.close();
+    }
   }
 }
