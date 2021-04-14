@@ -67,7 +67,7 @@ public class NewAccountActivity extends AppCompatActivity {
       }
 
       // array with all of the available channel keys
-      ArrayList<String> channelKeys = new ArrayList<String>(){{
+      ArrayList<String> channelKeys = new ArrayList<String>() {{
         add("J7Ws0kKbptiDV3NH");
         add("HWAaPjyiYzRc1g1o");
         add("vitEgpZ301qBAzZS");

@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BadWordFilter {
+
   private static final ArrayList<String> allBadWords = new ArrayList<>();
   private static int largestWordLength = 0;
 

@@ -58,7 +58,6 @@ public class Users extends RealmObject {
   public Users() {
   }
 
-
   // This code was found and adapted from:
   // L. Gupta, M. Rajavel, and M. Taylor, “Java Secure Hashing - MD5, SHA256, SHA512, PBKDF2, BCrypt, SCrypt,”
   //  HowToDoInJava, 25-Dec-2020. [Online]. Available:

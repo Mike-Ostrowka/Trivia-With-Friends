@@ -26,8 +26,8 @@ import java.util.Random;
 public class ChatActivity extends AppCompatActivity implements
     RoomListener {
 
-  private String channelID = "laNRgaDxIWeMCBIb";
   private final String roomName = "observable-room";
+  private String channelID = "laNRgaDxIWeMCBIb";
   private EditText editText;
   private Scaledrone scaledrone;
   private MessageAdapter messageAdapter;
@@ -237,6 +237,7 @@ public class ChatActivity extends AppCompatActivity implements
 
 // Member Data class record by library, holds username and color
 class MemberData {
+
   private String name;
   private String color;
 
@@ -254,6 +255,7 @@ class MemberData {
   public String getName() {
     return name;
   }
+
   public String getColor() {
     return color;
   }
