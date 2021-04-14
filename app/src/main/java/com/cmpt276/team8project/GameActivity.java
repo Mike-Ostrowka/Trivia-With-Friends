@@ -239,10 +239,12 @@ public class GameActivity extends AppCompatActivity {
       //if in multiplayer
       if (currentGame.getPlayerCount() == 2) {
         if (setPlayer) { //user is player one
-          if (currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) {
 
-            //get other player
-            other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerTwo()).findFirst();
+          //get other player
+          other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerTwo()).findFirst();
+
+          if (currentGame.getPlayerOneScore() >= currentGame.getPlayerTwoScore()) { //won game
+
             winner = true;
             realm.executeTransaction(transactionRealm -> {
               Users tempCurrent = transactionRealm.where(Users.class)
@@ -251,19 +253,39 @@ public class GameActivity extends AppCompatActivity {
                   .equalTo("_id", other.getUserName()).findFirst();
               tempCurrent.calculateEloOnWin(tempOther.getElo());
             });
+          } else { //lost game
+            realm.executeTransaction(transactionRealm -> {
+              Users tempCurrent = transactionRealm.where(Users.class)
+                  .equalTo("_id", current.getUserName()).findFirst();
+              Users tempOther = transactionRealm.where(Users.class)
+                  .equalTo("_id", other.getUserName()).findFirst();
+              tempCurrent.calculateEloOnLoss(tempOther.getElo());
+            });
           }
         } else { //user is player two
 
           //get other player
           other = realm.where(Users.class).equalTo("_id", currentGame.getPlayerOne()).findFirst();
-          winner = true;
-          realm.executeTransaction(transactionRealm -> {
-            Users tempCurrent = transactionRealm.where(Users.class)
-                .equalTo("_id", current.getUserName()).findFirst();
-            Users tempOther = transactionRealm.where(Users.class)
-                .equalTo("_id", other.getUserName()).findFirst();
-            tempCurrent.calculateEloOnWin(tempOther.getElo());
-          });
+
+          if (currentGame.getPlayerTwoScore() >= currentGame.getPlayerOneScore()) {//won game
+
+            winner = true;
+            realm.executeTransaction(transactionRealm -> {
+              Users tempCurrent = transactionRealm.where(Users.class)
+                  .equalTo("_id", current.getUserName()).findFirst();
+              Users tempOther = transactionRealm.where(Users.class)
+                  .equalTo("_id", other.getUserName()).findFirst();
+              tempCurrent.calculateEloOnWin(tempOther.getElo());
+            });
+          } else {
+            realm.executeTransaction(transactionRealm -> {
+              Users tempCurrent = transactionRealm.where(Users.class)
+                  .equalTo("_id", current.getUserName()).findFirst();
+              Users tempOther = transactionRealm.where(Users.class)
+                  .equalTo("_id", other.getUserName()).findFirst();
+              tempCurrent.calculateEloOnLoss(tempOther.getElo());
+            });
+          }
         }
       } else { //playing solo
         winner = true;
