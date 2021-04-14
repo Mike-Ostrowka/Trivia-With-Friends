@@ -43,7 +43,7 @@ public class QuestionList {
     List<Integer> range = new ArrayList<>();
 
     //randomize an array of 80 questions
-    for (int i = 0; i < 80; i++) {
+    for (int i = 0; i < 79; i++) {
       range.add(i);
     }
     Collections.shuffle(range, new Random());

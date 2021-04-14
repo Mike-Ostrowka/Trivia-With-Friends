@@ -433,15 +433,6 @@
     </question>
 
     <question>
-        <questionText>1929</questionText>
-        <answerOne>1955</answerOne>
-        <answerTwo>1977</answerTwo>
-        <answerThree>1999</answerThree>
-        <answerFour>1944</answerFour>
-        <correctAnswer>1967</correctAnswer>
-    </question>
-
-    <question>
         <questionText>The Olympics are held every ___ years.</questionText>
         <answerOne>1</answerOne>
         <answerTwo>2</answerTwo>
