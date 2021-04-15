@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/save_settings"
+  android:text="@string/save_settings"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:paddingRight="20dp"
+  android:paddingLeft="20dp"
+  android:layout_marginBottom="10dp"
+  android:background="@drawable/round_bg"
+  android:textColor="#FFFFFF"
+  android:textSize="18sp"
+  android:textStyle="bold"
+  android:gravity="center"
+  android:onClick="saveSettings">
+
+</Button>

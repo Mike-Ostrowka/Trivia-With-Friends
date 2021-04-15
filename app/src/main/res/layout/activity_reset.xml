@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".ResetActivity">
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar_reset"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:layout_constraintTop_toTopOf="parent"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="247dp"
+    tools:layout_editor_absoluteY="273dp">
+    <TextView
+      android:id="@+id/tv_reset_title"
+      android:textStyle="bold"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="80dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:textSize="40sp"
+      android:gravity="center"
+      android:text="@string/forgot_password" />
+    <TextView
+      android:id="@+id/textView6"
+      android:layout_width="match_parent"
+      android:layout_marginTop="30dp"
+      android:gravity="center"
+      android:textSize="20sp"
+      android:layout_height="wrap_content"
+      android:text="@string/forgot_title" />
+    <EditText
+      android:id="@+id/tf_username"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="80dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:autofillHints="@string/account_name"
+      android:ems="10"
+      android:hint="@string/account_name"
+      android:inputType="textPersonName" />
+    <EditText
+      android:id="@+id/pf_reset_pass"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:autofillHints="@string/new_password"
+      android:ems="10"
+      android:hint="@string/new_password"
+      android:inputType="textPassword" />
+    <EditText
+      android:id="@+id/pf_reset_pass_confirm"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:autofillHints="@string/confirm_password"
+      android:ems="10"
+      android:hint="@string/confirm_password"
+      android:inputType="textPassword" />
+    <EditText
+      android:id="@+id/tf_answer"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:autofillHints="@string/security_answer"
+      android:ems="10"
+      android:hint="@string/security_answer"
+      android:inputType="textPersonName" />
+    <Button
+      android:id="@+id/btn_confirm_change_pass"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="30dp"
+      android:layout_marginLeft="50dp"
+      android:layout_marginRight="50dp"
+      android:text="@string/save"
+      android:textStyle="bold"
+      />
+  </LinearLayout>
+</android.support.constraint.ConstraintLayout>

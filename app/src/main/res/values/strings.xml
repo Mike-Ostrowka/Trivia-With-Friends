@@ -4,11 +4,11 @@
   <string name="login">LOGIN</string>
   <string name="register">Register</string>
   <string name="app_title">“Happier, Smarter, Faster”</string>
-  <string name="new_account_title">Please enter a new username and password</string>
+  <string name="new_account_title">Create a new account</string>
   <string name="account_name">Name</string>
   <string name="account_password">Password</string>
   <string name="new_account_register">Register</string>
-  <string name="login_title">Enter your email and password</string>
+  <string name="login_title">Please login to your account</string>
   <string name="account_success">Account created successfully, username:\t</string>
   <string name="account_fail">Make sure your password has at least 7 characters, and at least one
   capital letter and number</string>
@@ -16,16 +16,18 @@
   <string name="user_name_banned">This username contains a banned word, pick another </string>
   <string name="logout">Log me out</string>
   <string name="logout_message">Successfully logged out user\t</string>
-  <string name="splash_text">You have successfully loged in</string>
+  <string name="splash_text">You have successfully logged in</string>
   <string name="no_connection">Failed to connect to server, please check your internet connection</string>
   <string name="settings">Settings</string>
   <string name="faq">FAQ</string>
-  <string name="faq_text"> <![CDATA[<b>How do I start a game?:</b>   You can start a solo game by
-   clicking play, or play against an opponent with Play With Friends.<br/><br/>
-<b> How do I change my password? </b>     You can change your password in the setting page, along with
-changing in-game settings such as your sound.<br/><br/><b>What are lifelines?</b>    Lifelines are power-ups
-that can swing the game in your favor! They have the ability to either hurt your opponent or to help
-you.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Jaden Yu<br/><br/>
+  <string name="newGame">New Game</string>
+  <string name="faq_text"> <![CDATA[<b>How do I start a game?:</b>   You can start a game by clicking on "New Game",
+  this will place you in a game with the first available player or in a single player game if no one is available.<br/><br/>
+<b> How do I change my password? </b>     You can change your password in the "Settings" page, along with
+changing in-game settings such as your sound preferences.<br/><br/><b>How do I chat with friends?</b>    You can post
+to the global chat room to talk with everyone, post in your own chat room to talk to your friends or assigned chat mates,
+or post on your friends pages to talk with them.<br/><br/><b>How is the game scored?</b>    Players are given no points for a wrong answer, and
+5 points for a correct answer.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Jaden Yu<br/><br/>
 <b>Tools Used: </b>   Realm Database, MongoDB<br/><br/>]]></string>
   <string name="toggle_sound">Toggle Sound</string>
   <string name="test_setting">Test</string>
@@ -35,4 +37,76 @@ you.<br/><br/><b>App Credits:</b>   Mike Ostrowka, Tanner Langan, Randy Gill, Ja
   <string name="password_success">Password changed successfully</string>
   <string name="different_password">You entered two different passwords, please try again</string>
   <string name="credentials_incorrect">Credentials are incorrect, please try again</string>
+  <string name="save_settings">Save and Exit</string>
+  <string name="security">Security Question</string>
+  <string name="security_prompt">Please enter an answer to the following question:</string>
+  <string name="security_question">What is your mother\'s maiden name?</string>
+  <string name="security_answer">Security Answer</string>
+  <string name="save">Save</string>
+  <string name="security_success">Set security answer successfully</string>
+  <string name="forgot_password">Reset Password</string>
+  <string name="forgot_title">Please enter your username, new password, and security answer to "what is your mother's maiden name?"</string>
+  <string name="confirm_password">Confirm new password</string>
+  <string name="user_failed">Username does not exist</string>
+  <string name="security_failed">Incorrect Security Answer</string>
+  <string name="security_missing">This account does not have a security answer, remember to secure your account next time!</string>
+  <string name="profile">Profile</string>
+  <string name="camera">Camera</string>
+  <string name="profile_picture">Profile Picture</string>
+  <string name="friends">Friends</string>
+  <string name="friends_fragment">Friends List</string>
+  <string name="inbox_fragment">Inbox</string>
+  <string name="open" />
+  <string name="close" />
+  <string name="new_friend">New Friend</string>
+  <string name="add_friend">Add</string>
+  <string name="add_bio">Please enter a short bio, and please do not share personal information through the app.</string>
+  <string name="update_bio">Update Bio</string>
+  <string name="games_played">Games Played: </string>
+  <string name="games_won">Games Won: </string>
+  <string name="friend_added">Friend added!</string>
+  <string name="ok">OK</string>
+  <string name="elo">ELO:</string>
+  <string name="delete">Delete</string>
+  <string name="cancel">Cancel</string>
+  <string name="confirm_delete">Are you sure you want to delete friend:\t</string>
+  <string name="password_forgot">FORGOT PASSWORD?</string>
+  <string name="already_have_a_account">ALREADY HAVE AN ACCOUNT?</string>
+  <string name="new_user_register_now">New User? Register Now</string>
+  <string name="play_again_prompt">Would you like to play again or return to main menu?</string>
+  <string name="main_menu">Return</string>
+  <string name="refresh">Refresh</string>
+  <string name="welcome">Welcome!</string>
+  <string name="chat_app_name">Trivia With Friends chat</string>
+  <string name="input_placeholder">Write a message</string>
+  <string name="placeholder_message">Placeholder message</string>
+  <string name="friend_exists">Already added this user as a friend</string>
+  <string name="chat_button">Global Chat Room</string>
+  <string name="bio_updated">Your Bio has been updated!</string>
+  <string name="censored_bio">Your Bio contains banned words and was censored!</string>
+  <string name="user_placeholder">Goku</string>
+  <string name="user_message_placeholder">How are you doing? This is a long message that should probably wrap.</string>
+  <string name="chat_warning">Please be aware of potential scams, do not share personal information through the app.</string>
+  <string name="no_camera">This device does not have a camera!</string>
+  <string name="view_progress">View Progress</string>
+  <string name="censored_chat">Your message contains banned words and was censored!</string>
+  <string name="xaxis">Elo change over the last 10 games</string>
+  <string name="my_chat_room">My Chat Room</string>
+  <string name="friends_bio">Your friend has not entered a bio.</string>
+  <string name="no_pic_taken">No picture was taken or selected.</string>
+  <string name="victory_defeat">Victory or Defeat image</string>
+  <string name="play_again">Play Again!</string>
+  <string name="back_to_main">Back to Main Menu</string>
+  <string name="user_score">Your score: </string>
+  <string name="enemy_score">Their score: </string>
+  <string name="more">More</string>
+  <string name="communication">Communication</string>
+  <string name="end_game">The game has ended!</string>
+  <string name="user_elo">Your elo is:</string>
+  <string name="apostrophe">\'s</string>
+  <string name="single_player">Single Player Mode</string>
+  <string name="single_player_elo">You played in single player mode so your elo has not changed!</string>
+  <string name="new_game_message">If any other players are currently playing, you will be put
+    in a game with them, otherwise you will be put into single player mode</string>
+
 </resources>

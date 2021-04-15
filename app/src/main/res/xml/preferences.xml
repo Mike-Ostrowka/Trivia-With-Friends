@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <PreferenceCategory android:title="\n">
+  <PreferenceCategory android:title="\n\n">
 
     <android.support.v7.preference.SwitchPreferenceCompat
       android:defaultValue="true"
       android:key="sound_enabled"
+      android:layout="@layout/sound_switch"
       android:title="@string/toggle_sound" />
   </PreferenceCategory>
+  <PreferenceCategory
+    android:layout="@layout/preference_divider_blank">
   <Preference
     android:title=""
     android:key="btn_change_pass"
     android:summary=""
     android:widgetLayout="@layout/pref_password_button"
     />
+  </PreferenceCategory>
+  <PreferenceCategory
+    android:layout="@layout/preference_divider_blank">
+  <Preference
+    android:title=""
+    android:key="btn_security"
+    android:summary=""
+    android:widgetLayout="@layout/pref_security_button"
+    />
+  </PreferenceCategory>
+  <PreferenceCategory
+    android:layout="@layout/preference_divider_blank">
+  <Preference
+    android:title=""
+    android:key="btn_save_settings"
+    android:summary=""
+    android:widgetLayout="@layout/pref_save_button"
+    />
+  </PreferenceCategory>
 </PreferenceScreen>

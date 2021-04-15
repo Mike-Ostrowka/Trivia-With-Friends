@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/colorPrimary">
+  <View
+    android:id="@+id/view2"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="#FFFFFF"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H96"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V4"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_V30"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.3" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_H50"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.5" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_H25"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.25" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_V96"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.96" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_V4"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_percent="0.04" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_H96"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.96" />
+  <ImageView
+    android:id="@+id/friends_profile_picture"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:contentDescription="@string/profile_picture"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H25"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V30"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V4"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile"
+    tools:srcCompat="@drawable/ic_baseline_account" />
+  <TextView
+    android:id="@+id/friend_name"
+    android:textStyle="bold|italic"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:gravity="center"
+    android:text="@string/user_placeholder"
+    android:textSize="36sp"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H25"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V30"
+    app:layout_constraintTop_toBottomOf="@+id/toolbar_friend_profile" />
+  <TextView
+    android:id="@+id/friends_bio"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:background="@drawable/textview_bg"
+    android:ems="10"
+    android:gravity="start|top"
+    android:hint="@string/friends_bio"
+    android:lines="5"
+    android:maxLength="140"
+    android:scrollbars="vertical"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H50"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V30"
+    app:layout_constraintTop_toTopOf="@+id/guideline_H25" />
+  <TextView
+    android:id="@+id/friends_games_played"
+    android:layout_width="0dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="48dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:text="@string/games_played"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V4"
+    app:layout_constraintTop_toTopOf="@+id/guideline_H50" />
+  <TextView
+    android:id="@+id/friends_games_won"
+    android:layout_width="0dp"
+    android:layout_height="40dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:text="@string/games_won"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V4"
+    app:layout_constraintTop_toBottomOf="@+id/friends_games_played" />
+  <Button
+    android:id="@+id/friends_view_progress"
+    android:textStyle="bold"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/round_bg"
+    android:text="@string/view_progress"
+    android:textColor="#FFFFFF"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V30"
+    app:layout_constraintTop_toBottomOf="@+id/friends_games_won" />
+  <Button
+    android:id="@+id/friends_chat_room"
+    android:textStyle="bold"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginBottom="24dp"
+    android:layout_marginEnd="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@drawable/round_bg"
+    android:text="@string/my_chat_room"
+    android:textColor="#FFFFFF"
+    android:textSize="18sp"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_H96"
+    app:layout_constraintEnd_toStartOf="@+id/guideline_V96"
+    app:layout_constraintHorizontal_bias="0.55"
+    app:layout_constraintStart_toStartOf="@+id/guideline_V30"
+    app:layout_constraintTop_toBottomOf="@+id/friends_view_progress" />
+  <android.support.v7.widget.Toolbar
+    android:id="@+id/toolbar_friend_profile"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="@color/colorPrimary"
+    android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+    app:layout_constraintTop_toTopOf="parent"
+    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+</android.support.constraint.ConstraintLayout>

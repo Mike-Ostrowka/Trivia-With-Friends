@@ -2,53 +2,104 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".MainMenuActivity">
-<LinearLayout
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical">
-
+  android:background="@color/white"
+  tools:context=".MainMenuActivity">
+  <View
+    android:id="@+id/topView_main"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@color/colorPrimary"
+    app:layout_constraintBottom_toTopOf="@id/waveView_main"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+  <View
+    android:id="@+id/waveView_main"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:background="@drawable/wave"
+    app:layout_constraintBottom_toTopOf="@+id/guideline_30"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/topView_main" />
   <ImageView
-    android:id="@+id/imageView2"
-    android:layout_width="match_parent"
+    android:id="@+id/iv_app_title"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
-    android:contentDescription="@string/app_name"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    app:layout_constraintBottom_toBottomOf="@+id/tv_AppTiltle"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
     app:srcCompat="@drawable/title_image" />
-
   <TextView
     android:id="@+id/tv_AppTiltle"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="50dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
-    android:text="@string/app_title"
-    android:layout_gravity="center"
-    android:textSize="25sp"
     android:textStyle="italic"
-    />
-
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="100dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:layout_gravity="center"
+    android:text="@string/app_title"
+    android:textColor="#FFFFFF"
+    android:textSize="25sp"
+    app:layout_constraintBottom_toBottomOf="@+id/waveView_main"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/iv_app_title" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_30"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.3" />
+  <android.support.constraint.Guideline
+    android:id="@+id/guideline_50"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_percent="0.5" />
   <Button
     android:id="@+id/btn_register"
-    android:layout_width="match_parent"
+    android:textStyle="bold"
+    android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="85dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:background="@drawable/round_bg"
     android:text="@string/register"
-    android:textStyle="bold"/>
-
+    android:textColor="#FFFFFF"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="@+id/guideline_50" />
   <Button
     android:id="@+id/btn_login"
+    android:textStyle="bold"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="30dp"
-    android:layout_marginLeft="50dp"
-    android:layout_marginRight="50dp"
+    android:layout_marginTop="32dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginLeft="32dp"
+    android:layout_marginRight="32dp"
+    android:background="@drawable/round_bg"
     android:text="@string/login"
-    android:textStyle="bold"/>
-</LinearLayout>
+    android:textColor="#FFFFFF"
+    android:textSize="18sp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+
 </android.support.constraint.ConstraintLayout>

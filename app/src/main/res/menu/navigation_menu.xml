@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+  <group android:checkableBehavior="single">
+    <item
+      android:id="@+id/nm_friends"
+      android:title="@string/friends"
+      android:icon="@drawable/ic_baseline_friends"/>
+
+    <item
+      android:id="@+id/nm_chatrooms"
+      android:title="@string/communication">
+      <menu>
+        <item
+          android:id="@+id/nm_my_chatroom"
+          android:title="@string/my_chat_room"
+          android:icon="@drawable/ic_baseline_chat_24"/>
+        <item
+          android:id="@+id/nm_global_chat_room"
+          android:title="@string/chat_button"
+          android:icon="@drawable/ic_baseline_people_24"/>
+      </menu>
+    </item>
+
+    <item
+      android:id="@+id/nm_more"
+      android:title="@string/more">
+      <menu>
+        <item
+        android:id="@+id/nm_setting"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_baseline_settings_24"/>
+        <item
+          android:id="@+id/nm_faq"
+          android:title="@string/faq"
+          android:icon="@drawable/ic_baseline_contact_support_24"/>
+      </menu>
+    </item>
+
+    <item
+      android:id="@+id/nm_logout"
+      android:title="@string/logout"
+      android:icon="@drawable/ic_baseline_logout_24">
+    </item>
+  </group>
+</menu>
