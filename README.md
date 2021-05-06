@@ -16,3 +16,4 @@ Project for SFU CMPT 276 - Introduction to Software Engineering.
 - [Mike Ostrowka](https://github.com/Mike-Ostrowka)
 - [Tanner Langan](https://github.com/tannerlangan)
 - [Jaden Yu](https://github.com/jadenyu)
+- [Randy Gill](https://github.com/randyg92)
