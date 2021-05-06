@@ -2,8 +2,8 @@
 
 Project for SFU CMPT 276 - Introduction to Software Engineering.  
 
-- Using Android Studio and Java to create the application
-- [Realm](https://realm.io/) and [MongoDB](https://www.mongodb.com/) for database solution
+- Android Studio IDE and Java to create the application
+- [Realm](https://realm.io/) and [MongoDB](https://www.mongodb.com/) for our database solution
 - [HXAudioPlayer](https://github.com/huhx0015/HXAudioPlayer) for handling game music and sounds
 - [Hello Charts](https://github.com/lecho/hellocharts-android) for graphing users' elo change
 - [Scaledrone API](https://www.scaledrone.com/) for creating global and friend chat rooms
