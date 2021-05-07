@@ -10,10 +10,36 @@ Project for SFU CMPT 276 - Introduction to Software Engineering.
 
 > Using free version of MongoDB and Scaledrone - As a result speed may be impacted and only 20 unique chat keys can be generated. 
 
+# Known bugs
+
+- Realm database can occasionally cause crashes for an unknown reason
+  - Working on identifying the problem, seems to only occur on physical devices not emulators
+  - Occurs when app is closed and reopened after the OS clears the ram memory used by the app
+- Multiplayer only works if two users start a Singleplayer game at the same time
+  - Working on lobby system to allow an easier experience of playing with a friend
+- Making changes to the MongoDB schema will break the app until it is re-installed
+  - If app is released to the play store, this would not be an issue as we would require the user to install an update
+
 
 # Contributors
 
 - [Mike Ostrowka](https://github.com/Mike-Ostrowka)
+  - Product owner
+  - Realm Database
+  - Login/ Logout
+  - Friends List
+  - Settings
 - [Tanner Langan](https://github.com/tannerlangan)
+  - Repo Manager
+  - Game logic
+  - Single Player Mode
+  - Multiplayer Mode
 - [Jaden Yu](https://github.com/jadenyu)
+  - Developer
+  - UI
 - [Randy Gill](https://github.com/randyg92)
+  - Scrum Master
+  - Chat
+  - Graphs
+  - User profile
+  - Password hashing
