@@ -4,6 +4,8 @@ Project for SFU CMPT 276 - Introduction to Software Engineering.
 
 Readme Links:
 - [Project Dependencies](#project-dependencies)
+- [Known Bugs](#known-bugs)
+- [Contributors](#contributors)
 
 # Project Overview
 
