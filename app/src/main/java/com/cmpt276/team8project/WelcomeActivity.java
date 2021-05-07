@@ -37,6 +37,7 @@ public class WelcomeActivity extends AppCompatActivity {
   private NavigationView navigationView;
   private DrawerLayout drawerLayout;
   private long mExitTime;
+  private String channelKey;
 
 
   @SuppressLint("NonConstantResourceId")
@@ -65,6 +66,7 @@ public class WelcomeActivity extends AppCompatActivity {
       realm = Realm.getDefaultInstance();
     }
     current = realm.where(Users.class).equalTo("_id", username).findFirst();
+    channelKey = current.getChannelKey();
 
     TextView greeting = findViewById(R.id.textViewGreeting);
     String greetingText = current.getUserName();
@@ -150,8 +152,7 @@ public class WelcomeActivity extends AppCompatActivity {
         case R.id.nm_my_chatroom:
           intent = new Intent();
           intent.setClass(WelcomeActivity.this, ChatActivity.class);
-          String sessionId = current.getChannelKey();
-          intent.putExtra("EXTRA_SESSION_ID", sessionId);
+          intent.putExtra("EXTRA_SESSION_ID", channelKey);
           startActivity(intent);
           break;
 
