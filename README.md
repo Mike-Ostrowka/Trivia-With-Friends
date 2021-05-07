@@ -2,6 +2,15 @@
 
 Project for SFU CMPT 276 - Introduction to Software Engineering.  
 
+# Project Overview
+
+Pictures of some activities shown below
+
+## Main Menu
+![Main Menu](github_assets/main_menu.jpg?raw=true "Main Menu")
+
+# Project Dependencies
+
 - Android Studio IDE and Java to create the application
 - [Realm](https://realm.io/) and [MongoDB](https://www.mongodb.com/) for our database solution
 - [HXAudioPlayer](https://github.com/huhx0015/HXAudioPlayer) for handling game music and sounds
