@@ -7,7 +7,29 @@ Project for SFU CMPT 276 - Introduction to Software Engineering.
 Pictures of some activities shown below
 
 ## Main Menu
-![Main Menu](github_assets/main_menu.jpg?raw=true "Main Menu")
+<p align="center">
+  <img src="github_assets/main_menu.jpg" width="350" title="Main Menu">
+</p>
+
+## Correct Answer
+<p align="center">
+  <img src="github_assets/correct_answer.jpg" width="350" title="Correct Answer">
+</p>
+
+## Incorrect Answer
+<p align="center">
+  <img src="github_assets/incorrect_answer.jpg" width="350" title="Incorrect Answer">
+</p>
+
+## Elo Graph
+<p align="center">
+  <img src="github_assets/elo_graph.jpg" width="350" title="Elo Graph">
+</p>
+
+## Friends List
+<p align="center">
+  <img src="github_assets/friends_list.jpg" width="350" title="Friends List">
+</p>
 
 # Project Dependencies
 
