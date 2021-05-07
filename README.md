@@ -2,6 +2,9 @@
 
 Project for SFU CMPT 276 - Introduction to Software Engineering.  
 
+Readme Links:
+- [Project Dependencies](https://github.com/Mike-Ostrowka/Trivia-With-Friends#project-dependencies)
+
 # Project Overview
 
 Pictures of some activities shown below
