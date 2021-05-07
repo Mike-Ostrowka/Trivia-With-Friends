@@ -9,32 +9,43 @@ Readme Links:
 
 # Project Overview
 
-Pictures of some parts of the UI shown below:
+Pictures of some parts of the UI shown below: <br><br>
+***Click on the arrow to expand the image***
 
-## Main Menu
+<details>
+  <summary>Main Menu</summary>
 <p align="center">
   <img src="github_assets/main_menu.jpg" width="350" title="Main Menu">
 </p>
+</details>
 
-## Correct Answer
+<details>
+  <summary>Correct answer</summary>
 <p align="center">
   <img src="github_assets/correct_answer.jpg" width="350" title="Correct Answer">
 </p>
+</details>
 
-## Incorrect Answer
+<details>
+  <summary>Incorrect Answer</summary>
 <p align="center">
   <img src="github_assets/incorrect_answer.jpg" width="350" title="Incorrect Answer">
 </p>
+</details>
 
-## Elo Graph
+<details>
+  <summary>Elo Graph</summary>
 <p align="center">
   <img src="github_assets/elo_graph.jpg" width="350" title="Elo Graph">
 </p>
+</details>
 
-## Friends List
+<details>
+  <summary>Friends List</summary>
 <p align="center">
   <img src="github_assets/friends_list.jpg" width="350" title="Friends List">
 </p>
+</details>
 
 # Project Dependencies
 
