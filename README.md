@@ -9,7 +9,7 @@ Readme Links:
 
 # Project Overview
 
-Pictures of some activities shown below
+Pictures of some parts of the UI shown below:
 
 ## Main Menu
 <p align="center">
